@@ -1,4 +1,9 @@
 import { useState, useEffect } from 'react';
+import {
+  IoMailOutline,
+  IoLockClosedOutline,
+  IoPersonOutline,
+} from 'react-icons/io5';
 import '../../css/LoginRegisterModal.css';
 
 interface LoginRegisterModalProps {
@@ -11,10 +16,13 @@ export default function LoginRegisterModal({
   onClose,
 }: LoginRegisterModalProps) {
   const [isLogin, setIsLogin] = useState(true);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
     setIsLogin(mode === 'login');
-  }, []); // Tik pradiniam užstatymui
+  }, [mode]);
 
   const handleSwitch = () => {
     setIsLogin((prev) => !prev);
@@ -30,13 +38,45 @@ export default function LoginRegisterModal({
 
         <form className="auth-form">
           {!isLogin && (
-            <input type="text" placeholder="Vartotojo vardas" required />
+            <div className={`input-group ${username ? 'active' : ''}`}>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+              <label>Vartotojo vardas</label>
+              <IoPersonOutline className="input-icon" />
+            </div>
           )}
-          <input type="email" placeholder="El. paštas" required />
-          <input type="password" placeholder="Slaptažodis" required />
+
+          <div className={`input-group ${email ? 'active' : ''}`}>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <label>El. paštas</label>
+            <IoMailOutline className="input-icon" />
+          </div>
+
+          <div className={`input-group ${password ? 'active' : ''}`}>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <label>Slaptažodis</label>
+            <IoLockClosedOutline className="input-icon" />
+          </div>
 
           {isLogin && (
-            <label className="remember-me">
+            <label
+              className="remember-me"
+              style={{ color: '#000', marginTop: '-12px' }}
+            >
               <input type="checkbox" /> Prisiminti mane
             </label>
           )}
