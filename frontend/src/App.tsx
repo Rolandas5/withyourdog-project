@@ -4,9 +4,9 @@ import {
   Route,
   useNavigate,
 } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import Login from './pages/auth/LoginRegisterModal';
+import Navbar from './components/NavBar/Navbar';
+import Home from './pages/HomePage/HomePage';
+import Login from './pages/auth/LoginRegisterModal/LoginRegisterModal';
 import Places from './pages/explore/places/Places';
 import Services from './pages/explore/services/Services';
 import NotFound from './pages/NotFound';
