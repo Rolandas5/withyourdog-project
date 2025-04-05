@@ -10,6 +10,7 @@ import Login from './pages/auth/LoginRegisterModal/LoginRegisterModal';
 import Places from './pages/explore/places/Places';
 import Services from './pages/explore/services/Services';
 import NotFound from './pages/NotFound';
+import HomePage from './pages/HomePage/HomePage';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ function AppContent() {
   return (
     <>
       <Navbar />
+      <HomePage />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
