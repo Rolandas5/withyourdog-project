@@ -6,11 +6,12 @@ import './nav-bar.css';
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(null);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [showSearch, setShowSearch] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [searchTerm, setSearchTerm] = useState('');
-  const searchRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const searchRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => {
     setMobileOpen(!mobileOpen);
@@ -18,7 +19,7 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setShowSearch(false);
         setSearchTerm('');
@@ -30,8 +31,8 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (searchRef.current && !searchRef.current.contains(e.target)) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
         setShowSearch(false);
         setSearchTerm('');
         setActiveIndex(-1);
@@ -39,6 +40,15 @@ export default function Navbar() {
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showSearch]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (showSearch && inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, 50);
+    return () => clearTimeout(timeout);
   }, [showSearch]);
 
   const exampleResults = [
@@ -61,7 +71,65 @@ export default function Navbar() {
           <span className="logo-text">WithYourDog</span>
         </Link>
 
+        {showSearch && !mobileOpen && (
+          <div className="search-box" onClick={() => inputRef.current?.focus()}>
+            <input
+              ref={inputRef}
+              type="text"
+              className="search-input"
+              placeholder="Ieškoti vietos, paslaugos, patirties..."
+              value={searchTerm}
+              onClick={() => inputRef.current?.focus()}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setActiveIndex(-1);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'ArrowDown') {
+                  setActiveIndex((prev) =>
+                    Math.min(prev + 1, filteredResults.length - 1)
+                  );
+                } else if (e.key === 'ArrowUp') {
+                  setActiveIndex((prev) => Math.max(prev - 1, 0));
+                } else if (e.key === 'Enter' && filteredResults[activeIndex]) {
+                  alert(`Pasirinkta: ${filteredResults[activeIndex]}`);
+                  setShowSearch(false);
+                  setSearchTerm('');
+                  setActiveIndex(-1);
+                }
+              }}
+              autoFocus
+            />
+            {searchTerm && (
+              <div className="search-results">
+                {filteredResults.length > 0 ? (
+                  filteredResults.map((result, i) => (
+                    <div
+                      key={i}
+                      className={`search-result-item ${
+                        i === activeIndex ? 'active' : ''
+                      }`}
+                    >
+                      {result}
+                    </div>
+                  ))
+                ) : (
+                  <div className="search-result-item no-result">
+                    Nieko nerasta...
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
         <nav className="nav-desktop">
+          <div className="search-container" ref={searchRef}>
+            <Search
+              className="search-icon"
+              onClick={() => setShowSearch(!showSearch)}
+            />
+          </div>
           <Link to="/" className="nav-link">
             Pradžia
           </Link>
@@ -134,64 +202,6 @@ export default function Navbar() {
           <Link to="/login" className="nav-link">
             Prisijungti
           </Link>
-          <div className="search-container" ref={searchRef}>
-            <Search
-              className="search-icon"
-              onClick={() => setShowSearch(!showSearch)}
-            />
-            {showSearch && (
-              <div className="search-box">
-                <input
-                  type="text"
-                  className="search-input"
-                  placeholder="Ieškoti vietos, paslaugos, patirties..."
-                  value={searchTerm}
-                  onChange={(e) => {
-                    setSearchTerm(e.target.value);
-                    setActiveIndex(-1);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'ArrowDown') {
-                      setActiveIndex((prev) =>
-                        Math.min(prev + 1, filteredResults.length - 1)
-                      );
-                    } else if (e.key === 'ArrowUp') {
-                      setActiveIndex((prev) => Math.max(prev - 1, 0));
-                    } else if (
-                      e.key === 'Enter' &&
-                      filteredResults[activeIndex]
-                    ) {
-                      alert(`Pasirinkta: ${filteredResults[activeIndex]}`);
-                      setShowSearch(false);
-                      setSearchTerm('');
-                      setActiveIndex(-1);
-                    }
-                  }}
-                  autoFocus
-                />
-                {searchTerm && (
-                  <div className="search-results">
-                    {filteredResults.length > 0 ? (
-                      filteredResults.map((result, i) => (
-                        <div
-                          key={i}
-                          className={`search-result-item ${
-                            i === activeIndex ? 'active' : ''
-                          }`}
-                        >
-                          {result}
-                        </div>
-                      ))
-                    ) : (
-                      <div className="search-result-item no-result">
-                        Nieko nerasta...
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
         </nav>
 
         {mobileOpen && (
@@ -202,12 +212,17 @@ export default function Navbar() {
                 onClick={() => setShowSearch(!showSearch)}
               />
               {showSearch && (
-                <div className="search-box">
+                <div
+                  className="search-box"
+                  onClick={() => inputRef.current?.focus()}
+                >
                   <input
+                    ref={inputRef}
                     type="text"
                     className="search-input"
                     placeholder="Ieškoti vietos, paslaugos, patirties..."
                     value={searchTerm}
+                    onClick={() => inputRef.current?.focus()}
                     onChange={(e) => {
                       setSearchTerm(e.target.value);
                       setActiveIndex(-1);
@@ -254,7 +269,6 @@ export default function Navbar() {
                 </div>
               )}
             </div>
-
             <Link
               to="/"
               className="nav-link"
