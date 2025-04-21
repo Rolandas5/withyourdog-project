@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Search } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import './nav-bar.css';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -13,6 +14,8 @@ export default function Navbar() {
   const inputRef = useRef<HTMLInputElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
   const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const { isAuthenticated, logout } = useContext(AuthContext);
 
   const toggleMenu = () => {
     setMobileOpen(!mobileOpen);
@@ -132,7 +135,7 @@ export default function Navbar() {
                   ref={inputRef}
                   type="text"
                   className="search-input"
-                  placeholder="Ieškoti vietos, paslaugos, patirties..."
+                  placeholder="Ieškoti..."
                   value={searchTerm}
                   onClick={(e) => e.stopPropagation()}
                   onChange={(e) => {
@@ -190,6 +193,16 @@ export default function Navbar() {
             Pradžia
           </Link>
 
+          {isAuthenticated ? (
+            <button onClick={logout} className="nav-link logout-button">
+              Atsijungti
+            </button>
+          ) : (
+            <Link to="/login" className="nav-link">
+              Prisijungti
+            </Link>
+          )}
+
           {sections.map((section) => (
             <div
               key={section.key}
@@ -203,10 +216,6 @@ export default function Navbar() {
               {openDropdown === section.key && renderDropdown(section.key)}
             </div>
           ))}
-
-          <Link to="/login" className="nav-link">
-            Prisijungti
-          </Link>
         </nav>
 
         {mobileOpen && (
@@ -287,13 +296,19 @@ export default function Navbar() {
               </div>
             ))}
 
-            <Link
-              to="/login"
-              className="nav-link"
-              onClick={() => setMobileOpen(false)}
-            >
-              Prisijungti
-            </Link>
+            {isAuthenticated ? (
+              <button onClick={logout} className="nav-link logout-button">
+                Atsijungti
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                className="nav-link"
+                onClick={() => setMobileOpen(false)}
+              >
+                Prisijungti
+              </Link>
+            )}
           </div>
         )}
 

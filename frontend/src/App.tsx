@@ -11,6 +11,8 @@ import Places from './pages/explore/places/Places';
 import Services from './pages/explore/services/Services';
 import NotFound from './pages/NotFound';
 import HomePage from './pages/HomePage/HomePage';
+import { AuthProvider } from './context/AuthContext';
+import { Dashboard } from './components/Dashboard/Dashboard';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -20,9 +22,8 @@ function AppContent() {
   };
 
   return (
-    <>
+    <AuthProvider>
       <Navbar />
-      <HomePage />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -36,10 +37,12 @@ function AppContent() {
           />
           <Route path="/places" element={<Places />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-    </>
+      <HomePage />
+    </AuthProvider>
   );
 }
 

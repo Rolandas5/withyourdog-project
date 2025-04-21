@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
   IoMailOutline,
   IoLockClosedOutline,
   IoPersonOutline,
 } from 'react-icons/io5';
 import './login-register-modal.css';
+import { AuthContext } from '../../../context/AuthContext';
 
 interface LoginRegisterModalProps {
   mode: 'login' | 'register';
@@ -20,12 +21,30 @@ export default function LoginRegisterModal({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const { register, login, error, isLoading, isAuthenticated } =
+    useContext(AuthContext);
+
   useEffect(() => {
     setIsLogin(mode === 'login');
   }, [mode]);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      onClose();
+    }
+  }, [isAuthenticated, onClose]);
+
   const handleSwitch = () => {
     setIsLogin((prev) => !prev);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isLogin) {
+      await login(email, password);
+    } else {
+      await register(username, email, password);
+    }
   };
 
   return (
@@ -36,7 +55,9 @@ export default function LoginRegisterModal({
         </button>
         <h2>{isLogin ? 'Prisijungti' : 'Registracija'}</h2>
 
-        <form className="auth-form">
+        {isLoading && <p className="loading-message">Įkeliama...</p>}
+
+        <form className="auth-form" onSubmit={handleSubmit}>
           {!isLogin && (
             <div className={`input-group ${username ? 'active' : ''}`}>
               <input
@@ -98,6 +119,8 @@ export default function LoginRegisterModal({
               </>
             )}
           </p>
+
+          {error && <p className="error-message">{error}</p>}
         </form>
       </div>
     </div>
