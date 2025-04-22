@@ -3,16 +3,13 @@ import './dashboard.css';
 import { AuthContext } from '../../context/AuthContext';
 
 export const Dashboard = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
         <h1>Dashboard</h1>
         <p className="welcome-text">Welcome back, {user?.name}!</p>
-        <button onClick={logout} className="nav-link logout-button">
-          Atsijungti
-        </button>
       </div>
 
       <div className="dashboard-content">

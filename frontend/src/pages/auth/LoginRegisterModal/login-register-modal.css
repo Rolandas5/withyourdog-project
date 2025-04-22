@@ -163,3 +163,44 @@
     opacity: 1;
   }
 }
+
+.password-group {
+  position: relative;
+}
+
+.password-input-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
+/* Mobile – jautriai prisitaiko 👇 */
+@media (max-width: 480px) {
+  .password-toggle {
+    font-size: 1rem;
+    right: 8px;
+  }
+
+  .password-input-wrapper input {
+    padding-right: 36px;
+  }
+}
