@@ -126,12 +126,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const errorMessage =
         axios.isAxiosError(error) && error.response?.data?.error
           ? error.response.data.error
-          : 'Login failed. Please check your credentials.';
+          : 'Neteisingai suvesti prisijungimo duomenys. Patikrinkite el. paštą ir slaptažodį.';
       setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
   };
+
+  const clearError = () => setError(null);
 
   const logout = () => {
     localStorage.removeItem('access_token');
@@ -152,6 +154,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         register,
         login,
         logout,
+        clearError,
       }}
     >
       {children}

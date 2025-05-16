@@ -1,139 +1,5 @@
-// import { useState, useEffect, useContext } from 'react';
-// import {
-//   IoMailOutline,
-//   IoLockClosedOutline,
-//   IoPersonOutline,
-// } from 'react-icons/io5';
-// import './login-register-modal.css';
-// import { AuthContext } from '../../../context/AuthContext';
-
-// interface LoginRegisterModalProps {
-//   mode: 'login' | 'register';
-//   onClose: () => void;
-// }
-
-// export default function LoginRegisterModal({
-//   mode,
-//   onClose,
-// }: LoginRegisterModalProps) {
-//   const [isLogin, setIsLogin] = useState(true);
-//   const [username, setUsername] = useState('');
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-
-//   const { register, login, error, isLoading, isAuthenticated } =
-//     useContext(AuthContext);
-
-//   useEffect(() => {
-//     setIsLogin(mode === 'login');
-//   }, [mode]);
-
-//   useEffect(() => {
-//     if (isAuthenticated) {
-//       onClose();
-//     }
-//   }, [isAuthenticated, onClose]);
-
-//   const handleSwitch = () => {
-//     setIsLogin((prev) => !prev);
-//   };
-
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
-//     if (isLogin) {
-//       await login(email, password);
-//     } else {
-//       await register(username, email, password);
-//     }
-//   };
-
-//   return (
-//     <div className="modal-overlay">
-//       <div className="modal-card">
-//         <button className="close-btn" onClick={onClose}>
-//           &times;
-//         </button>
-//         <h2>{isLogin ? 'Prisijungti' : 'Registracija'}</h2>
-
-//         {isLoading && <p className="loading-message">Įkeliama...</p>}
-
-//         <form className="auth-form" onSubmit={handleSubmit}>
-//           {!isLogin && (
-//             <div className={`input-group ${username ? 'active' : ''}`}>
-//               <input
-//                 type="text"
-//                 value={username}
-//                 onChange={(e) => setUsername(e.target.value)}
-//                 required
-//               />
-//               <label>Vartotojo vardas</label>
-//               <IoPersonOutline className="input-icon" />
-//             </div>
-//           )}
-
-//           <div className={`input-group ${email ? 'active' : ''}`}>
-//             <input
-//               type="email"
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//               required
-//             />
-//             <label>El. paštas</label>
-//             <IoMailOutline className="input-icon" />
-//           </div>
-
-//           <div className={`input-group ${password ? 'active' : ''}`}>
-//             <input
-//               type="password"
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//               required
-//             />
-//             <label>Slaptažodis</label>
-//             <IoLockClosedOutline className="input-icon" />
-//           </div>
-
-//           {isLogin && (
-//             <label
-//               className="remember-me"
-//               style={{ color: '#000', marginTop: '-12px' }}
-//             >
-//               <input type="checkbox" /> Prisiminti mane
-//             </label>
-//           )}
-
-//           <button type="submit">
-//             {isLogin ? 'Prisijungti' : 'Registruotis'}
-//           </button>
-
-//           <p className="form-switch">
-//             {isLogin ? (
-//               <>
-//                 Neturite paskyros?{' '}
-//                 <span onClick={handleSwitch}>Registruotis</span>
-//               </>
-//             ) : (
-//               <>
-//                 Jau turite paskyrą?{' '}
-//                 <span onClick={handleSwitch}>Prisijungti</span>
-//               </>
-//             )}
-//           </p>
-
-//           {error && <p className="error-message">{error}</p>}
-//         </form>
-//       </div>
-//     </div>
-//   );
-// }
-
 import { useState, useEffect, useContext } from 'react';
-import {
-  IoMailOutline,
-  IoLockClosedOutline,
-  IoPersonOutline,
-} from 'react-icons/io5';
-import { HiEye, HiEyeOff } from 'react-icons/hi';
+import { FiMail, FiUser, FiEye, FiEyeOff } from 'react-icons/fi';
 import './login-register-modal.css';
 import { AuthContext } from '../../../context/AuthContext';
 
@@ -153,9 +19,13 @@ export default function LoginRegisterModal({
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [passwordMatchError, setPasswordMatchError] = useState('');
+  const [errorMessages, setErrorMessages] = useState<{
+    username?: string;
+    email?: string;
+    passwordMatch?: string;
+  }>({});
 
-  const { register, login, error, isLoading, isAuthenticated } =
+  const { register, login, error, isLoading, isAuthenticated, clearError } =
     useContext(AuthContext);
 
   useEffect(() => {
@@ -163,9 +33,7 @@ export default function LoginRegisterModal({
   }, [mode]);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      onClose();
-    }
+    if (isAuthenticated) onClose();
   }, [isAuthenticated, onClose]);
 
   const handleSwitch = () => {
@@ -174,16 +42,28 @@ export default function LoginRegisterModal({
     setEmail('');
     setPassword('');
     setConfirmPassword('');
-    setPasswordMatchError('');
+    setErrorMessages({});
+    clearError();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isLogin && password !== confirmPassword) {
-      setPasswordMatchError('Slaptažodžiai nesutampa');
+
+    const newErrors: typeof errorMessages = {};
+
+    if (!isLogin && !username.trim())
+      newErrors.username = 'Įveskite vartotojo vardą';
+    if (!email.trim()) newErrors.email = 'Įveskite el. paštą';
+    if (!isLogin && password !== confirmPassword)
+      newErrors.passwordMatch = 'Slaptažodžiai nesutampa';
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrorMessages(newErrors);
       return;
     }
-    setPasswordMatchError('');
+
+    setErrorMessages({});
+
     if (isLogin) {
       await login(email, password);
     } else {
@@ -207,11 +87,16 @@ export default function LoginRegisterModal({
               <input
                 type="text"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  clearError();
+                }}
               />
               <label>Vartotojo vardas</label>
-              <IoPersonOutline className="input-icon" />
+              <FiUser className="input-icon" />
+              {errorMessages.username && (
+                <p className="error-message">{errorMessages.username}</p>
+              )}
             </div>
           )}
 
@@ -219,27 +104,33 @@ export default function LoginRegisterModal({
             <input
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
+              onChange={(e) => {
+                setEmail(e.target.value);
+                clearError();
+              }}
             />
             <label>El. paštas</label>
-            <IoMailOutline className="input-icon" />
+            <FiMail className="input-icon" />
+            {errorMessages.email && (
+              <p className="error-message">{errorMessages.email}</p>
+            )}
           </div>
 
           <div className={`input-group ${password ? 'active' : ''}`}>
             <input
               type={showPassword ? 'text' : 'password'}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              onChange={(e) => {
+                setPassword(e.target.value);
+                clearError();
+              }}
             />
             <label>Slaptažodis</label>
-            <IoLockClosedOutline className="input-icon" />
             <span
               className="password-toggle"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowPassword((prev) => !prev)}
             >
-              {showPassword ? <HiEyeOff /> : <HiEye />}
+              {showPassword ? <FiEyeOff /> : <FiEye />}
             </span>
           </div>
 
@@ -248,22 +139,22 @@ export default function LoginRegisterModal({
               <input
                 type={showConfirmPassword ? 'text' : 'password'}
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  clearError();
+                }}
               />
               <label>Pakartokite slaptažodį</label>
-              <IoLockClosedOutline className="input-icon" />
               <span
                 className="password-toggle"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
               >
-                {showConfirmPassword ? <HiEyeOff /> : <HiEye />}
+                {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
               </span>
+              {errorMessages.passwordMatch && (
+                <p className="error-message">{errorMessages.passwordMatch}</p>
+              )}
             </div>
-          )}
-
-          {passwordMatchError && !isLogin && (
-            <p className="error-message">{passwordMatchError}</p>
           )}
 
           {isLogin && (
@@ -279,19 +170,17 @@ export default function LoginRegisterModal({
             {isLogin ? 'Prisijungti' : 'Registruotis'}
           </button>
 
-          <p className="form-switch">
+          <div className="auth-footer">
             {isLogin ? (
-              <>
-                Neturite paskyros?{' '}
-                <span onClick={handleSwitch}>Registruotis</span>
-              </>
+              <p>
+                Neturite paskyros? <a onClick={handleSwitch}>Registruotis</a>
+              </p>
             ) : (
-              <>
-                Jau turite paskyrą?{' '}
-                <span onClick={handleSwitch}>Prisijungti</span>
-              </>
+              <p>
+                Jau turite paskyrą? <a onClick={handleSwitch}>Prisijungti</a>
+              </p>
             )}
-          </p>
+          </div>
 
           {error && <p className="error-message">{error}</p>}
         </form>
