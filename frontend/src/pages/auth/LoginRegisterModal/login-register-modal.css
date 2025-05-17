@@ -217,6 +217,14 @@
   animation: fadeInSlide 0.3s ease-in-out;
 }
 
+.modal-footer-note {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #ccc;
+  font-style: italic;
+}
+
 /* Subtili animacija */
 @keyframes fadeInSlide {
   from {

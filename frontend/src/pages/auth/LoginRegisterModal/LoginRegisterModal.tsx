@@ -22,6 +22,7 @@ export default function LoginRegisterModal({
   const [errorMessages, setErrorMessages] = useState<{
     username?: string;
     email?: string;
+    password?: string;
     passwordMatch?: string;
   }>({});
 
@@ -30,11 +31,15 @@ export default function LoginRegisterModal({
 
   useEffect(() => {
     setIsLogin(mode === 'login');
+    clearError();
+    setErrorMessages({});
   }, [mode]);
 
   useEffect(() => {
     if (isAuthenticated) onClose();
   }, [isAuthenticated, onClose]);
+
+  const isValidEmail = (email: string) => /.+@.+\..+/.test(email);
 
   const handleSwitch = () => {
     setIsLogin((prev) => !prev);
@@ -48,13 +53,17 @@ export default function LoginRegisterModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const newErrors: typeof errorMessages = {};
 
     if (!isLogin && !username.trim())
       newErrors.username = 'Įveskite vartotojo vardą';
     if (!email.trim()) newErrors.email = 'Įveskite el. paštą';
-    if (!isLogin && password !== confirmPassword)
+    else if (!isValidEmail(email))
+      newErrors.email = 'Neteisingas el. pašto formatas';
+    if (!password.trim()) newErrors.password = 'Įveskite slaptažodį';
+    if (!isLogin && !confirmPassword.trim())
+      newErrors.passwordMatch = 'Pakartokite slaptažodį';
+    else if (!isLogin && password !== confirmPassword)
       newErrors.passwordMatch = 'Slaptažodžiai nesutampa';
 
     if (Object.keys(newErrors).length > 0) {
@@ -63,6 +72,7 @@ export default function LoginRegisterModal({
     }
 
     setErrorMessages({});
+    clearError();
 
     if (isLogin) {
       await login(email, password);
@@ -81,7 +91,7 @@ export default function LoginRegisterModal({
 
         {isLoading && <p className="loading-message">Įkeliama...</p>}
 
-        <form className="auth-form" onSubmit={handleSubmit}>
+        <form className="auth-form" onSubmit={handleSubmit} noValidate>
           {!isLogin && (
             <div className={`input-group ${username ? 'active' : ''}`}>
               <input
@@ -102,7 +112,7 @@ export default function LoginRegisterModal({
 
           <div className={`input-group ${email ? 'active' : ''}`}>
             <input
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -120,6 +130,7 @@ export default function LoginRegisterModal({
             <input
               type={showPassword ? 'text' : 'password'}
               value={password}
+              disabled={!isValidEmail(email)}
               onChange={(e) => {
                 setPassword(e.target.value);
                 clearError();
@@ -132,6 +143,9 @@ export default function LoginRegisterModal({
             >
               {showPassword ? <FiEyeOff /> : <FiEye />}
             </span>
+            {errorMessages.password && (
+              <p className="error-message">{errorMessages.password}</p>
+            )}
           </div>
 
           {!isLogin && (
@@ -139,6 +153,7 @@ export default function LoginRegisterModal({
               <input
                 type={showConfirmPassword ? 'text' : 'password'}
                 value={confirmPassword}
+                disabled={!isValidEmail(email)}
                 onChange={(e) => {
                   setConfirmPassword(e.target.value);
                   clearError();
@@ -182,7 +197,9 @@ export default function LoginRegisterModal({
             )}
           </div>
 
-          {error && <p className="error-message">{error}</p>}
+          {error && !Object.keys(errorMessages).length && (
+            <p className="error-message">{error}</p>
+          )}
         </form>
       </div>
     </div>

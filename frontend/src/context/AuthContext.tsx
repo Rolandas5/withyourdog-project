@@ -21,6 +21,7 @@ interface AuthContextType {
   register: (name: string, email: string, password: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  clearError: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -32,6 +33,7 @@ export const AuthContext = createContext<AuthContextType>({
   register: async () => {},
   login: async () => {},
   logout: () => {},
+  clearError: () => {},
 });
 
 interface AuthProviderProps {
@@ -133,8 +135,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const clearError = () => setError(null);
-
   const logout = () => {
     localStorage.removeItem('access_token');
     setToken(null);
@@ -142,6 +142,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsAuthenticated(false);
     navigate('/login');
   };
+
+  const clearError = () => setError(null);
 
   return (
     <AuthContext.Provider
