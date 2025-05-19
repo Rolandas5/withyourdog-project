@@ -71,23 +71,24 @@
 
 .input-group {
   position: relative;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
-  transition: border-color 0.3s;
   padding-top: 24px;
 }
 
 .input-group input {
   width: 100%;
-  padding: 10px 40px 6px 0px;
-  background: transparent;
+  height: 44px;
+  box-sizing: border-box;
+  padding: 0 12px;
+  padding-right: 44px;
+  /* nauja eilutė: underlinė */
   border: none;
-  color: #000;
-  font-size: 1rem;
-  outline: none;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  transition: border-color 0.3s;
 }
 
 .input-group input:focus {
-  border-color: #000;
+  border-bottom-color: #000;
+  outline: none;
 }
 
 .input-group.active label,
@@ -95,7 +96,7 @@
   transform: translateY(-150%);
   font-size: 0.8rem;
   color: #000;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.08);
   padding: 0 6px;
   border-radius: 4px;
 }
@@ -113,13 +114,49 @@
   z-index: 1;
 }
 
-.input-icon {
+/* bendri layout ir pozicionavimas abiem elementams */
+.input-icon,
+.password-toggle {
   position: absolute;
-  right: 0;
-  top: 50%;
+  right: 12px;
   transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.2rem;
   color: #000;
+  line-height: 1;
+}
+
+/* tik ikonėlė neatsiliečia į hover/click */
+.input-icon {
+  pointer-events: none;
+}
+
+/* mygtukas turi likti interaktyvus */
+.password-toggle {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* —— galutinis Chrome autofill “ištirpdinimas” —— */
+.modal-card .input-group input:-webkit-autofill,
+.modal-card .input-group input:-webkit-autofill:hover,
+.modal-card .input-group input:-webkit-autofill:focus,
+.modal-card .input-group input:-webkit-autofill:active {
+  /* Chrome prie inputo prideda savą background-image – pašalinkim jį */
+  background-image: none !important;
+  /* Nustatom savo transition, kad neperšoktų į geltoną/kitą spalvą */
+  transition: background-color 5000s ease-in-out 0s !important;
+  /* Pilnai permatomas fonas */
+  background-color: transparent !important;
+
+  /* Tavo blur/faint‐white efektą pakeiskim į visiškai skaidrų */
+  -webkit-box-shadow: inset 0 0 0 1000px transparent !important;
+  box-shadow: inset 0 0 0 1000px transparent !important;
+
+  /* Išlaikom teksto spalvą juodą */
+  -webkit-text-fill-color: #000 !important;
 }
 
 .auth-form button {
@@ -171,26 +208,26 @@
   position: relative;
 }
 
+.text-input-wrapper,
 .password-input-wrapper {
-  display: flex;
-  align-items: center;
   position: relative;
-}
-
-.password-input-wrapper input {
   width: 100%;
-  padding-right: 38px;
 }
 
-.password-toggle {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.input-group input {
+  width: 100%;
+  height: 44px; /* viena aukštis kiekvienam */
+  box-sizing: border-box;
+  padding: 0 12px; /* tarpai iš kairės ir dešinės */
+  padding-right: 44px; /* vietos ikonai dešinėje */
+
+  background: transparent !important; /* užtikrinam skaidrumą */
+  border: none;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  transition: border-color 0.3s;
+  color: #000;
+  font-size: 1rem;
+  outline: none;
 }
 
 .password-toggle svg {
@@ -225,6 +262,71 @@
   font-style: italic;
 }
 
+/* —— slaptažodžio stiprumo indikatorius —— */
+.password-strength {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: left;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background-color: rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+}
+
+/* silpno slaptažodžio spalvos */
+.password-strength.weak {
+  color: #cc0000;
+  background-color: rgba(204, 0, 0, 0.1);
+}
+
+/* vidutinio stiprumo slaptažodžio spalvos */
+.password-strength.medium {
+  color: #d99700;
+  background-color: rgba(255, 204, 0, 0.12);
+}
+
+/* stipraus slaptažodžio spalvos */
+.password-strength.strong {
+  color: #2e7d32;
+  background-color: rgba(46, 125, 50, 0.1);
+}
+
+.text-input-wrapper input:focus,
+.password-input-wrapper input:focus {
+  border-bottom-color: #000;
+}
+
+.text-input-wrapper input,
+.password-input-wrapper input {
+  width: 100%;
+  height: 44px;
+  padding: 0 12px;
+  padding-right: 44px; /* vietos ikonai */
+  box-sizing: border-box;
+
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  transition: border-color 0.3s;
+  color: #000;
+  font-size: 1rem;
+  outline: none;
+}
+
+.text-input-wrapper .input-icon,
+.password-input-wrapper .password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #000;
+}
+
 /* Subtili animacija */
 @keyframes fadeInSlide {
   from {
@@ -242,9 +344,5 @@
   .password-toggle {
     font-size: 1rem;
     right: 8px;
-  }
-
-  .password-input-wrapper input {
-    padding-right: 36px;
   }
 }

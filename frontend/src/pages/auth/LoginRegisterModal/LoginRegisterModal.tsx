@@ -19,6 +19,9 @@ export default function LoginRegisterModal({
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState<
+    'weak' | 'medium' | 'strong' | null
+  >(null);
   const [errorMessages, setErrorMessages] = useState<{
     username?: string;
     email?: string;
@@ -41,6 +44,12 @@ export default function LoginRegisterModal({
 
   const isValidEmail = (email: string) => /.+@.+\..+/.test(email);
 
+  const evaluatePasswordStrength = (password: string) => {
+    if (password.length < 6) return 'weak';
+    if (/^(?=.*[A-Z])(?=.*\d).{6,}$/.test(password)) return 'strong';
+    return 'medium';
+  };
+
   const handleSwitch = () => {
     setIsLogin((prev) => !prev);
     setUsername('');
@@ -48,6 +57,7 @@ export default function LoginRegisterModal({
     setPassword('');
     setConfirmPassword('');
     setErrorMessages({});
+    setPasswordStrength(null);
     clearError();
   };
 
@@ -94,16 +104,28 @@ export default function LoginRegisterModal({
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
           {!isLogin && (
             <div className={`input-group ${username ? 'active' : ''}`}>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                  clearError();
-                }}
-              />
-              <label>Vartotojo vardas</label>
-              <FiUser className="input-icon" />
+              <div className="text-input-wrapper">
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  value={username}
+                  onKeyDown={(e) => {
+                    if (e.key === '@') e.preventDefault();
+                  }}
+                  onChange={(e) => {
+                    const clean = e.target.value.replace(/@/g, '');
+                    setUsername(clean);
+                    clearError();
+                  }}
+                  aria-label="Vartotojo vardas"
+                  aria-required={!isLogin}
+                  required={!isLogin}
+                  autoComplete="new-username" // <-- štai čia!
+                />
+                <FiUser className="input-icon" />
+              </div>
+              <label htmlFor="username">Vartotojo vardas</label>
               {errorMessages.username && (
                 <p className="error-message">{errorMessages.username}</p>
               )}
@@ -111,38 +133,65 @@ export default function LoginRegisterModal({
           )}
 
           <div className={`input-group ${email ? 'active' : ''}`}>
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                clearError();
-              }}
-            />
-            <label>El. paštas</label>
-            <FiMail className="input-icon" />
+            <div className="text-input-wrapper">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  clearError();
+                }}
+                aria-label="El. paštas"
+                required
+                autoComplete="email"
+              />
+              <FiMail className="input-icon" />
+            </div>
+            <label htmlFor="email">El. paštas</label>
             {errorMessages.email && (
               <p className="error-message">{errorMessages.email}</p>
             )}
           </div>
 
           <div className={`input-group ${password ? 'active' : ''}`}>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              disabled={!isValidEmail(email)}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                clearError();
-              }}
-            />
-            <label>Slaptažodis</label>
-            <span
-              className="password-toggle"
-              onClick={() => setShowPassword((prev) => !prev)}
-            >
-              {showPassword ? <FiEyeOff /> : <FiEye />}
-            </span>
+            <div className="password-input-wrapper">
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setPassword(val);
+                  setPasswordStrength(evaluatePasswordStrength(val));
+                  clearError();
+                }}
+                aria-label="Slaptažodis"
+                required
+                autoComplete={isLogin ? 'current-password' : 'new-password'}
+              />
+              <span
+                className="password-toggle"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </span>
+            </div>
+
+            {password && (
+              <div
+                className={`password-strength ${passwordStrength}`}
+                aria-live="polite"
+              >
+                {passwordStrength === 'weak' && 'Silpnas slaptažodis'}
+                {passwordStrength === 'medium' &&
+                  'Vidutinio stiprumo slaptažodis'}
+                {passwordStrength === 'strong' && 'Stiprus slaptažodis'}
+              </div>
+            )}
+
             {errorMessages.password && (
               <p className="error-message">{errorMessages.password}</p>
             )}
@@ -150,22 +199,29 @@ export default function LoginRegisterModal({
 
           {!isLogin && (
             <div className={`input-group ${confirmPassword ? 'active' : ''}`}>
-              <input
-                type={showConfirmPassword ? 'text' : 'password'}
-                value={confirmPassword}
-                disabled={!isValidEmail(email)}
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value);
-                  clearError();
-                }}
-              />
-              <label>Pakartokite slaptažodį</label>
-              <span
-                className="password-toggle"
-                onClick={() => setShowConfirmPassword((prev) => !prev)}
-              >
-                {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
-              </span>
+              <div className="password-input-wrapper">
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  value={confirmPassword}
+                  onChange={(e) => {
+                    setConfirmPassword(e.target.value);
+                    clearError();
+                  }}
+                  aria-label="Pakartoti slaptažodį"
+                  aria-required={!isLogin}
+                  required={!isLogin}
+                  autoComplete="new-password"
+                />
+                <span
+                  className="password-toggle"
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                >
+                  {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+                </span>
+              </div>
+
               {errorMessages.passwordMatch && (
                 <p className="error-message">{errorMessages.passwordMatch}</p>
               )}
@@ -198,7 +254,9 @@ export default function LoginRegisterModal({
           </div>
 
           {error && !Object.keys(errorMessages).length && (
-            <p className="error-message">{error}</p>
+            <p className="error-message" role="alert" aria-live="polite">
+              {error}
+            </p>
           )}
         </form>
       </div>
