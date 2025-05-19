@@ -76,21 +76,32 @@ export default function LoginRegisterModal({
     e.preventDefault();
     const newErrors: typeof errorMessages = {};
 
-    if (!isLogin && !username.trim())
-      newErrors.username = 'Įveskite vartotojo vardą';
-    if (!email.trim()) newErrors.email = 'Įveskite el. paštą';
-    else if (!isValidEmail(email))
-      newErrors.email = 'Neteisingas el. pašto formatas';
-    if (!password.trim()) newErrors.password = 'Įveskite slaptažodį';
-    if (!isLogin && !confirmPassword.trim())
-      newErrors.passwordMatch = 'Pakartokite slaptažodį';
-    else if (!isLogin && password !== confirmPassword)
-      newErrors.passwordMatch = 'Slaptažodžiai nesutampa';
+    // REGISTRACIJA
+    if (!isLogin) {
+      if (!username.trim()) newErrors.username = 'Įveskite vartotojo vardą';
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrorMessages(newErrors);
-      return;
+      if (!email.trim()) newErrors.email = 'Įveskite el. paštą';
+      else if (!isValidEmail(email))
+        newErrors.email = 'Neteisingas el. pašto formatas';
+
+      if (!password) newErrors.password = 'Įveskite slaptažodį';
+      if (!confirmPassword) newErrors.passwordMatch = 'Pakartokite slaptažodį';
+
+      // Tik jeigu abu įvesti, bet nesutampa – rodoma šita žinutė
+      if (password && confirmPassword && password !== confirmPassword) {
+        newErrors.passwordMatch = 'Slaptažodžiai nesutampa';
+      }
     }
+    // LOGIN
+    else {
+      if (!email.trim()) newErrors.email = 'Įveskite el. paštą';
+      else if (!isValidEmail(email))
+        newErrors.email = 'Neteisingas el. pašto formatas';
+      if (!password) newErrors.password = 'Įveskite slaptažodį';
+    }
+
+    setErrorMessages(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
 
     setErrorMessages({});
     clearError();
@@ -178,7 +189,9 @@ export default function LoginRegisterModal({
                 onChange={(e) => {
                   const val = e.target.value;
                   setPassword(val);
-                  setPasswordStrength(evaluatePasswordStrength(val));
+                  // Tik registracijos metu stiprumas
+                  if (!isLogin)
+                    setPasswordStrength(evaluatePasswordStrength(val));
                   clearError();
                 }}
                 aria-label="Slaptažodis"
@@ -188,12 +201,22 @@ export default function LoginRegisterModal({
               <span
                 className="password-toggle"
                 onClick={() => setShowPassword((prev) => !prev)}
+                tabIndex={0}
+                aria-label={
+                  showPassword ? 'Slėpti slaptažodį' : 'Rodyti slaptažodį'
+                }
+                role="button"
               >
-                {showPassword ? <FiEyeOff /> : <FiEye />}
+                {showPassword ? (
+                  <FiEyeOff aria-hidden="true" />
+                ) : (
+                  <FiEye aria-hidden="true" />
+                )}
               </span>
             </div>
-
-            {password && (
+            <label htmlFor="password">Slaptažodis</label>
+            {/* RODOM tik REGISTRACIJOJE! */}
+            {!isLogin && password && (
               <div
                 className={`password-strength ${passwordStrength}`}
                 aria-live="polite"
@@ -204,12 +227,12 @@ export default function LoginRegisterModal({
                 {passwordStrength === 'strong' && 'Stiprus slaptažodis'}
               </div>
             )}
-
-            {errorMessages.password && (
+            {errorMessages.password && !password && (
               <p className="error-message">{errorMessages.password}</p>
             )}
           </div>
 
+          {/* Pakartotinas slaptažodis – TIK REGISTRACIJOJE */}
           {!isLogin && (
             <div className={`input-group ${confirmPassword ? 'active' : ''}`}>
               <div className="password-input-wrapper">
@@ -230,12 +253,29 @@ export default function LoginRegisterModal({
                 <span
                   className="password-toggle"
                   onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  tabIndex={0}
+                  aria-label={
+                    showConfirmPassword
+                      ? 'Slėpti slaptažodį'
+                      : 'Rodyti slaptažodį'
+                  }
+                  role="button"
                 >
-                  {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+                  {showConfirmPassword ? (
+                    <FiEyeOff aria-hidden="true" />
+                  ) : (
+                    <FiEye aria-hidden="true" />
+                  )}
                 </span>
               </div>
-
-              {errorMessages.passwordMatch && (
+              <label htmlFor="confirmPassword">Pakartoti slaptažodį</label>
+              {/* INDICATORIUS AR SUTAMPA */}
+              {password && confirmPassword && password !== confirmPassword && (
+                <div className="password-strength weak">
+                  Slaptažodžiai nesutampa
+                </div>
+              )}
+              {errorMessages.passwordMatch && !confirmPassword && (
                 <p className="error-message">{errorMessages.passwordMatch}</p>
               )}
             </div>
