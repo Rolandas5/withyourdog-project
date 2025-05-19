@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { FiMail, FiUser, FiEye, FiEyeOff } from 'react-icons/fi';
 import './login-register-modal.css';
 import { AuthContext } from '../../../context/AuthContext';
@@ -28,6 +28,8 @@ export default function LoginRegisterModal({
     password?: string;
     passwordMatch?: string;
   }>({});
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
 
   const { register, login, error, isLoading, isAuthenticated, clearError } =
     useContext(AuthContext);
@@ -37,6 +39,15 @@ export default function LoginRegisterModal({
     clearError();
     setErrorMessages({});
   }, [mode]);
+
+  // Focus logic – kai tik atsiranda modalas, focus į pirmą laukelį pagal režimą
+  useEffect(() => {
+    if (isLogin) {
+      emailRef.current?.focus();
+    } else {
+      usernameRef.current?.focus();
+    }
+  }, [isLogin]);
 
   useEffect(() => {
     if (isAuthenticated) onClose();
@@ -106,6 +117,7 @@ export default function LoginRegisterModal({
             <div className={`input-group ${username ? 'active' : ''}`}>
               <div className="text-input-wrapper">
                 <input
+                  ref={usernameRef}
                   id="username"
                   name="username"
                   type="text"
@@ -121,7 +133,7 @@ export default function LoginRegisterModal({
                   aria-label="Vartotojo vardas"
                   aria-required={!isLogin}
                   required={!isLogin}
-                  autoComplete="new-username" // <-- štai čia!
+                  autoComplete="new-username"
                 />
                 <FiUser className="input-icon" />
               </div>
@@ -135,6 +147,7 @@ export default function LoginRegisterModal({
           <div className={`input-group ${email ? 'active' : ''}`}>
             <div className="text-input-wrapper">
               <input
+                ref={emailRef}
                 id="email"
                 name="email"
                 type="email"
@@ -237,8 +250,12 @@ export default function LoginRegisterModal({
             </label>
           )}
 
-          <button type="submit">
-            {isLogin ? 'Prisijungti' : 'Registruotis'}
+          <button type="submit" disabled={isLoading}>
+            {isLoading
+              ? 'Siunčiama...'
+              : isLogin
+              ? 'Prisijungti'
+              : 'Registruotis'}
           </button>
 
           <div className="auth-footer">
