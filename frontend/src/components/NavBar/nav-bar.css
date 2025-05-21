@@ -217,6 +217,7 @@ header {
   z-index: 10;
   display: none;
   flex-direction: column;
+  border-radius: 16px;
 }
 
 .nav-dropdown:hover .dropdown-menu {

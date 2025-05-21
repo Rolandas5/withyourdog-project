@@ -316,6 +316,11 @@ export default function LoginRegisterModal({
             </p>
           )}
         </form>
+        <div className="modal-footer-note">
+          © 2025
+          <br />
+          <strong>WithYourDog</strong>
+        </div>
       </div>
     </div>
   );
