@@ -39,6 +39,14 @@
     transform: translateY(0);
   }
 }
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
 
 /* === HEADER === */
 header {
@@ -49,7 +57,6 @@ header {
   z-index: 100;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
-
 .container {
   max-width: 1400px;
   margin: 0 auto;
@@ -59,15 +66,13 @@ header {
   flex-wrap: wrap;
   gap: 1rem;
 }
-
 /* === LOGO === */
 .logo-wrapper {
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #ffffff;
+  color: #fff;
 }
-
 .logo {
   height: 80px;
   width: 80px;
@@ -78,11 +83,10 @@ header {
     glowLogoMulti 4s infinite ease-in-out;
   box-shadow: 0 0 0 rgba(255, 255, 255, 0.4);
 }
-
 .logo-text {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #fff;
 }
 
 /* === SEARCH === */
@@ -90,65 +94,70 @@ header {
   display: flex;
   align-items: center;
   position: relative;
-  margin-right: auto; /* arciau kairio krasto */
+  margin-right: auto;
   transition: all 0.3s ease-in-out;
 }
-
 .search-icon {
   margin-left: 2.5rem;
   cursor: pointer;
-  color: #ffffff;
+  color: #fff;
   transition: transform 0.2s ease;
 }
-
 .search-icon:hover {
   transform: scale(1.1);
   color: #cce5ff;
 }
-
 .search-box {
   position: relative;
   display: flex;
   flex-direction: column;
   margin-left: 0.75rem;
 }
-
+.search-input-wrapper {
+  position: relative;
+}
+.search-input-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #3182ce;
+  font-size: 1.3rem;
+  pointer-events: none;
+}
 .search-input {
   padding: 0.4rem 0.8rem;
   border-radius: 9999px;
   border: none;
   outline: none;
   font-size: 1rem;
-  background-color: #ffffff;
+  background-color: #fff;
   color: #333;
   min-width: 240px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  padding-left: 2.2em; /* Ikonėlei kairėje */
 }
-
 .search-results {
   position: absolute;
   top: 110%;
   left: 0;
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   padding: 0.5rem 0;
   width: 100%;
   z-index: 999;
 }
-
 .search-result-item {
   padding: 0.5rem 1rem;
   font-size: 0.95rem;
   color: #333;
   cursor: pointer;
 }
-
 .search-result-item:hover,
 .search-result-item.active {
   background-color: #f0f4ff;
 }
-
 .search-result-item.no-result {
   color: #888;
   font-style: italic;
@@ -160,17 +169,15 @@ header {
   gap: 2rem;
   align-items: center;
 }
-
 .nav-link {
   position: relative;
-  color: #ffffff;
+  color: #fff;
   text-decoration: none;
   font-weight: 500;
   font-size: 1.1rem;
   padding: 0.4rem 0;
   transition: color 0.2s ease-in-out;
 }
-
 .nav-link::after {
   content: '';
   position: absolute;
@@ -182,21 +189,17 @@ header {
   background: linear-gradient(90deg, #3182ce, #63b3ed);
   transition: width 0.2s ease-in-out;
 }
-
 .nav-link:hover,
 .dropdown-item:hover {
   color: #cce5ff;
 }
-
 .nav-link:hover::after {
   width: 80%;
 }
-
 .nav-link.active {
-  color: #ffffff;
+  color: #fff;
   background-color: rgba(255, 255, 255, 0.2);
 }
-
 .nav-link.active::after {
   width: 80%;
 }
@@ -205,7 +208,6 @@ header {
 .nav-dropdown {
   position: relative;
 }
-
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -219,26 +221,22 @@ header {
   flex-direction: column;
   border-radius: 16px;
 }
-
-.nav-dropdown:hover .dropdown-menu {
-  display: flex;
-}
-
+.nav-dropdown:hover .dropdown-menu,
 .nav-dropdown.hover-open .dropdown-menu {
   display: flex !important;
   opacity: 1;
   visibility: visible;
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
-
 .dropdown-item {
   padding: 0.6rem 1rem;
-  color: #ffffff;
+  color: #fff;
   text-decoration: none;
   font-size: 1rem;
   position: relative;
+  border-radius: 12px;
+  transition: background 0.13s, color 0.15s;
 }
-
 .dropdown-item::after {
   content: '';
   position: absolute;
@@ -250,14 +248,12 @@ header {
   background: linear-gradient(90deg, #3182ce, #63b3ed);
   transition: width 0.2s ease-in-out;
 }
-
 .dropdown-item:hover::after {
   width: 80%;
 }
-
 .dropdown-item:first-child {
   font-weight: 600;
-  color: #ffffff;
+  color: #fff;
   border-bottom: 1px solid #eee;
   margin-bottom: 4px;
   padding-bottom: 6px;
@@ -269,10 +265,13 @@ header {
   background: none;
   border: none;
   cursor: pointer;
-  color: #ffffff;
+  color: #fff;
 }
-
+/* Pagrindinė drawer ir overlay logika - tik desktop display none */
 .nav-mobile {
+  display: none;
+}
+.mobile-nav-overlay {
   display: none;
 }
 
@@ -280,57 +279,128 @@ header {
   .nav-desktop {
     display: none;
   }
-
   .search-icon {
     margin-left: 0 !important;
     align-self: flex-start;
   }
-
   .search-container {
     display: flex;
     justify-content: flex-start;
   }
-
   .menu-toggle {
     display: block;
   }
 
-  .nav-mobile {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    background-color: #1e2a38;
-    position: absolute;
-    top: 100%;
+  /* --- Drawer overlay --- */
+  .mobile-nav-overlay {
+    display: block;
+    content: '';
+    position: fixed;
+    top: 0;
     left: 0;
     right: 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    padding: 16px 24px;
-    z-index: 100;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(20, 28, 42, 0.55);
+    backdrop-filter: blur(2px);
+    z-index: 99;
+    transition: opacity 0.2s;
+    opacity: 1;
+    pointer-events: auto;
+    animation: fadeIn 0.25s;
+  }
+  /* --- Drawer --- */
+  .nav-mobile {
+    display: flex !important;
+    position: fixed !important;
+    left: 0;
+    top: 0;
+    height: 50vh;
+    width: 95vw;
+    max-width: 370px;
+    background: rgba(30, 42, 56, 0.98);
+    backdrop-filter: blur(10px);
+    box-shadow: 4px 0 20px 0 rgba(20, 28, 42, 0.09);
+    border-radius: 0 16px 16px 0;
+    padding: 38px 24px 28px 24px;
+    z-index: 101;
+    overflow-y: auto;
+    animation: slideInLeft 0.22s cubic-bezier(0.64, 1.36, 0.59, 0.99);
+    flex-direction: column;
+    gap: 16px;
   }
 
-  .nav-mobile-dropdown .dropdown-menu {
-    position: static !important;
-    display: flex;
-    flex-direction: column;
-    background-color: transparent;
-    padding-left: 1rem;
-    margin-top: 4px;
-    gap: 6px;
-    border-left: 2px solid #63b3ed;
+  @media (max-width: 768px) {
+    .nav-mobile .nav-dropdown {
+      position: relative;
+    }
+    .nav-mobile .dropdown-menu {
+      position: absolute !important;
+      left: 40%; /* arba 92% – pataisyk, jei reikia arčiau/toliau */
+      top: 0;
+      min-width: 180px;
+      background: rgba(44, 62, 80, 0.99);
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(44, 62, 80, 0.09);
+      padding: 8px 0 8px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 9999;
+    }
+    .nav-mobile .dropdown-menu .dropdown-item {
+      padding: 0.6rem 1rem;
+      color: #fff;
+      background: none;
+      border-radius: 7px;
+    }
   }
 
   .nav-mobile .nav-link,
-  .dropdown-item {
-    color: #ffffff;
-    font-size: 1.1rem;
+  .nav-mobile .dropdown-item {
+    font-size: 1.13rem;
+    padding: 13px 0 13px 0;
+    font-weight: 500;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    transition: background 0.15s;
   }
-
-  .dropdown-item:hover {
+  .nav-mobile .nav-link.active,
+  .nav-mobile .dropdown-item.active {
+    background-color: rgba(99, 179, 237, 0.11);
+    color: #30a2ff;
+  }
+  .nav-mobile .nav-link:hover,
+  .nav-mobile .dropdown-item:hover {
+    background-color: rgba(99, 179, 237, 0.21);
     color: #63b3ed;
   }
-
-  .dropdown-item::after {
-    bottom: 2px;
+  .nav-mobile .dropdown-menu {
+    background: none;
+    border-left: 2px solid #63b3ed;
+    margin-left: 8px;
+    box-shadow: none;
+    padding: 0 0 0 13px;
+    gap: 6px;
   }
+}
+
+/* --- CTA btn jei reikia --- */
+.nav-mobile .cta-btn {
+  width: 100%;
+  margin-top: 18px;
+  padding: 14px 0;
+  background: linear-gradient(90deg, #ffb400 0%, #ffdd80 100%);
+  color: #232323;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(255, 184, 80, 0.09);
+  transition: background 0.18s;
+}
+.nav-mobile .cta-btn:hover {
+  background: linear-gradient(90deg, #ffe1b0 0%, #ffb400 100%);
 }

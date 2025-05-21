@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, Search } from 'lucide-react';
+import { Menu, X, Search as SearchIcon } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import './nav-bar.css';
 import { AuthContext } from '../../context/AuthContext';
@@ -17,9 +17,18 @@ export default function Navbar() {
 
   const { isAuthenticated, logout } = useContext(AuthContext);
 
+  // Universalus uždarymas
+  const closeMobileMenuAndSearch = () => {
+    setShowSearch(false);
+    setMobileOpen(false);
+    setSearchTerm('');
+    setActiveIndex(-1);
+  };
+
   const toggleMenu = () => {
-    setMobileOpen(!mobileOpen);
+    setMobileOpen((open) => !open);
     setOpenDropdown(null);
+    setShowSearch(false);
   };
 
   useEffect(() => {
@@ -28,6 +37,7 @@ export default function Navbar() {
         setShowSearch(false);
         setSearchTerm('');
         setActiveIndex(-1);
+        setMobileOpen(false);
       }
     };
     document.addEventListener('keydown', handleKeyDown);
@@ -42,8 +52,11 @@ export default function Navbar() {
         setActiveIndex(-1);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    if (showSearch) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () =>
+        document.removeEventListener('mousedown', handleClickOutside);
+    }
   }, [showSearch]);
 
   const exampleResults = [
@@ -90,7 +103,7 @@ export default function Navbar() {
             key={i}
             to={item.to}
             className="dropdown-item"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenuAndSearch}
           >
             {item.label}
           </Link>
@@ -116,6 +129,62 @@ export default function Navbar() {
     { key: 'experiences', label: 'Kelionių patirtys' },
   ];
 
+  // Paieškos inputas su ikonėle
+  const renderSearchBox = () => (
+    <div className="search-box">
+      <div className="search-input-wrapper">
+        <SearchIcon className="search-input-icon" />
+        <input
+          ref={inputRef}
+          type="text"
+          className="search-input"
+          placeholder="Ieškoti vietos, paslaugos, patirties..."
+          value={searchTerm}
+          onClick={(e) => e.stopPropagation()}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setActiveIndex(-1);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'ArrowDown') {
+              setActiveIndex((prev) =>
+                Math.min(prev + 1, filteredResults.length - 1)
+              );
+            } else if (e.key === 'ArrowUp') {
+              setActiveIndex((prev) => Math.max(prev - 1, 0));
+            } else if (e.key === 'Enter' && filteredResults[activeIndex]) {
+              alert(`Pasirinkta: ${filteredResults[activeIndex]}`);
+              closeMobileMenuAndSearch();
+            }
+          }}
+          autoFocus
+        />
+      </div>
+      {searchTerm && (
+        <div className="search-results">
+          {filteredResults.length > 0 ? (
+            filteredResults.map((result, i) => (
+              <div
+                key={i}
+                className={`search-result-item ${
+                  i === activeIndex ? 'active' : ''
+                }`}
+                onClick={() => {
+                  alert(`Pasirinkta: ${result}`);
+                  closeMobileMenuAndSearch();
+                }}
+              >
+                {result}
+              </div>
+            ))
+          ) : (
+            <div className="search-result-item no-result">Nieko nerasta...</div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <header>
       <div className="container">
@@ -124,69 +193,20 @@ export default function Navbar() {
           <span className="logo-text">WithYourDog</span>
         </Link>
 
+        {/* --- DESKTOP NAV --- */}
         <nav className="nav-desktop">
           <div className="search-container" ref={searchRef}>
-            {showSearch && (
-              <div
-                className="search-box"
-                onClick={() => inputRef.current?.focus()}
-              >
-                <input
-                  ref={inputRef}
-                  type="text"
-                  className="search-input"
-                  placeholder="Ieškoti..."
-                  value={searchTerm}
-                  onClick={(e) => e.stopPropagation()}
-                  onChange={(e) => {
-                    setSearchTerm(e.target.value);
-                    setActiveIndex(-1);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'ArrowDown') {
-                      setActiveIndex((prev) =>
-                        Math.min(prev + 1, filteredResults.length - 1)
-                      );
-                    } else if (e.key === 'ArrowUp') {
-                      setActiveIndex((prev) => Math.max(prev - 1, 0));
-                    } else if (
-                      e.key === 'Enter' &&
-                      filteredResults[activeIndex]
-                    ) {
-                      alert(`Pasirinkta: ${filteredResults[activeIndex]}`);
-                      setShowSearch(false);
-                      setSearchTerm('');
-                      setActiveIndex(-1);
-                    }
-                  }}
-                  autoFocus
-                />
-                {searchTerm && (
-                  <div className="search-results">
-                    {filteredResults.length > 0 ? (
-                      filteredResults.map((result, i) => (
-                        <div
-                          key={i}
-                          className={`search-result-item ${
-                            i === activeIndex ? 'active' : ''
-                          }`}
-                        >
-                          {result}
-                        </div>
-                      ))
-                    ) : (
-                      <div className="search-result-item no-result">
-                        Nieko nerasta...
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+            {showSearch ? (
+              renderSearchBox()
+            ) : (
+              <SearchIcon
+                className="search-icon"
+                onClick={() => {
+                  setShowSearch(true);
+                  setTimeout(() => inputRef.current?.focus(), 0);
+                }}
+              />
             )}
-            <Search
-              className="search-icon"
-              onClick={() => setShowSearch(!showSearch)}
-            />
           </div>
 
           <Link to="/" className="nav-link">
@@ -218,98 +238,61 @@ export default function Navbar() {
           ))}
         </nav>
 
+        {/* --- MOBILE NAV --- */}
         {mobileOpen && (
-          <div className="nav-mobile">
-            <div className="search-container center" ref={searchRef}>
-              <Search
-                className="search-icon"
-                onClick={() => setShowSearch(!showSearch)}
-              />
-              {showSearch && (
-                <div
-                  className="search-box"
-                  onClick={() => inputRef.current?.focus()}
-                >
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    className="search-input"
-                    placeholder="Ieškoti vietos, paslaugos, patirties..."
-                    value={searchTerm}
-                    onClick={() => inputRef.current?.focus()}
-                    onChange={(e) => {
-                      setSearchTerm(e.target.value);
-                      setActiveIndex(-1);
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === 'ArrowDown') {
-                        setActiveIndex((prev) =>
-                          Math.min(prev + 1, filteredResults.length - 1)
-                        );
-                      } else if (e.key === 'ArrowUp') {
-                        setActiveIndex((prev) => Math.max(prev - 1, 0));
-                      } else if (
-                        e.key === 'Enter' &&
-                        filteredResults[activeIndex]
-                      ) {
-                        alert(`Pasirinkta: ${filteredResults[activeIndex]}`);
-                        setShowSearch(false);
-                        setSearchTerm('');
-                        setActiveIndex(-1);
-                      }
-                    }}
-                    autoFocus
+          <>
+            <div
+              className="mobile-nav-overlay"
+              onClick={closeMobileMenuAndSearch}
+              aria-label="Uždaryti meniu"
+              tabIndex={-1}
+            />
+            <nav
+              className="nav-mobile"
+              role="navigation"
+              aria-label="Mobilus meniu"
+            >
+              {/* Paieškos blokas */}
+              <div className="search-container center" ref={searchRef}>
+                {showSearch ? (
+                  renderSearchBox()
+                ) : (
+                  <SearchIcon
+                    className="search-icon"
+                    onClick={() => setShowSearch(true)}
                   />
-                  {searchTerm && (
-                    <div className="search-results">
-                      {filteredResults.length > 0 ? (
-                        filteredResults.map((result, i) => (
-                          <div
-                            key={i}
-                            className={`search-result-item ${
-                              i === activeIndex ? 'active' : ''
-                            }`}
-                          >
-                            {result}
-                          </div>
-                        ))
-                      ) : (
-                        <div className="search-result-item no-result">
-                          Nieko nerasta...
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            {sections.map((section) => (
-              <div
-                key={section.key}
-                className="nav-dropdown"
-                onMouseEnter={() => handleDropdownEnter(section.key)}
-                onMouseLeave={handleDropdownLeave}
-              >
-                <span className="nav-link">{section.label}</span>
-                {openDropdown === section.key && renderDropdown(section.key)}
+                )}
               </div>
-            ))}
 
-            {isAuthenticated ? (
-              <button onClick={logout} className="nav-link logout-button">
-                Atsijungti
-              </button>
-            ) : (
-              <Link
-                to="/login"
-                className="nav-link"
-                onClick={() => setMobileOpen(false)}
-              >
-                Prisijungti
-              </Link>
-            )}
-          </div>
+              {/* Navigacijos sekcijos */}
+              {sections.map((section) => (
+                <div
+                  key={section.key}
+                  className="nav-dropdown"
+                  onMouseEnter={() => handleDropdownEnter(section.key)}
+                  onMouseLeave={handleDropdownLeave}
+                >
+                  <span className="nav-link">{section.label}</span>
+                  {openDropdown === section.key && renderDropdown(section.key)}
+                </div>
+              ))}
+
+              {/* Autentifikacijos mygtukai */}
+              {isAuthenticated ? (
+                <button onClick={logout} className="nav-link logout-button">
+                  Atsijungti
+                </button>
+              ) : (
+                <Link
+                  to="/login"
+                  className="nav-link"
+                  onClick={closeMobileMenuAndSearch}
+                >
+                  Prisijungti
+                </Link>
+              )}
+            </nav>
+          </>
         )}
 
         <button className="menu-toggle" onClick={toggleMenu}>
