@@ -10,7 +10,6 @@
     transform: scale(1);
   }
 }
-
 @keyframes glowLogoMulti {
   0% {
     box-shadow: 0 0 0 rgba(255, 255, 255, 0);
@@ -28,7 +27,6 @@
     box-shadow: 0 0 0 rgba(255, 255, 255, 0);
   }
 }
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -52,7 +50,7 @@
 header {
   background-color: #007bff;
   padding: 1rem 2rem;
-  position: sticky;
+  position: sticky; /* KEISTI */
   top: 0;
   z-index: 100;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -125,6 +123,22 @@ header {
   font-size: 1.3rem;
   pointer-events: none;
 }
+.search-clear-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: #bbb;
+  cursor: pointer;
+  padding: 0;
+  z-index: 2;
+}
+.search-clear-btn:hover {
+  color: #3182ce;
+}
 .search-input {
   padding: 0.4rem 0.8rem;
   border-radius: 9999px;
@@ -135,7 +149,8 @@ header {
   color: #333;
   min-width: 240px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  padding-left: 2.2em; /* Ikonėlei kairėje */
+  padding-left: 2.1em;
+  padding-right: 2em;
 }
 .search-results {
   position: absolute;
@@ -267,7 +282,6 @@ header {
   cursor: pointer;
   color: #fff;
 }
-/* Pagrindinė drawer ir overlay logika - tik desktop display none */
 .nav-mobile {
   display: none;
 }
@@ -275,6 +289,7 @@ header {
   display: none;
 }
 
+/* -------- MOBILE DRAWER & OVERLAY ŽEMIAU HEADERIO -------- */
 @media (max-width: 768px) {
   .nav-desktop {
     display: none;
@@ -290,37 +305,35 @@ header {
   .menu-toggle {
     display: block;
   }
-
-  /* --- Drawer overlay --- */
+  /* Tikslus tavo HEADER aukštis (pvz., 88px – pasitvirtink per inspect) */
   .mobile-nav-overlay {
     display: block;
-    content: '';
     position: fixed;
-    top: 0;
+    top: 88px; /* <<< HEADER HEIGHT! */
     left: 0;
     right: 0;
-    bottom: 0;
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 88px); /* <<< HEADER HEIGHT! */
     background: rgba(20, 28, 42, 0.55);
     backdrop-filter: blur(2px);
+    background: transparent !important;
+    backdrop-filter: none !important;
     z-index: 99;
     transition: opacity 0.2s;
     opacity: 1;
     pointer-events: auto;
     animation: fadeIn 0.25s;
   }
-  /* --- Drawer --- */
   .nav-mobile {
     display: flex !important;
     position: fixed !important;
-    left: 0;
-    top: 0;
-    height: 50vh;
-    width: 95vw;
+    top: 113px; /* <<< HEADER HEIGHT! */
+    height: calc(70vh - 64px);
+    width: 92vw;
     max-width: 370px;
-    background: rgba(30, 42, 56, 0.98);
-    backdrop-filter: blur(10px);
+    left: 10px;
+    background: #1e2a38 !important;
+    backdrop-filter: none !important;
     box-shadow: 4px 0 20px 0 rgba(20, 28, 42, 0.09);
     border-radius: 0 16px 16px 0;
     padding: 38px 24px 28px 24px;
@@ -328,43 +341,54 @@ header {
     overflow-y: auto;
     animation: slideInLeft 0.22s cubic-bezier(0.64, 1.36, 0.59, 0.99);
     flex-direction: column;
-    gap: 16px;
+    gap: 12px; /* Vienodi ir didesni vertikalūs tarpai tarp meniu punktų */
   }
 
-  @media (max-width: 768px) {
-    .nav-mobile .nav-dropdown {
-      position: relative;
-    }
-    .nav-mobile .dropdown-menu {
-      position: absolute !important;
-      left: 40%; /* arba 92% – pataisyk, jei reikia arčiau/toliau */
-      top: 0;
-      min-width: 180px;
-      background: rgba(44, 62, 80, 0.99);
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(44, 62, 80, 0.09);
-      padding: 8px 0 8px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      z-index: 9999;
-    }
-    .nav-mobile .dropdown-menu .dropdown-item {
-      padding: 0.6rem 1rem;
-      color: #fff;
-      background: none;
-      border-radius: 7px;
-    }
+  /* --- Drawer dropdown (krenta šalia, neuždengia žemiau esančių) --- */
+  .nav-mobile .nav-dropdown {
+    position: relative;
   }
-
+  .nav-mobile .dropdown-menu {
+    position: absolute !important;
+    left: calc(100% + 8px); /* Šalia, truputį atitrauktas */
+    top: 0;
+    min-width: 200px;
+    background: rgba(44, 62, 80, 0.99);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(44, 62, 80, 0.09);
+    padding: 8px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 9999;
+  }
+  .nav-mobile .dropdown-menu .dropdown-item {
+    padding: 13px 0 13px 16px; /* 16px į kairę */
+    color: #fff;
+    background: none;
+    border-radius: 7px;
+    width: 150px;
+    text-align: left;
+    display: block;
+    white-space: normal; /* kad tekstas laužytųsi į kelias eilutes */
+  }
+  .nav-mobile .search-container .search-icon {
+    margin-left: 18px !important; /* arba kiek reikia, kad ikona sulygiuotųsi su input pradžia */
+    padding-bottom: 13px;
+  }
   .nav-mobile .nav-link,
   .nav-mobile .dropdown-item {
     font-size: 1.13rem;
-    padding: 13px 0 13px 0;
+    padding: 8px 0 8px 0;
     font-weight: 500;
     color: #fff;
     border: none;
+    padding: 13px 0;
     border-radius: 8px;
+    padding-left: 16px; /* toliau kairėje */
+    margin-bottom: 12px;
+    min-width: 150px; /* Vienodas ilgis mygtukams */
+    display: inline-block;
     transition: background 0.15s;
   }
   .nav-mobile .nav-link.active,
@@ -383,7 +407,12 @@ header {
     margin-left: 8px;
     box-shadow: none;
     padding: 0 0 0 13px;
-    gap: 6px;
+    left: calc(45% + 2px); /* pritrauktas dropdown */
+    min-width: 100px;
+  }
+  .search-box {
+    margin-left: 30px; /* Paieška atitraukta nuo kairės */
+    margin-bottom: 2px;
   }
 }
 

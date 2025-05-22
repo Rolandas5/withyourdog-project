@@ -159,7 +159,25 @@ export default function Navbar() {
           }}
           autoFocus
         />
+        {/* Išvalymo X mygtukas */}
+        {searchTerm && (
+          <button
+            className="search-clear-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSearchTerm('');
+              setActiveIndex(-1);
+              inputRef.current?.focus();
+            }}
+            aria-label="Išvalyti paiešką"
+            type="button"
+            tabIndex={0}
+          >
+            &#10005;
+          </button>
+        )}
       </div>
+      {/* Rezultatų sąrašas žemiau */}
       {searchTerm && (
         <div className="search-results">
           {filteredResults.length > 0 ? (
@@ -247,50 +265,53 @@ export default function Navbar() {
               aria-label="Uždaryti meniu"
               tabIndex={-1}
             />
-            <nav
-              className="nav-mobile"
-              role="navigation"
-              aria-label="Mobilus meniu"
-            >
-              {/* Paieškos blokas */}
-              <div className="search-container center" ref={searchRef}>
-                {showSearch ? (
-                  renderSearchBox()
+            <nav className="nav-mobile">
+              <div
+                className="drawer-inner"
+                role="navigation"
+                aria-label="Mobilus meniu"
+              >
+                {/* Paieškos blokas */}
+                <div className="search-container center" ref={searchRef}>
+                  {showSearch ? (
+                    renderSearchBox()
+                  ) : (
+                    <SearchIcon
+                      className="search-icon"
+                      onClick={() => setShowSearch(true)}
+                    />
+                  )}
+                </div>
+
+                {/* Navigacijos sekcijos */}
+                {sections.map((section) => (
+                  <div
+                    key={section.key}
+                    className="nav-dropdown"
+                    onMouseEnter={() => handleDropdownEnter(section.key)}
+                    onMouseLeave={handleDropdownLeave}
+                  >
+                    <span className="nav-link">{section.label}</span>
+                    {openDropdown === section.key &&
+                      renderDropdown(section.key)}
+                  </div>
+                ))}
+
+                {/* Autentifikacijos mygtukai */}
+                {isAuthenticated ? (
+                  <button onClick={logout} className="nav-link logout-button">
+                    Atsijungti
+                  </button>
                 ) : (
-                  <SearchIcon
-                    className="search-icon"
-                    onClick={() => setShowSearch(true)}
-                  />
+                  <Link
+                    to="/login"
+                    className="nav-link"
+                    onClick={closeMobileMenuAndSearch}
+                  >
+                    Prisijungti
+                  </Link>
                 )}
               </div>
-
-              {/* Navigacijos sekcijos */}
-              {sections.map((section) => (
-                <div
-                  key={section.key}
-                  className="nav-dropdown"
-                  onMouseEnter={() => handleDropdownEnter(section.key)}
-                  onMouseLeave={handleDropdownLeave}
-                >
-                  <span className="nav-link">{section.label}</span>
-                  {openDropdown === section.key && renderDropdown(section.key)}
-                </div>
-              ))}
-
-              {/* Autentifikacijos mygtukai */}
-              {isAuthenticated ? (
-                <button onClick={logout} className="nav-link logout-button">
-                  Atsijungti
-                </button>
-              ) : (
-                <Link
-                  to="/login"
-                  className="nav-link"
-                  onClick={closeMobileMenuAndSearch}
-                >
-                  Prisijungti
-                </Link>
-              )}
             </nav>
           </>
         )}
