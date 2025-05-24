@@ -14,35 +14,15 @@ export default function Navbar() {
   const inputRef = useRef<HTMLInputElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
   const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-
+  const lastLinkRef = useRef<HTMLSpanElement | null>(null);
+  const lastDropdownRef = useRef<HTMLDivElement | null>(null);
   const { isAuthenticated, logout } = useContext(AuthContext);
 
-  // Universalus uždarymas
-  const closeMobileMenuAndSearch = () => {
-    setShowSearch(false);
-    setMobileOpen(false);
-    setSearchTerm('');
-    setActiveIndex(-1);
-  };
-
-  const toggleMenu = () => {
-    setMobileOpen((open) => !open);
-    setOpenDropdown(null);
-    setShowSearch(false);
-  };
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setShowSearch(false);
-        setSearchTerm('');
-        setActiveIndex(-1);
-        setMobileOpen(false);
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  const sections = [
+    { key: 'places', label: 'Vietos' },
+    { key: 'services', label: 'Paslaugos' },
+    { key: 'experiences', label: 'Kelionių patirtys' },
+  ];
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -59,58 +39,30 @@ export default function Navbar() {
     }
   }, [showSearch]);
 
-  const exampleResults = [
-    'Šunų kirpyklos Vilniuje',
-    'Dresuotojai Kaune',
-    'Parkai su leidimu šunims',
-    'Kelionės su augintiniu',
-    'Šunų viešbučiai',
-  ];
+  useEffect(() => {
+    if (window.innerWidth > 768 && openDropdown === 'experiences') {
+      const link = lastLinkRef.current;
+      const dropdown = lastDropdownRef.current;
+      if (link && dropdown) {
+        const linkRect = link.getBoundingClientRect();
+        const dropdownRect = dropdown.getBoundingClientRect();
+        const overflowRight =
+          linkRect.left + dropdownRect.width > window.innerWidth;
 
-  const filteredResults = exampleResults.filter((item) =>
-    item.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const renderDropdown = (section: string) => {
-    let items: { to: string; label: string }[] = [];
-
-    if (section === 'places') {
-      items = [
-        { to: '/places', label: 'Visos vietos' },
-        { to: '/places/hotels', label: 'Viešbučiai, sodybos, kempingai' },
-        { to: '/places/beaches', label: 'Paplūdimiai' },
-        { to: '/places/parks', label: 'Parkai ir kitos lauko vietos' },
-      ];
-    } else if (section === 'services') {
-      items = [
-        { to: '/services', label: 'Visos paslaugos' },
-        { to: '/services/grooming', label: 'Šunų kirpyklos' },
-        { to: '/services/hotels', label: 'Šunų viešbučiai' },
-        { to: '/services/insurance', label: 'Draudimas' },
-        { to: '/services/training', label: 'Dresuotojai' },
-      ];
-    } else if (section === 'experiences') {
-      items = [
-        { to: '/experiences', label: 'Visi kelionių įrašai' },
-        { to: '/experiences/1', label: 'Vienos kelionės puslapis' },
-      ];
+        if (overflowRight) {
+          dropdown.style.left = 'auto';
+          dropdown.style.right = '0';
+          dropdown.style.transform = 'none';
+          dropdown.style.marginLeft = '0';
+        } else {
+          dropdown.style.left = '';
+          dropdown.style.right = '';
+          dropdown.style.transform = '';
+          dropdown.style.marginLeft = '';
+        }
+      }
     }
-
-    return (
-      <div className="dropdown-menu">
-        {items.map((item, i) => (
-          <Link
-            key={i}
-            to={item.to}
-            className="dropdown-item"
-            onClick={closeMobileMenuAndSearch}
-          >
-            {item.label}
-          </Link>
-        ))}
-      </div>
-    );
-  };
+  }, [openDropdown]);
 
   const handleDropdownEnter = (section: string) => {
     if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
@@ -123,13 +75,31 @@ export default function Navbar() {
     }, 200);
   };
 
-  const sections = [
-    { key: 'places', label: 'Vietos' },
-    { key: 'services', label: 'Paslaugos' },
-    { key: 'experiences', label: 'Kelionių patirtys' },
+  const closeMobileMenuAndSearch = () => {
+    setShowSearch(false);
+    setMobileOpen(false);
+    setSearchTerm('');
+    setActiveIndex(-1);
+  };
+
+  const toggleMenu = () => {
+    setMobileOpen((open) => !open);
+    setOpenDropdown(null);
+    setShowSearch(false);
+  };
+
+  const exampleResults = [
+    'Šunų kirpyklos Vilniuje',
+    'Dresuotojai Kaune',
+    'Parkai su leidimu šunims',
+    'Kelionės su augintiniu',
+    'Šunų viešbučiai',
   ];
 
-  // Paieškos inputas su ikonėle
+  const filteredResults = exampleResults.filter((item) =>
+    item.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const renderSearchBox = () => (
     <div className="search-box">
       <div className="search-input-wrapper">
@@ -159,7 +129,6 @@ export default function Navbar() {
           }}
           autoFocus
         />
-        {/* Išvalymo X mygtukas */}
         {searchTerm && (
           <button
             className="search-clear-btn"
@@ -177,7 +146,6 @@ export default function Navbar() {
           </button>
         )}
       </div>
-      {/* Rezultatų sąrašas žemiau */}
       {searchTerm && (
         <div className="search-results">
           {filteredResults.length > 0 ? (
@@ -203,15 +171,58 @@ export default function Navbar() {
     </div>
   );
 
+  const renderDropdown = (
+    section: string,
+    ref?: React.RefObject<HTMLDivElement>
+  ) => {
+    let items: { to: string; label: string }[] = [];
+
+    if (section === 'places') {
+      items = [
+        { to: '/places', label: 'Visos vietos' },
+        { to: '/places/hotels', label: 'Viešbučiai, sodybos, kempingai' },
+        { to: '/places/beaches', label: 'Paplūdimiai' },
+        { to: '/places/parks', label: 'Parkai ir kitos lauko vietos' },
+      ];
+    } else if (section === 'services') {
+      items = [
+        { to: '/services', label: 'Visos paslaugos' },
+        { to: '/services/grooming', label: 'Šunų kirpyklos' },
+        { to: '/services/hotels', label: 'Šunų viešbučiai' },
+        { to: '/services/insurance', label: 'Draudimas' },
+        { to: '/services/training', label: 'Dresuotojai' },
+      ];
+    } else if (section === 'experiences') {
+      items = [
+        { to: '/experiences', label: 'Visi kelionių įrašai' },
+        { to: '/experiences/1', label: 'Vienos kelionės puslapis' },
+      ];
+    }
+
+    return (
+      <div className="dropdown-menu" ref={ref}>
+        {items.map((item, i) => (
+          <Link
+            key={i}
+            to={item.to}
+            className="dropdown-item"
+            onClick={closeMobileMenuAndSearch}
+          >
+            {item.label}
+          </Link>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <header>
       <div className="container">
         <Link to="/" className="logo-wrapper">
           <img src={logo} alt="Logo" className="logo" />
-          <span className="logo-text">WithYourDog</span>
         </Link>
+        <span className="logo-text">WithYourDog</span>
 
-        {/* --- DESKTOP NAV --- */}
         <nav className="nav-desktop">
           <div className="search-container" ref={searchRef}>
             {showSearch ? (
@@ -241,22 +252,32 @@ export default function Navbar() {
             </Link>
           )}
 
-          {sections.map((section) => (
-            <div
-              key={section.key}
-              className={`nav-dropdown ${
-                openDropdown === section.key ? 'hover-open' : ''
-              }`}
-              onMouseEnter={() => handleDropdownEnter(section.key)}
-              onMouseLeave={handleDropdownLeave}
-            >
-              <span className="nav-link">{section.label}</span>
-              {openDropdown === section.key && renderDropdown(section.key)}
-            </div>
-          ))}
+          {sections.map((section, idx) => {
+            const isLast = idx === sections.length - 1;
+            return (
+              <div
+                key={section.key}
+                className={`nav-dropdown ${isLast ? 'last-dropdown' : ''} ${
+                  openDropdown === section.key ? 'hover-open' : ''
+                }`}
+                onMouseEnter={() => handleDropdownEnter(section.key)}
+                onMouseLeave={handleDropdownLeave}
+              >
+                <span className="nav-link" ref={isLast ? lastLinkRef : null}>
+                  {section.label}
+                </span>
+                {openDropdown === section.key &&
+                  renderDropdown(
+                    section.key,
+                    isLast
+                      ? (lastDropdownRef as React.RefObject<HTMLDivElement>)
+                      : undefined
+                  )}
+              </div>
+            );
+          })}
         </nav>
 
-        {/* --- MOBILE NAV --- */}
         {mobileOpen && (
           <>
             <div
@@ -271,7 +292,6 @@ export default function Navbar() {
                 role="navigation"
                 aria-label="Mobilus meniu"
               >
-                {/* Paieškos blokas */}
                 <div className="search-container center" ref={searchRef}>
                   {showSearch ? (
                     renderSearchBox()
@@ -283,7 +303,6 @@ export default function Navbar() {
                   )}
                 </div>
 
-                {/* Navigacijos sekcijos */}
                 {sections.map((section) => (
                   <div
                     key={section.key}
@@ -297,7 +316,6 @@ export default function Navbar() {
                   </div>
                 ))}
 
-                {/* Autentifikacijos mygtukai */}
                 {isAuthenticated ? (
                   <button onClick={logout} className="nav-link logout-button">
                     Atsijungti

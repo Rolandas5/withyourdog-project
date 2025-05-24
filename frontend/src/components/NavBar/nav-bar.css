@@ -61,15 +61,18 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 1rem;
+  height: 80px;
 }
 /* === LOGO === */
 .logo-wrapper {
   display: flex;
   align-items: center;
-  text-decoration: none;
-  color: #fff;
+  height: 80px;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 .logo {
   height: 80px;
@@ -81,10 +84,27 @@ header {
     glowLogoMulti 4s infinite ease-in-out;
   box-shadow: 0 0 0 rgba(255, 255, 255, 0.4);
 }
+
+.logo {
+  display: block;
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+  margin-right: 12px;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+
 .logo-text {
   font-size: 1.5rem;
   font-weight: 700;
   color: #fff;
+  line-height: 1;
+}
+.nav-desktop {
+  display: flex;
+  align-items: center;
+  height: 80px; /* toks pats kaip .logo */
 }
 
 /* === SEARCH === */
@@ -238,7 +258,7 @@ header {
 }
 .nav-dropdown:hover .dropdown-menu,
 .nav-dropdown.hover-open .dropdown-menu {
-  display: flex !important;
+  display: flex;
   opacity: 1;
   visibility: visible;
   transition: opacity 0.2s ease, transform 0.2s ease;
@@ -291,15 +311,102 @@ header {
 
 /* -------- MOBILE DRAWER & OVERLAY ŽEMIAU HEADERIO -------- */
 @media (max-width: 768px) {
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* width: 100vw !important; */
+    width: 100%;
+    height: 88px;
+    min-height: 88px;
+    max-height: 88px;
+    padding: 0;
+    box-sizing: border-box;
+    z-index: 200;
+    background: #007bff;
+    border-radius: 0 0 18px 18px; /* Abu apačios kampai apvalūs */
+    /* Balta juostelė iš apačios ir abiejų šonų */
+    overflow: hidden;
+    box-shadow: 0 6px 0 0 #fff, 0 2px 8px 0 rgba(0, 0, 0, 0.09);
+  }
+  .container {
+    width: 100vw; /* arba 100% jei taip reikia */
+    min-width: 0;
+    max-width: 100vw; /* kad niekur neišeitų už ekrano */
+    margin: 0;
+    padding: 0 8px; /* arba mažiau, jei trūksta vietos */
+    display: flex;
+    flex-wrap: nowrap; /* wrap galima nuimti jei elementų nedaug */
+    align-items: center;
+    justify-content: space-between;
+    height: 88px; /* arba pagal header aukštį */
+    box-sizing: border-box;
+    gap: 0; /* pagal poreikį */
+    padding-left: 10px; /* kad tekstas pasislinktų į kairę */
+    padding-right: 10px; /* kad tekstas pasislinktų į kairę */
+  }
+  body {
+    padding-top: 88px;
+    background: #fff;
+  }
+  /* LOGO */
+  .logo-wrapper {
+    margin-right: 0.5rem;
+    position: relative;
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+    height: 60px;
+  }
+  .logo {
+    margin-left: 30px;
+    height: 60px;
+    width: 60px;
+    z-index: 2;
+  }
+  .logo-text {
+    position: absolute;
+    left: 0;
+    width: 100vw; /* tekstas per visą plotį, palikti arba – siaurint */
+    text-align: center;
+    margin: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* MENU ICON */
+  .menu-toggle {
+    margin-right: 30px; /* Meniu atitraukia nuo dešinės pusės */
+    display: block;
+    height: 48px; /* Arba pagal tavo ikoną, kad spaudžiant būtų patogu */
+    width: 48px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2.3rem;
+    align-self: center; /* Svarbu: centruoja flex konteineryje! */
+    z-index: 3;
+    cursor: pointer;
+    padding: 0;
+  }
   .nav-desktop {
     display: none;
   }
   .search-icon {
-    margin-left: 0 !important;
+    margin-left: 0;
     align-self: flex-start;
   }
   .search-container {
+    width: 220px;
+    min-width: 220px;
+    max-width: 220px;
     display: flex;
+    align-items: center;
     justify-content: flex-start;
   }
   .menu-toggle {
@@ -318,22 +425,22 @@ header {
     backdrop-filter: blur(2px);
     background: transparent !important;
     backdrop-filter: none !important;
-    z-index: 99;
+    z-index: 90 !important;
     transition: opacity 0.2s;
     opacity: 1;
     pointer-events: auto;
     animation: fadeIn 0.25s;
   }
   .nav-mobile {
-    display: flex !important;
-    position: fixed !important;
+    display: flex;
+    position: fixed;
     top: 113px; /* <<< HEADER HEIGHT! */
     height: calc(70vh - 64px);
     width: 92vw;
     max-width: 370px;
     left: 10px;
-    background: #1e2a38 !important;
-    backdrop-filter: none !important;
+    background: #1e2a38;
+    backdrop-filter: none;
     box-shadow: 4px 0 20px 0 rgba(20, 28, 42, 0.09);
     border-radius: 0 16px 16px 0;
     padding: 38px 24px 28px 24px;
@@ -349,9 +456,11 @@ header {
     position: relative;
   }
   .nav-mobile .dropdown-menu {
-    position: absolute !important;
+    position: absolute;
     left: calc(100% + 8px); /* Šalia, truputį atitrauktas */
     top: 0;
+    right: 0; /* DROPDOWN PRIRIŠTAS PRIE DEŠINIO KRAŠTO */
+    left: auto;
     min-width: 200px;
     background: rgba(44, 62, 80, 0.99);
     border-radius: 12px;
@@ -360,7 +469,7 @@ header {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    z-index: 9999;
+    max-width: 70vw;
   }
   .nav-mobile .dropdown-menu .dropdown-item {
     padding: 13px 0 13px 16px; /* 16px į kairę */
@@ -373,7 +482,7 @@ header {
     white-space: normal; /* kad tekstas laužytųsi į kelias eilutes */
   }
   .nav-mobile .search-container .search-icon {
-    margin-left: 18px !important; /* arba kiek reikia, kad ikona sulygiuotųsi su input pradžia */
+    margin-left: 18px; /* arba kiek reikia, kad ikona sulygiuotųsi su input pradžia */
     padding-bottom: 13px;
   }
   .nav-mobile .nav-link,
@@ -402,18 +511,30 @@ header {
     color: #63b3ed;
   }
   .nav-mobile .dropdown-menu {
+    position: relative;
+    align-self: flex-start;
+    position: absolute;
     background: none;
     border-left: 2px solid #63b3ed;
     margin-left: 8px;
     box-shadow: none;
     padding: 0 0 0 13px;
-    left: calc(45% + 2px); /* pritrauktas dropdown */
+    left: calc(45% + 2px); /* veikia visiems IŠSKYRUS paskutinį */
+    top: 0;
     min-width: 100px;
   }
-  .search-box {
-    margin-left: 30px; /* Paieška atitraukta nuo kairės */
-    margin-bottom: 2px;
+  .nav-dropdown.last-dropdown .dropdown-menu {
+    margin: 0;
+    transform: none;
+    left: auto;
+    right: 0;
+    top: 100%;
+    box-shadow: none;
   }
+}
+.search-box {
+  margin-left: 30px; /* Paieška atitraukta nuo kairės */
+  margin-bottom: 2px;
 }
 
 /* --- CTA btn jei reikia --- */
