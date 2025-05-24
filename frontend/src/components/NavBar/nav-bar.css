@@ -434,11 +434,11 @@ header {
   .nav-mobile {
     display: flex;
     position: fixed;
-    top: 113px; /* <<< HEADER HEIGHT! */
-    height: calc(70vh - 64px);
+    top: 95px; /* Meniu kėlimas į viršų */
+    height: calc(75vh - 64px);
     width: 92vw;
     max-width: 370px;
-    left: 10px;
+    left: 8px;
     background: #1e2a38;
     backdrop-filter: none;
     box-shadow: 4px 0 20px 0 rgba(20, 28, 42, 0.09);
@@ -450,7 +450,6 @@ header {
     flex-direction: column;
     gap: 12px; /* Vienodi ir didesni vertikalūs tarpai tarp meniu punktų */
   }
-
   /* --- Drawer dropdown (krenta šalia, neuždengia žemiau esančių) --- */
   .nav-mobile .nav-dropdown {
     position: relative;
@@ -481,9 +480,57 @@ header {
     display: block;
     white-space: normal; /* kad tekstas laužytųsi į kelias eilutes */
   }
-  .nav-mobile .search-container .search-icon {
-    margin-left: 18px; /* arba kiek reikia, kad ikona sulygiuotųsi su input pradžia */
-    padding-bottom: 13px;
+  /* Apgaubiantis blokas, kad nelemtų aukščio kitų elementų */
+  .mobile-search-wrapper {
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+
+  /* Išdėstymas ir aukštis nekinta */
+  .search-container {
+    width: 100%;
+    position: relative;
+    height: 48px;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-input {
+    margin-left: -6px;
+    width: 60%;
+    padding: 10px 36px;
+    height: 100%;
+    border-radius: 9999px;
+    border: none;
+    font-size: 1rem;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    color: #3182ce;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .search-input-icon {
+    left: 2px;
+  }
+
+  .search-clear-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #bbb;
+    cursor: pointer;
   }
   .nav-mobile .nav-link,
   .nav-mobile .dropdown-item {
@@ -509,6 +556,18 @@ header {
   .nav-mobile .dropdown-item:hover {
     background-color: rgba(99, 179, 237, 0.21);
     color: #63b3ed;
+  }
+  .nav-mobile .nav-link[href='/login'] {
+    display: block;
+    max-width: 90%; /* Jei reikia apriboti pločio išsiplėtimą */
+    text-align: left;
+    padding: 13px 16px;
+    font-size: 1.13rem;
+    font-weight: 500;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    min-width: 150px;
+    transition: background 0.15s;
   }
   .nav-mobile .dropdown-menu {
     position: relative;
@@ -553,4 +612,30 @@ header {
 }
 .nav-mobile .cta-btn:hover {
   background: linear-gradient(90deg, #ffe1b0 0%, #ffb400 100%);
+}
+@media (min-width: 769px) {
+  header {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    height: 80px;
+    z-index: 200;
+    background-color: #007bff;
+    border-radius: 16px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+
+  body {
+    padding-top: 112px; /* kad turinys nenuliptų po headeriu */
+    background-color: #f8f9fa; /* šviesiai pilka */
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
 }

@@ -292,15 +292,17 @@ export default function Navbar() {
                 role="navigation"
                 aria-label="Mobilus meniu"
               >
-                <div className="search-container center" ref={searchRef}>
-                  {showSearch ? (
-                    renderSearchBox()
-                  ) : (
-                    <SearchIcon
-                      className="search-icon"
-                      onClick={() => setShowSearch(true)}
-                    />
-                  )}
+                <div className="mobile-search-wrapper">
+                  <div className="search-container" ref={searchRef}>
+                    {showSearch ? (
+                      renderSearchBox()
+                    ) : (
+                      <SearchIcon
+                        className="search-icon"
+                        onClick={() => setShowSearch(true)}
+                      />
+                    )}
+                  </div>
                 </div>
 
                 {sections.map((section) => (
