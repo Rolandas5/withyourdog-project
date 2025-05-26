@@ -1,47 +1,43 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
 import Navbar from './components/NavBar/Navbar';
 import Home from './pages/HomePage/HomePage';
-import Login from './pages/auth/LoginRegisterModal/LoginRegisterModal';
+import LoginRegisterModal from './pages/auth/LoginRegisterModal/LoginRegisterModal';
 import Places from './pages/explore/places/Places';
 import Services from './pages/explore/services/Services';
 import NotFound from './pages/NotFound';
-import HomePage from './pages/HomePage/HomePage';
 import { AuthProvider } from './context/AuthContext';
 import { Dashboard } from './components/Dashboard/Dashboard';
 
 function AppContent() {
-  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [modalMode, setModalMode] = useState<'login' | 'register'>('login');
 
-  const handleCloseModal = () => {
-    navigate('/'); // arba navigate(-1) jei nori grįžti atgal
+  const openModal = (mode: 'login' | 'register') => {
+    setModalMode(mode);
+    setShowModal(true);
   };
+
+  const closeModal = () => setShowModal(false);
 
   return (
     <AuthProvider>
-      <Navbar />
+      <Navbar
+        onLoginClick={() => openModal('login')}
+        onRegisterClick={() => openModal('register')}
+      />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
-            path="/login"
-            element={<Login mode="login" onClose={handleCloseModal} />}
-          />
-          <Route
-            path="/register"
-            element={<Login mode="register" onClose={handleCloseModal} />}
-          />
           <Route path="/places" element={<Places />} />
           <Route path="/services" element={<Services />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      <HomePage />
+      {showModal && (
+        <LoginRegisterModal mode={modalMode} onClose={closeModal} />
+      )}
     </AuthProvider>
   );
 }

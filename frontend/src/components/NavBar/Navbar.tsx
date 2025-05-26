@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Search as SearchIcon } from 'lucide-react';
-import logo from '../../assets/logo.png';
-import './nav-bar.css';
 import { AuthContext } from '../../context/AuthContext';
 
-export default function Navbar() {
+interface NavbarProps {
+  onLoginClick: () => void;
+  onRegisterClick: () => void;
+}
+
+export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [showSearch, setShowSearch] = useState(false);
@@ -219,7 +222,7 @@ export default function Navbar() {
     <header>
       <div className="container">
         <Link to="/" className="logo-wrapper">
-          <img src={logo} alt="Logo" className="logo" />
+          <img src="/assets/logo.png" alt="Logo" className="logo" />
         </Link>
         <span className="logo-text">WithYourDog</span>
 
@@ -247,9 +250,9 @@ export default function Navbar() {
               Atsijungti
             </button>
           ) : (
-            <Link to="/login" className="nav-link">
+            <button onClick={onLoginClick} className="nav-link">
               Prisijungti
-            </Link>
+            </button>
           )}
 
           {sections.map((section, idx) => {
@@ -323,13 +326,15 @@ export default function Navbar() {
                     Atsijungti
                   </button>
                 ) : (
-                  <Link
-                    to="/login"
+                  <button
                     className="nav-link"
-                    onClick={closeMobileMenuAndSearch}
+                    onClick={() => {
+                      closeMobileMenuAndSearch();
+                      onLoginClick();
+                    }}
                   >
                     Prisijungti
-                  </Link>
+                  </button>
                 )}
               </div>
             </nav>

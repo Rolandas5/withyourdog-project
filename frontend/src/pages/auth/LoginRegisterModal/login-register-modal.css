@@ -4,17 +4,17 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: transparent;
+  background: transparent !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 99999;
+  pointer-events: auto;
 }
 
 .modal-card {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border-radius: 20px;
   padding: 40px 30px;
   max-width: 400px;
@@ -25,6 +25,7 @@
   animation: fadeIn 0.4s ease-in-out;
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: box-shadow 0.3s ease;
+  z-index: 100000;
 }
 
 .modal-card:focus-within {

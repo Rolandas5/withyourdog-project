@@ -1,0 +1,216 @@
+.light-footer {
+  background-color: #eef2f5;
+  padding: 40px 20px 20px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+}
+
+.light-footer .footer-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+
+.light-footer .footer-column {
+  min-width: 220px;
+  padding-left: 80px;
+}
+
+.light-footer .footer-column h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #222;
+}
+
+.light-footer .footer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.light-footer .footer-list li {
+  margin-bottom: 10px;
+}
+
+.light-footer .social-icons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #fff;
+  color: #5f6f81;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.light-footer .social-icons a:hover {
+  transform: scale(1.1);
+}
+
+.light-footer .social-icons a[aria-label='Facebook']:hover {
+  background-color: #3b5998;
+  color: white;
+}
+
+.light-footer .social-icons a[aria-label='X']:hover {
+  background-color: #000;
+  color: white;
+}
+
+.light-footer .social-icons a[aria-label='Instagram']:hover {
+  background-color: #e1306c;
+  color: white;
+}
+
+.light-footer .social-icons a[aria-label='LinkedIn']:hover {
+  background-color: #0077b5;
+  color: white;
+}
+
+.light-footer .footer-list a:hover {
+  color: #007bff;
+}
+
+.light-footer .social-icons {
+  display: flex;
+  gap: 10px;
+  font-size: 18px;
+  margin-top: 8px;
+  justify-content: flex-start;
+}
+
+.light-footer .social-icons svg:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+.light-footer .bitynelis-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: #222;
+  text-decoration: none;
+  font-family: 'Segoe UI', sans-serif;
+  line-height: 1;
+}
+
+.light-footer .bitynelis-link span {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  transform: translateY(-3px) /* paklėlimas į viršų */ translateX(0px)
+    /* atitraukiams į dešinę */;
+}
+
+.light-footer .bitynelis-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  object-fit: contain;
+  background-color: white;
+  padding: 2px;
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+}
+
+.light-footer .footer-bottom-light {
+  text-align: center;
+  font-size: 13px;
+  border-top: 1px solid #cdd5dd;
+  padding-top: 20px;
+  color: #777;
+  margin-top: 30px;
+}
+
+.light-footer .footer-bottom-light a {
+  color: #007bff;
+  text-decoration: none !important;
+  margin-left: 8px;
+}
+/* universalus nuorodų stilius footerio ribose */
+.light-footer a,
+.light-footer a:visited,
+.light-footer a:hover,
+.light-footer a:active {
+  text-decoration: none;
+  border: none;
+  box-shadow: none;
+  background: none;
+  outline: none;
+}
+
+/* apačioje esančio email'o stilius */
+.light-footer .footer-bottom-light a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+/* stulpeliu */
+
+/* @media (max-width: 768px) {
+  .light-footer .footer-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .light-footer .footer-column {
+    width: 100%;
+  }
+
+  .light-footer .footer-list,
+  .light-footer .social-icons,
+  .light-footer .bitynelis-link {
+    justify-content: flex-start;
+  }
+} */
+
+@media (max-width: 768px) {
+  .light-footer .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      'col1 col2'
+      'col3 col3';
+    gap: 32px;
+    text-align: left;
+  }
+
+  .light-footer .footer-column:nth-child(1) {
+    grid-area: col1;
+    padding-left: 0px;
+  }
+
+  .light-footer .footer-column:nth-child(2) {
+    grid-area: col2;
+    padding-left: 0px;
+  }
+
+  .light-footer .footer-column:nth-child(3) {
+    grid-area: col3;
+    justify-self: center;
+    text-align: center;
+    padding-left: 0px;
+  }
+
+  .light-footer .social-icons,
+  .light-footer .bitynelis-link {
+    justify-content: flex-start;
+  }
+
+  .light-footer .footer-column {
+    width: 100%;
+  }
+}

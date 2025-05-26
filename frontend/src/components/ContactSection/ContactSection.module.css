@@ -1,0 +1,125 @@
+.contactSection {
+  background: linear-gradient(180deg, #f7f9fb, #f0f2f6);
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.contactContainer {
+  max-width: 380px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.heading {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #1a1a1a;
+}
+
+.subheading {
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contactInputGroup {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contactInputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.contactInput {
+  width: 80%;
+  padding: 14px 42px 10px 12px;
+  font-size: 16px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  border-radius: 0 0 6px 6px;
+  background-color: transparent;
+  color: #222;
+  transition: border-color 0.3s;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.contactInput:focus {
+  border-bottom: 2px solid #007bff;
+  outline: none;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+  text-align: left;
+}
+
+.contactIconRight {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: #000; /* juoda kai neaktyvi */
+  transition: color 0.3s ease;
+  pointer-events: none;
+}
+
+.contactInputWrapper:has(input:focus) .contactIconRight {
+  color: #007bff;
+}
+
+.error {
+  color: #d93025;
+  font-size: 13px;
+  margin-top: 4px;
+  text-align: left;
+  background: rgba(255, 0, 0, 0.08);
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.success {
+  background: #e6f4ea;
+  color: #2e7d32;
+  font-size: 14px;
+  margin-top: 12px;
+  text-align: center;
+  font-weight: 500;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #cce5cc;
+}
+
+.contactButton {
+  background: linear-gradient(to right, #007bff, #339af0);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.contactButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: #a5c4f5;
+}
+
+.contactButton:hover:not(:disabled) {
+  background: linear-gradient(to right, #0056b3, #228be6);
+}
