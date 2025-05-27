@@ -327,7 +327,7 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
                   </button>
                 ) : (
                   <button
-                    className="nav-link"
+                    className="nav-link login-btn"
                     onClick={() => {
                       closeMobileMenuAndSearch();
                       onLoginClick();
