@@ -50,40 +50,41 @@ export default function Footer() {
           <div className="social-icons">
             <a
               href="https://www.facebook.com/withyourdog"
+              className="icon facebook"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
             >
-              <FaFacebookF style={{ color: '#3b5998' }} />
+              <FaFacebookF />
             </a>
             <a
               href="https://x.com/withyourdog"
+              className="icon twitter"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="X (Twitter)"
             >
-              <svg
-                style={{ width: '18px', height: '18px', fill: '#000' }}
-                viewBox="0 0 24 24"
-              >
+              <svg className="x-icon" viewBox="0 0 24 24">
                 <path d="M20.45 3H17.3L12.9 9.45 8.6 3H3L10.2 13.1 3.3 21H6.5L11.3 15.1 16 21H21L13.5 11.2 20.45 3Z" />
               </svg>
             </a>
             <a
               href="https://www.instagram.com/withyourdog"
+              className="icon instagram"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
             >
-              <FaInstagram style={{ color: '#e1306c' }} />
+              <FaInstagram />
             </a>
             <a
               href="https://www.linkedin.com/company/withyourdog"
+              className="icon linkedin"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
             >
-              <FaLinkedinIn style={{ color: '#0077b5' }} />
+              <FaLinkedinIn />
             </a>
           </div>
         </div>

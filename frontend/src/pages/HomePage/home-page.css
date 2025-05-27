@@ -1,20 +1,24 @@
 .hero {
+  min-height: calc(100vh - 88px); /* Header aukštis */
   background-size: cover;
   background-position: center;
-  min-height: 100vh;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  margin: 0;
+  padding: 0;
 }
 
 .hero-overlay {
-  background: transparent;
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-left: 8%;
 }
 
 .hero-content {
@@ -24,13 +28,26 @@
   animation: fadeSlideIn 1.5s ease-out forwards;
   opacity: 0;
   transform: translateY(30px);
+  /* Gali pridėti šešėlį, jei baltas tekstas nesimato ant šviesaus fono: */
+  text-shadow: 0 3px 24px rgba(0, 0, 0, 0.5), 0 1px 0 #555;
 }
 
-@keyframes fadeSlideIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.hero-title {
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.13;
+  margin-bottom: 12px;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 1px 2px #007bff80;
+  letter-spacing: -2px;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  color: #f7f7f7;
+  margin-bottom: 36px;
+  font-weight: 500;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
 .hero-button {
@@ -41,14 +58,44 @@
   border: none;
   border-radius: 50px;
   background: linear-gradient(135deg, #ffb347, #ffcc33);
-  color: #fff;
+  color: #333;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  border: 2px solid #111;
 }
-
 .hero-button:hover {
+  background: linear-gradient(135deg, #ffd65a, #ffc107);
   transform: scale(1.07);
   box-shadow: 0 8px 24px rgba(255, 204, 51, 0.4);
-  background: linear-gradient(135deg, #ffd65a, #ffc107);
+}
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    padding: 36px 8px 0 8px;
+    align-items: center;
+  }
+  .hero-title {
+    font-size: 2.1rem;
+    letter-spacing: -1px;
+    text-align: center;
+  }
+  .hero-subtitle {
+    font-size: 1.01rem;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .hero-button {
+    width: 100%;
+    max-width: 290px;
+    padding: 12px 0;
+    font-size: 1.08rem;
+  }
 }

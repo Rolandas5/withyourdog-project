@@ -11,10 +11,9 @@ export default function HeroSection() {
       >
         <div className="hero-overlay">
           <div className="hero-content">
-            <h1>Kurk nuotykius su savo šunimi</h1>
-            <p>
-              Rask vietas, paslaugas ir patirtis, kurios tinka JUMS ir JŪSŲ
-              šuniui
+            <h1 className="hero-title">Kurk nuotykius</h1>
+            <p className="hero-subtitle">
+              Keliauk ir patirk gyvenimą kartu su savo šunimi
             </p>
             <button className="hero-button">Pradėk čia</button>
           </div>

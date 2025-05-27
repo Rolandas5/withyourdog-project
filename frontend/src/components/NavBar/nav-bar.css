@@ -46,25 +46,63 @@
   }
 }
 
-/* === HEADER === */
 header {
-  background-color: #007bff;
-  padding: 1rem 2rem;
-  position: sticky; /* KEISTI */
+  position: fixed;
   top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  left: 0;
+  right: 0;
+  height: 88px;
+  width: 100%;
+  background-color: #007bff;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
 }
+
+body {
+  margin: 0;
+  padding-top: 88px;
+  background-color: #f8f9fa;
+}
+
 .container {
+  width: 100%;
   max-width: 1400px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: nowrap;
-  gap: 1rem;
-  height: 80px;
+  height: 100%;
+  padding: 0 24px;
+  box-sizing: border-box;
 }
+
+.hero {
+  height: calc(100vh - 88px);
+  background-image: url('/assets/aikutis.png');
+  background-size: cover;
+  background-position: center 22%; /* <<< Reguliuojasi šitą! */
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin: 0;
+  padding-top: 140px; /* <<< Šuns dydis reguliuojasi šitą! */
+  padding-bottom: 140px; /* <<< Šuns dydis reguliuojasi šitą! */
+}
+
+.hero-inner {
+  padding-top: 40px;
+  text-align: center;
+  width: 100%;
+}
+
 /* === LOGO === */
 .logo-wrapper {
   display: flex;
@@ -87,8 +125,8 @@ header {
 
 .logo {
   display: block;
-  height: 80px;
-  width: 80px;
+  height: 70px;
+  width: 70px;
   object-fit: cover;
   margin-right: 12px;
   box-sizing: border-box;
@@ -319,7 +357,7 @@ header {
     position: fixed;
     top: 0;
     left: 0;
-    /* width: 100vw !important; */
+    width: 100vw !important;
     width: 100%;
     height: 88px;
     min-height: 88px;
@@ -333,35 +371,42 @@ header {
     overflow: hidden;
     box-shadow: 0 6px 0 0 #fff, 0 2px 8px 0 rgba(0, 0, 0, 0.09);
   }
+
   .container {
-    width: 100vw; /* arba 100% jei taip reikia */
-    min-width: 0;
-    max-width: 100vw; /* kad niekur neišeitų už ekrano */
+    width: 100%;
+    max-width: 100vw;
     margin: 0;
-    padding: 0 8px; /* arba mažiau, jei trūksta vietos */
+    padding: 0 10px;
     display: flex;
-    flex-wrap: nowrap; /* wrap galima nuimti jei elementų nedaug */
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
-    height: 88px; /* arba pagal header aukštį */
+    height: 88px;
     box-sizing: border-box;
-    gap: 0; /* pagal poreikį */
-    padding-left: 10px; /* kad tekstas pasislinktų į kairę */
-    padding-right: 10px; /* kad tekstas pasislinktų į kairę */
+    gap: 0;
   }
+
   body {
     padding-top: 88px;
-    background-color: #f8f9fa; /* šviesiai pilka */
   }
   main {
     padding-left: 4px;
     padding-right: 4px;
   }
+
   .hero {
-    border-left: 2px solid white;
-    border-right: 2px solid white;
-    border-radius: 12px;
+    height: calc(100vh - 88px);
+    background-image: url('/assets/aikutis.png'); /* tas pats paveikslas */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    margin-top: 0;
+    padding: 0;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   /* LOGO */
   .logo-wrapper {
@@ -630,20 +675,19 @@ header {
 @media (min-width: 769px) {
   header {
     position: fixed;
-    top: 8px;
-    left: 8px;
-    right: 8px;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
     height: 80px;
-    z-index: 200;
     background-color: #007bff;
-    border-radius: 16px;
+    border-radius: 0;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    transition: all 0.2s ease-in-out;
+    z-index: 9999;
+    transition: none;
   }
-
   body {
-    padding-top: 112px; /* kad turinys nenuliptų po headeriu */
-    background-color: #f8f9fa; /* šviesiai pilka */
+    padding-top: 80px;
   }
 
   .container {
