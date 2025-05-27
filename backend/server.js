@@ -1,4 +1,5 @@
 // Server.js visada yra pagrindinis failas, kuris paleidžia serverį ir nukreipia maršrutus į atitinkamus failus
+const axios = require('axios');
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -30,6 +31,20 @@ mongoose
   .catch((err) => {
     console.error('Klaida jungiantis:', err);
   });
+
+// PROXY ORAMS (gali perkelti į patogią vietą)
+app.get('/api/weather/:place', async (req, res) => {
+  const { place } = req.params;
+  try {
+    // Galima daryti ir kitiems miestams, ne tik Vilnius
+    const response = await axios.get(
+      `https://api.meteo.lt/v1/places/${place}/forecasts/long-term`
+    );
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: 'Nepavyko gauti orų duomenų' });
+  }
+});
 
 // Paleidžiame serverį
 app.listen(PORT, () => {

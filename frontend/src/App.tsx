@@ -5,7 +5,7 @@ import Home from './pages/HomePage/HomePage';
 import LoginRegisterModal from './pages/auth/LoginRegisterModal/LoginRegisterModal';
 import Places from './pages/explore/places/Places';
 import Services from './pages/explore/services/Services';
-import NotFound from './pages/NotFound';
+import NotFound from './pages/NotFound/NotFound';
 import { AuthProvider } from './context/AuthContext';
 import { Dashboard } from './components/Dashboard/Dashboard';
 
