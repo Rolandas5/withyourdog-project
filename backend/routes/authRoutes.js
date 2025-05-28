@@ -1,17 +1,30 @@
+// routes/authRoutes.js
+
 const express = require('express');
 const router = express.Router();
-const axios = require('axios');
 
-router.get('/:place', async (req, res) => {
-  const { place } = req.params;
-  try {
-    const response = await axios.get(
-      `https://api.meteo.lt/v1/places/${place}/forecasts/long-term`
-    );
-    res.json(response.data);
-  } catch (err) {
-    res.status(500).json({ error: 'Nepavyko gauti orų duomenų' });
-  }
-});
+const authController = require('../controllers/authController');
+const authMiddleware = require('../middleware/authMiddleware');
+
+// --- Registracija ---
+router.post('/register', authController.register);
+
+// --- Prisijungimas ---
+router.post('/login', authController.login);
+
+// --- Gauti dabartinio vartotojo duomenis ---
+router.get('/user', authMiddleware, authController.getCurrentUser);
+
+// --- Gauti visų vartotojų sąrašą (tik adminui) ---
+router.get('/all-users', authMiddleware, authController.getAllUsers);
+
+// --- Atnaujinti vartotojo rolę (tik adminui) ---
+router.put(
+  '/update-role/:userId',
+  authMiddleware,
+  authController.updateUserRole
+);
+
+// (jei prireiks - galėsi pridėti DELETE, pvz. trinti vartotoją)
 
 module.exports = router;

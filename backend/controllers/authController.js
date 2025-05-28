@@ -1,67 +1,70 @@
-const User = require('../models/userModel'); // Importuojame User modelį
-const jwt = require('jsonwebtoken'); // Importuojame jwt biblioteką
+const User = require('../models/userModel');
+const jwt = require('jsonwebtoken');
 
+// Registracija
 exports.register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // 1. Patikriname, ar visis laukai užpildyti
+    // 1. Patikriname, ar visi laukai užpildyti
     if (!name || !email || !password) {
-      return res.status(400).json({ error: 'All fields are required' });
+      return res.status(400).json({ error: 'Būtina užpildyti visus laukus' });
     }
 
+    // 2. Patikriname, ar el. paštas jau egzistuoja mūsų duomenų bazėje
     const existingUser = await User.findOne({ email });
-    // 2. Patikriname ar email jau toks egzistuoja mūsų duomenų bazėje
     if (existingUser) {
-      return res.status(400).json({ error: 'Invalid credentials' });
+      return res
+        .status(400)
+        .json({ error: 'Nepavyko užregistruoti. Patikrinkite duomenis.' });
     }
 
-    // 3. Sukuria naują vartotoją
+    // 3. Sukuriame naują vartotoją
     const user = new User({
       name,
       email,
       password,
     });
 
-    user.save();
+    await user.save();
 
     // 4. Sugeneruojame JWT tokeną
-    // id - tai yra vartotojo ID, kurį leis mums atpažinti, kuris čia useris kreipiasi i serverį
-    // JWT_SECRET - tai yra Serverio slaptažodis, kad niekas negalėtų padirbti tokeno
-    // expiresIn - tai yra laikas po kurio tokenas bus nebegaliojantis
-    // TOKENAS NĖRA SAUGOMAS DUOENMŲ BAZĖJE, JIS ATIDUODAMAS NAUDOTOJUI!!!
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: '30d',
     });
 
     res
       .status(201)
-      .json({ access_token: token, message: 'Registracija teisinga' });
+      .json({ access_token: token, message: 'Registracija sėkminga!' });
   } catch (error) {
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Serverio klaida. Bandykite dar kartą.' });
   }
 };
 
+// Prisijungimas
 exports.login = async (req, res) => {
   try {
-    // 1. Patikriname ar žmogus užpildė visus Input laukus
-    if (!req.body.email || !req.body.password) {
-      return res.status(400).json({ error: 'All fields are required' });
+    const { email, password } = req.body;
+
+    // 1. Patikriname ar žmogus užpildė visus laukus
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Būtina užpildyti visus laukus' });
     }
 
     // 2. Patikriname ar useris egzistuoja mūsų duomenų bazėje
-    const existingUser = await User.findOne({ email: req.body.email });
+    const existingUser = await User.findOne({ email });
     if (!existingUser) {
-      return res.status(400).json({ error: 'Invalid credentials' });
+      return res
+        .status(400)
+        .json({ error: 'Neteisingas el. paštas arba slaptažodis' });
     }
 
-    // 3. Patikriname ar slaptažodis sutampa su duomenų bazėje esančiu slaptažodžiu
-    // gražins true/false
-    const isPasswordValid = await existingUser.comparePassword(
-      req.body.password
-    );
+    // 3. Patikriname ar slaptažodis teisingas
+    const isPasswordValid = await existingUser.comparePassword(password);
     if (!isPasswordValid) {
-      return res.status(400).json({ error: 'Invalid email or password' });
+      return res
+        .status(400)
+        .json({ error: 'Neteisingas el. paštas arba slaptažodis' });
     }
 
     // 4. Sugeneruojame JWT tokeną
@@ -73,36 +76,69 @@ exports.login = async (req, res) => {
       }
     );
 
-    // 5. Atiduodame tokeną žmogui
-    // tokenas bus saugomas naršyklės localStorage
     res
       .status(201)
-      .json({ access_token: token, message: 'Logged in successfully' });
+      .json({ access_token: token, message: 'Prisijungimas sėkmingas!' });
   } catch (error) {
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Serverio klaida. Bandykite dar kartą.' });
   }
 };
 
+// Grąžina dabartinį vartotoją (autorizuotas vartotojas)
 exports.getCurrentUser = async (req, res) => {
   try {
-    // 1. Išsitraukiame tokeną iš requesrt headerio (užklausos)
-    const token = req.header('Authorization')?.replace('Bearer ', ''); // gauname tokeną iš užklausos
-    // 2. Patikriname ar tokenas egzistuoja
+    const token = req.header('Authorization')?.replace('Bearer ', '');
     if (!token) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res
+        .status(401)
+        .json({ error: 'Sesija baigėsi arba neprisijungėte' });
     }
-    // 3. Patikriname ar tokenas yra validus (ar jis galioja)
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // 4. Išsitraukiame Userio duomenis is duomenu bazės pagal ID, išskyrus slaptažodį
-    const user = await User.findById(decoded.userId).select('-password'); // -password - tai yra, kad negrąžintume slaptažodžio
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.userId).select('-password');
 
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: 'Vartotojas nerastas' });
     }
 
-    res.json(user); // grąžiname vartotojo duomenis
+    res.json(user);
   } catch (error) {
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Serverio klaida. Bandykite dar kartą.' });
+  }
+};
+
+// (Jei reikia admin funkcijų)
+exports.getAllUsers = async (req, res) => {
+  try {
+    if (!req.user || req.user.role !== 'admin') {
+      return res
+        .status(403)
+        .json({ error: 'Neturite teisės matyti šių duomenų' });
+    }
+    const users = await User.find().select('-password');
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: 'Serverio klaida. Bandykite dar kartą.' });
+  }
+};
+
+exports.updateUserRole = async (req, res) => {
+  try {
+    if (!req.user || req.user.role !== 'admin') {
+      return res
+        .status(403)
+        .json({ error: 'Neturite teisės keisti vartotojų roles' });
+    }
+    const { userId } = req.params;
+    const { role } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { role },
+      { new: true }
+    ).select('-password');
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ error: 'Serverio klaida. Bandykite dar kartą.' });
   }
 };

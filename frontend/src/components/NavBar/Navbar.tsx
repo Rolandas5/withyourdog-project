@@ -245,11 +245,7 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
             Pradžia
           </Link>
 
-          {isAuthenticated ? (
-            <button onClick={logout} className="nav-link logout-button">
-              Atsijungti
-            </button>
-          ) : (
+          {!isAuthenticated && (
             <button onClick={onLoginClick} className="nav-link">
               Prisijungti
             </button>

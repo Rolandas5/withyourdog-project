@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FiMail, FiUser, FiEye, FiEyeOff } from 'react-icons/fi';
 import './login-register-modal.css';
 import { AuthContext } from '../../../context/AuthContext';
@@ -12,7 +13,11 @@ export default function LoginRegisterModal({
   mode,
   onClose,
 }: LoginRegisterModalProps) {
-  const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate();
+  const { register, login, error, isLoading, clearError } =
+    useContext(AuthContext);
+
+  const [isLogin, setIsLogin] = useState(mode === 'login');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,11 +33,9 @@ export default function LoginRegisterModal({
     password?: string;
     passwordMatch?: string;
   }>({});
+
   const usernameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
-
-  const { register, login, error, isLoading, isAuthenticated, clearError } =
-    useContext(AuthContext);
 
   useEffect(() => {
     setIsLogin(mode === 'login');
@@ -40,7 +43,6 @@ export default function LoginRegisterModal({
     setErrorMessages({});
   }, [mode]);
 
-  // Focus logic – kai tik atsiranda modalas, focus į pirmą laukelį pagal režimą
   useEffect(() => {
     if (isLogin) {
       emailRef.current?.focus();
@@ -49,51 +51,29 @@ export default function LoginRegisterModal({
     }
   }, [isLogin]);
 
-  useEffect(() => {
-    if (isAuthenticated) onClose();
-  }, [isAuthenticated, onClose]);
-
-  const isValidEmail = (email: string) => /.+@.+\..+/.test(email);
-
-  const evaluatePasswordStrength = (password: string) => {
-    if (password.length < 6) return 'weak';
-    if (/^(?=.*[A-Z])(?=.*\d).{6,}$/.test(password)) return 'strong';
+  const isValidEmail = (value: string) => /.+@.+\..+/.test(value);
+  const evaluatePasswordStrength = (pwd: string) => {
+    if (pwd.length < 6) return 'weak';
+    if (/^(?=.*[A-Z])(?=.*\d).{6,}$/.test(pwd)) return 'strong';
     return 'medium';
-  };
-
-  const handleSwitch = () => {
-    setIsLogin((prev) => !prev);
-    setUsername('');
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
-    setErrorMessages({});
-    setPasswordStrength(null);
-    clearError();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newErrors: typeof errorMessages = {};
+    clearError();
 
-    // REGISTRACIJA
+    // Validacija
+    const newErrors: typeof errorMessages = {};
     if (!isLogin) {
       if (!username.trim()) newErrors.username = 'Įveskite vartotojo vardą';
-
       if (!email.trim()) newErrors.email = 'Įveskite el. paštą';
       else if (!isValidEmail(email))
         newErrors.email = 'Neteisingas el. pašto formatas';
-
       if (!password) newErrors.password = 'Įveskite slaptažodį';
       if (!confirmPassword) newErrors.passwordMatch = 'Pakartokite slaptažodį';
-
-      // Tik jeigu abu įvesti, bet nesutampa – rodoma šita žinutė
-      if (password && confirmPassword && password !== confirmPassword) {
+      if (password && confirmPassword && password !== confirmPassword)
         newErrors.passwordMatch = 'Slaptažodžiai nesutampa';
-      }
-    }
-    // LOGIN
-    else {
+    } else {
       if (!email.trim()) newErrors.email = 'Įveskite el. paštą';
       else if (!isValidEmail(email))
         newErrors.email = 'Neteisingas el. pašto formatas';
@@ -103,13 +83,17 @@ export default function LoginRegisterModal({
     setErrorMessages(newErrors);
     if (Object.keys(newErrors).length > 0) return;
 
-    setErrorMessages({});
-    clearError();
-
+    // API kvietimas
+    let ok = false;
     if (isLogin) {
-      await login(email, password);
+      ok = await login(email, password);
     } else {
-      await register(username, email, password);
+      ok = await register(username, email, password);
+    }
+
+    if (ok) {
+      onClose(); // uždarom modalą
+      navigate('/dashboard'); // einam į dashboard
     }
   };
 
@@ -133,18 +117,13 @@ export default function LoginRegisterModal({
                   name="username"
                   type="text"
                   value={username}
-                  onKeyDown={(e) => {
-                    if (e.key === '@') e.preventDefault();
-                  }}
                   onChange={(e) => {
-                    const clean = e.target.value.replace(/@/g, '');
-                    setUsername(clean);
+                    setUsername(e.target.value.replace(/@/g, ''));
                     clearError();
                   }}
                   aria-label="Vartotojo vardas"
-                  aria-required={!isLogin}
-                  required={!isLogin}
                   autoComplete="new-username"
+                  required
                 />
                 <FiUser className="input-icon" />
               </div>
@@ -168,8 +147,8 @@ export default function LoginRegisterModal({
                   clearError();
                 }}
                 aria-label="El. paštas"
-                required
                 autoComplete="email"
+                required
               />
               <FiMail className="input-icon" />
             </div>
@@ -189,33 +168,24 @@ export default function LoginRegisterModal({
                 onChange={(e) => {
                   const val = e.target.value;
                   setPassword(val);
-                  // Tik registracijos metu stiprumas
                   if (!isLogin)
                     setPasswordStrength(evaluatePasswordStrength(val));
                   clearError();
                 }}
                 aria-label="Slaptažodis"
-                required
                 autoComplete={isLogin ? 'current-password' : 'new-password'}
+                required
               />
               <span
                 className="password-toggle"
-                onClick={() => setShowPassword((prev) => !prev)}
-                tabIndex={0}
-                aria-label={
-                  showPassword ? 'Slėpti slaptažodį' : 'Rodyti slaptažodį'
-                }
+                onClick={() => setShowPassword((p) => !p)}
                 role="button"
+                tabIndex={0}
               >
-                {showPassword ? (
-                  <FiEyeOff aria-hidden="true" />
-                ) : (
-                  <FiEye aria-hidden="true" />
-                )}
+                {showPassword ? <FiEyeOff /> : <FiEye />}
               </span>
             </div>
             <label htmlFor="password">Slaptažodis</label>
-            {/* RODOM tik REGISTRACIJOJE! */}
             {!isLogin && password && (
               <div
                 className={`password-strength ${passwordStrength}`}
@@ -227,12 +197,11 @@ export default function LoginRegisterModal({
                 {passwordStrength === 'strong' && 'Stiprus slaptažodis'}
               </div>
             )}
-            {errorMessages.password && !password && (
+            {errorMessages.password && (
               <p className="error-message">{errorMessages.password}</p>
             )}
           </div>
 
-          {/* Pakartotinas slaptažodis – TIK REGISTRACIJOJE */}
           {!isLogin && (
             <div className={`input-group ${confirmPassword ? 'active' : ''}`}>
               <div className="password-input-wrapper">
@@ -246,46 +215,27 @@ export default function LoginRegisterModal({
                     clearError();
                   }}
                   aria-label="Pakartoti slaptažodį"
-                  aria-required={!isLogin}
-                  required={!isLogin}
                   autoComplete="new-password"
+                  required
                 />
                 <span
                   className="password-toggle"
-                  onClick={() => setShowConfirmPassword((prev) => !prev)}
-                  tabIndex={0}
-                  aria-label={
-                    showConfirmPassword
-                      ? 'Slėpti slaptažodį'
-                      : 'Rodyti slaptažodį'
-                  }
+                  onClick={() => setShowConfirmPassword((p) => !p)}
                   role="button"
+                  tabIndex={0}
                 >
-                  {showConfirmPassword ? (
-                    <FiEyeOff aria-hidden="true" />
-                  ) : (
-                    <FiEye aria-hidden="true" />
-                  )}
+                  {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
                 </span>
               </div>
               <label htmlFor="confirmPassword">Pakartoti slaptažodį</label>
-              {/* INDICATORIUS AR SUTAMPA */}
-              {password && confirmPassword && password !== confirmPassword && (
-                <div className="password-strength weak">
-                  Slaptažodžiai nesutampa
-                </div>
-              )}
-              {errorMessages.passwordMatch && !confirmPassword && (
+              {errorMessages.passwordMatch && (
                 <p className="error-message">{errorMessages.passwordMatch}</p>
               )}
             </div>
           )}
 
           {isLogin && (
-            <label
-              className="remember-me"
-              style={{ color: '#000', marginTop: '-12px' }}
-            >
+            <label className="remember-me">
               <input type="checkbox" /> Prisiminti mane
             </label>
           )}
@@ -301,11 +251,13 @@ export default function LoginRegisterModal({
           <div className="auth-footer">
             {isLogin ? (
               <p>
-                Neturite paskyros? <a onClick={handleSwitch}>Registruotis</a>
+                Neturite paskyros?{' '}
+                <a onClick={() => setIsLogin(false)}>Registruotis</a>
               </p>
             ) : (
               <p>
-                Jau turite paskyrą? <a onClick={handleSwitch}>Prisijungti</a>
+                Jau turite paskyrą?{' '}
+                <a onClick={() => setIsLogin(true)}>Prisijungti</a>
               </p>
             )}
           </div>
@@ -316,6 +268,7 @@ export default function LoginRegisterModal({
             </p>
           )}
         </form>
+
         <div className="modal-footer-note">
           © 2025
           <br />
