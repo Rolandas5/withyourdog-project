@@ -1,6 +1,8 @@
-import { useEffect, useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios';
+import { API_URL } from '../../constants/global';
 import './dashboard.css';
 
 type Tab =
@@ -12,23 +14,45 @@ type Tab =
   | 'users';
 
 export const Dashboard = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, setUser, access_token, logout } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState<Tab>('profile');
-  const [role, setRole] = useState(user?.role || 'user');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const changeRole = () => {
-    const newRole = role === 'admin' ? 'user' : 'admin';
-    setRole(newRole);
+  // Funkcija, kuri keičia rolę tik prisijungusiam user'iui
+  const handleRoleChange = async () => {
+    if (!user) return;
+    setLoading(true);
+    try {
+      // Nauja rolė
+      const newRole = user.role === 'admin' ? 'user' : 'admin';
+
+      // Siunčiam į backend'ą pakeisti rolę
+      await axios.put(
+        `${API_URL}/auth/update-role/${user._id}`,
+        { role: newRole },
+        { headers: { Authorization: `Bearer ${access_token}` } }
+      );
+
+      // Po pakeitimo paimam naują user info iš serverio
+      const res = await axios.get(`${API_URL}/auth/user`, {
+        headers: { Authorization: `Bearer ${access_token}` },
+      });
+      setUser(res.data); // atnaujinam context
+    } catch (err) {
+      alert('Nepavyko pakeisti rolės');
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
+    // Jei user ištrintas arba neprisijungęs – grąžinam į pradžią
     if (user === null) navigate('/');
   }, [user, navigate]);
 
   if (user === undefined) return <div>Kraunama...</div>;
+  if (user === null) return null;
 
-  // --- ČIA UI LOGIKA PAGAL ROLE ---
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
@@ -38,8 +62,12 @@ export const Dashboard = () => {
         <button className="logout-button" onClick={logout}>
           Atsijungti
         </button>
-        <button className="change-role-button" onClick={changeRole}>
-          Pakeisti rolę ({role})
+        <button
+          className="change-role-button"
+          onClick={handleRoleChange}
+          disabled={loading}
+        >
+          {loading ? 'Keičiu...' : `Pakeisti rolę (${user.role})`}
         </button>
       </div>
       <div className="tabs">
@@ -116,11 +144,13 @@ export const Dashboard = () => {
             >
               Mano atsiliepimai
             </button>
-            {/* Jei reikia, pridėk kitas paprastam vartotojui skirtas skiltis */}
           </>
         )}
       </div>
-      <div className="dashboard-content">{/* čia turinys pagal tab */}</div>
+      <div className="dashboard-content">
+        {/* Čia atvaizduosi turinį pagal aktyvų tab'ą */}
+        {/* Pvz.: {activeTab === 'profile' && <ProfileTab />} */}
+      </div>
     </div>
   );
 };

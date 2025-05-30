@@ -64,14 +64,19 @@
   background: var(--danger);
   color: var(--white);
   border: none;
-  padding: 10px 26px;
-  border-radius: 28px;
-  font-size: 1.08rem;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 1rem;
   cursor: pointer;
   font-weight: 600;
   box-shadow: 0 3px 8px rgba(242, 61, 92, 0.07);
   letter-spacing: 0.02em;
   transition: background 0.18s, transform 0.16s;
+  margin-right: 10px; /* Tarpas nuo mėlyno mygtuko */
+  height: 42px; /* Sulyginimui su mėlynu */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .logout-button:hover {
   background: var(--danger-hover);
@@ -91,6 +96,12 @@
 }
 .change-role-button:hover {
   background: #265bb8;
+}
+
+.role-message {
+  margin-left: 10px;
+  font-weight: 500;
+  color: #28a745; /* žalia spalva sėkmei */
 }
 
 .tabs {
