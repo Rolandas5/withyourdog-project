@@ -1,0 +1,104 @@
+.user-profile-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 0;
+}
+
+.dog-profile-card {
+  background: #fff;
+  border-radius: 2rem;
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.08);
+  padding: 2.5rem 2.5rem 2rem;
+  min-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.2rem;
+}
+
+.avatar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.dog-avatar {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #ffd580;
+  background: #ffebc9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+}
+.dog-avatar.placeholder {
+  font-size: 3rem;
+  color: #bc8c00;
+  background: #ffebc9;
+}
+
+.dog-avatar.placeholder {
+  font-size: 3rem;
+  color: #bc8c00;
+  background: #ffebc9;
+}
+
+.dog-info-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.dog-info-form label {
+  font-weight: 600;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.profile-input {
+  border: 1.5px solid #ffd580;
+  border-radius: 8px;
+  padding: 0.6rem 1.1rem;
+  background: #f9f6ee;
+  font-size: 1.05rem;
+  margin-top: 0.2rem;
+  transition: border-color 0.18s;
+}
+.profile-input:focus {
+  border-color: #bc8c00;
+  outline: none;
+  background: #fffbe9;
+}
+
+.profile-save-btn {
+  background: linear-gradient(90deg, #ffd580, #eec373 90%);
+  color: #523b05;
+  font-weight: bold;
+  border: none;
+  border-radius: 16px;
+  padding: 0.8rem 2.8rem;
+  font-size: 1.08rem;
+  margin-top: 1.3rem;
+  transition: box-shadow 0.15s;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(150, 100, 0, 0.1);
+}
+.profile-save-btn:hover {
+  box-shadow: 0 2px 12px rgba(150, 100, 0, 0.15);
+}
+
+.profile-saved {
+  margin-top: 10px;
+  color: #62be4c;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+}

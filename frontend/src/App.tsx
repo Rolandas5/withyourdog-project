@@ -13,6 +13,7 @@ import Services from './pages/explore/services/Services';
 import NotFound from './pages/NotFound/NotFound';
 import { AuthProvider } from './context/AuthContext';
 import { Dashboard } from './components/Dashboard/Dashboard';
+import { ProtectedRoute } from './components/Dashboard/components/UserProfileTab/ProtectedRoute';
 
 function AppContent() {
   const location = useLocation();
@@ -38,15 +39,21 @@ function AppContent() {
         onLoginClick={() => openModal('login')}
         onRegisterClick={() => openModal('register')}
       />
-      <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/places" element={<Places />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/places" element={<Places />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+
       {showModal &&
         (console.log('Modal should show now!'),
         (<LoginRegisterModal mode={modalMode} onClose={closeModal} />))}

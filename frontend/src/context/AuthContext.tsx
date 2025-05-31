@@ -50,6 +50,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const loadUser = async () => {
       if (!token) {
+        setUser(null); // ← PRIDĖK ŠITĄ
+        setIsAuthenticated(false); // ← IR ŠITĄ
         setIsLoading(false);
         return;
       }

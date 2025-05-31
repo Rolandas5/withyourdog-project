@@ -19,13 +19,16 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
   const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastLinkRef = useRef<HTMLSpanElement | null>(null);
   const lastDropdownRef = useRef<HTMLDivElement | null>(null);
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { isAuthenticated, user, logout } = useContext(AuthContext);
 
   const sections = [
     { key: 'places', label: 'Vietos' },
     { key: 'services', label: 'Paslaugos' },
     { key: 'experiences', label: 'Kelionių patirtys' },
   ];
+
+  console.log('Navbar user:', user);
+  console.log('isAuthenticated:', isAuthenticated);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -245,9 +248,20 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
             Pradžia
           </Link>
 
+          {isAuthenticated && (
+            <Link to="/dashboard" className="nav-link">
+              Profilis
+            </Link>
+          )}
+
           {!isAuthenticated && (
             <button onClick={onLoginClick} className="nav-link">
               Prisijungti
+            </button>
+          )}
+          {isAuthenticated && (
+            <button onClick={logout} className="nav-link logout-button">
+              Atsijungti
             </button>
           )}
 

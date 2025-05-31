@@ -1,23 +1,34 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import './dashboard.css';
-
-type Tab =
-  | 'user'
-  | 'admin-places'
-  | 'admin-experiences'
-  | 'admin-reviews'
-  | 'admin-messages'
-  | 'admin-users';
+import { UserProfileTab } from './components/UserProfileTab/UserProfileTab';
+import axios from 'axios';
+import { API_URL } from '../../constants/global';
 
 export const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
-  const [activeTab, setActiveTab] = useState<Tab>('user');
+  const [activeTab, setActiveTab] = useState('user');
+  const [dogProfile, setDogProfile] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  // Užkrauk šuns profilį pagal userId
   useEffect(() => {
-    // Jei user ištrintas arba neprisijungęs – grąžina į pradžią
+    if (!user) return;
+    setLoading(true);
+    axios
+      .get(`${API_URL}/dog-profile/user/${user._id}`)
+      .then((res) => {
+        setDogProfile(res.data || {});
+        setLoading(false);
+      })
+      .catch(() => {
+        setDogProfile({});
+        setLoading(false);
+      });
+  }, [user]);
+
+  useEffect(() => {
     if (user === null) navigate('/');
   }, [user, navigate]);
 
@@ -28,6 +39,7 @@ export const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
+      {/* ... tabs, header */}
       <div className="dashboard-header">
         <span className="welcome-text">
           👋 Labas, {user?.name || 'drauge'}! Smagu, kad sugrįžai.
@@ -43,54 +55,22 @@ export const Dashboard = () => {
         >
           Mano profilis
         </button>
-        {isAdmin && (
-          <>
-            <button
-              className={`tab-button ${
-                activeTab === 'admin-places' ? 'active' : ''
-              }`}
-              onClick={() => setActiveTab('admin-places')}
-            >
-              Vietos
-            </button>
-            <button
-              className={`tab-button ${
-                activeTab === 'admin-experiences' ? 'active' : ''
-              }`}
-              onClick={() => setActiveTab('admin-experiences')}
-            >
-              Patirtys
-            </button>
-            <button
-              className={`tab-button ${
-                activeTab === 'admin-reviews' ? 'active' : ''
-              }`}
-              onClick={() => setActiveTab('admin-reviews')}
-            >
-              Atsiliepimai
-            </button>
-            <button
-              className={`tab-button ${
-                activeTab === 'admin-messages' ? 'active' : ''
-              }`}
-              onClick={() => setActiveTab('admin-messages')}
-            >
-              Žinutės
-            </button>
-            <button
-              className={`tab-button ${
-                activeTab === 'admin-users' ? 'active' : ''
-              }`}
-              onClick={() => setActiveTab('admin-users')}
-            >
-              Vartotojai
-            </button>
-          </>
-        )}
+        {/* ...admin tab'ai */}
       </div>
       <div className="dashboard-content">
-        {/* Čia atvaizduosi turinį pagal aktyvų tab'ą */}
-        {/* Pvz.: {activeTab === 'user' && <UserProfileTab />} */}
+        {activeTab === 'user' &&
+          (loading ? (
+            <div>Kraunama...</div>
+          ) : (
+            <UserProfileTab
+              dog={{
+                ...dogProfile,
+                userId: user._id,
+              }}
+              onProfileSaved={setDogProfile}
+            />
+          ))}
+        {/* Kiti tab'ai */}
       </div>
     </div>
   );
