@@ -5,11 +5,17 @@
   margin-top: 12px;
 }
 .avatar-upload-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 28px;
   background: linear-gradient(90deg, #ffd580 0%, #f2c26b 100%);
   color: #7a5c00;
-  border: none;
+  border: 1.5px solid #232323;
   border-radius: 30px;
-  padding: 8px 28px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;

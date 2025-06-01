@@ -15,6 +15,7 @@ export const DogAvatarUploader: React.FC<DogAvatarUploaderProps> = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -45,16 +46,25 @@ export const DogAvatarUploader: React.FC<DogAvatarUploaderProps> = ({
     setLoading(false);
   };
 
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
     <div>
-      <label className="avatar-upload-btn">
+      <button
+        type="button"
+        className="avatar-upload-btn"
+        onClick={handleButtonClick}
+      >
         Įkelti nuotrauką
-        <input
-          type="file"
-          style={{ display: 'none' }}
-          onChange={handleFileChange}
-        />
-      </label>
+      </button>
+      <input
+        type="file"
+        style={{ display: 'none' }}
+        ref={fileInputRef}
+        onChange={handleFileChange}
+      />
       {loading && <span>Keliama...</span>}
       {error && <div className="upload-error">{error}</div>}
     </div>
