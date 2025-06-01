@@ -12,12 +12,12 @@ export const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
   onCancel,
 }) => {
   return (
-    <div className="modal-overlay">
+    <div className="dashboard-modal-overlay">
       <div
-        className="modal-card"
+        className="dashboard-modal-card"
         style={{ textAlign: 'center', maxWidth: 340 }}
       >
-        <button className="close-btn" onClick={onCancel}>
+        <button className="dashboard-close-btn" onClick={onCancel}>
           &times;
         </button>
         <h2 style={{ color: '#f23d5c', marginBottom: 18 }}>

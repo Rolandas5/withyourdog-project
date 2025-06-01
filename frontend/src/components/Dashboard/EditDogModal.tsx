@@ -49,9 +49,9 @@ export const EditDogModal: React.FC<EditDogModalProps> = ({
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-card">
-        <button className="close-btn" onClick={onClose}>
+    <div className="dashboard-modal-overlay">
+      <div className="dashboard-modal-card">
+        <button className="dashboard-close-btn" onClick={onClose}>
           &times;
         </button>
         <h2>Redaguoti šuniuką</h2>
