@@ -12,7 +12,7 @@ const dogProfileRoutes = require('./routes/dogProfileRoutes'); // importuojame d
 // Įkeliame aplinkos kintamuosius iš .env failo
 dotenv.config();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 // Cors - leidžia siusti API užklausas iš kito domeno pvz. localhost:3000 -> localhost:5173

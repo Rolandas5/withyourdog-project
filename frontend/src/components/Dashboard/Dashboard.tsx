@@ -9,6 +9,7 @@ import './user-dogs-table.css';
 import { UserDogsTable, DogProfile } from './UserDogsTable';
 import { EditDogModal } from './EditDogModal';
 import { DeleteConfirmModal } from './DeleteConfirmModal';
+import WeatherBlock from '../WeatherBlock/WeatherBlock';
 
 export const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -120,11 +121,31 @@ export const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* ... tabs, header */}
-      <div className="dashboard-header">
+      <div
+        className="dashboard-header"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 18,
+          padding: '18px 0 12px 0',
+        }}
+      >
         <span className="welcome-text">
           👋 Labas, {user?.name || 'drauge'}! Smagu, kad sugrįžai.
         </span>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minWidth: 140,
+            margin: '0 18px',
+            padding: '2px 0',
+          }}
+        >
+          <WeatherBlock />
+        </div>
         <button className="logout-button" onClick={logout}>
           Atsijungti
         </button>

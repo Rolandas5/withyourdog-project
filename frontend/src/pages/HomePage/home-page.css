@@ -107,6 +107,23 @@
   transform: translateY(-2px) scale(1.04);
 }
 
+.weather-widget-hero {
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  z-index: 10;
+  background: linear-gradient(135deg, #fffde7 0%, #ffe082 100%);
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(255, 193, 7, 0.13), 0 1px 2px rgba(0, 0, 0, 0.04);
+  padding: 10px 16px;
+  min-width: 0;
+  max-width: 220px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 700px) {
   html,
   body {
@@ -176,5 +193,14 @@
 
   .hero-button:active {
     transform: scale(0.98);
+  }
+
+  .weather-widget-hero {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 96vw;
+    border-radius: 8px;
+    padding: 6px 4px;
   }
 }
