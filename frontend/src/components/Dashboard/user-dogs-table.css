@@ -1,0 +1,190 @@
+.dogs-table-wrapper {
+  margin-bottom: 32px;
+  width: 100%;
+  overflow-x: auto;
+}
+.dogs-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+.dogs-table th,
+.dogs-table td {
+  padding: 14px 18px;
+  text-align: left;
+}
+.dogs-table th {
+  background: #f8fafc;
+  color: #007bff;
+  font-size: 1.08rem;
+  font-weight: 700;
+  border-bottom: 2px solid #e8ebf3;
+}
+.dogs-table td {
+  border-bottom: 1px solid #e8ebf3;
+  font-size: 1.01rem;
+}
+.dog-table-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #ffebc9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+.dog-table-avatar.placeholder {
+  font-size: 2.2rem;
+  color: #bc8c00;
+  background: #ffebc9;
+}
+.edit-btn,
+.delete-btn {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 16px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.14s;
+}
+.edit-btn:hover {
+  background: #0056b3;
+}
+.delete-btn {
+  background: #f23d5c;
+}
+.delete-btn:hover {
+  background: #c72d45;
+}
+.no-dogs-msg {
+  color: #888;
+  font-size: 1.13rem;
+  text-align: center;
+  margin: 32px 0;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.18);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 22px 18px 18px 18px;
+  min-width: 0;
+  max-width: 340px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.13), 0 1.5px 4px rgba(0, 0, 0, 0.04);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  border: 1.5px solid #e8ebf3;
+  transition: box-shadow 0.18s, border 0.18s;
+}
+.modal-card:focus-within {
+  box-shadow: 0 0 0 3px #ffd58044;
+  border-color: #ffd580;
+}
+.modal-card h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 0.01em;
+  color: #23283a;
+  text-transform: uppercase;
+}
+.edit-dog-form label {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 7px;
+  font-weight: 600;
+  color: #23283a;
+  font-size: 0.98rem;
+  text-align: left;
+  padding-left: 0;
+}
+.edit-dog-form input {
+  width: 90%;
+  margin: 0 auto 0 0;
+  display: block;
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1.5px solid #c5cbe3;
+  font-size: 0.97rem;
+  margin-top: 2px;
+  background: #f8fafc;
+  transition: border-color 0.18s;
+}
+.edit-dog-form input:focus {
+  border-color: #007bff;
+  outline: none;
+  background: #fff;
+}
+.profile-save-btn {
+  background: linear-gradient(90deg, #ffd580, #eec373 90%);
+  color: #523b05;
+  font-weight: 600;
+  border: none;
+  border-radius: 14px;
+  padding: 0.55rem 1.3rem;
+  font-size: 1.01rem;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(150, 100, 0, 0.08);
+  display: block;
+  margin: 12px auto 0 auto;
+  transition: box-shadow 0.15s, background 0.18s;
+}
+.profile-save-btn:hover {
+  box-shadow: 0 2px 12px rgba(150, 100, 0, 0.13);
+  background: linear-gradient(90deg, #ffe6a0, #ffe6a0 90%);
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: #f23d5c;
+  color: #fff;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(242, 61, 92, 0.08);
+}
+.close-btn:hover {
+  background: #c72d45;
+}
+@media (max-width: 500px) {
+  .modal-card {
+    min-width: 0;
+    max-width: 98vw;
+    padding: 10px 2vw 10px 2vw;
+  }
+}

@@ -76,9 +76,17 @@ exports.login = async (req, res) => {
       }
     );
 
+    // Pašalinam slaptažodį iš user objekto
+    const userObj = existingUser.toObject();
+    delete userObj.password;
+
     res
       .status(201)
-      .json({ access_token: token, message: 'Prisijungimas sėkmingas!' });
+      .json({
+        access_token: token,
+        user: userObj,
+        message: 'Prisijungimas sėkmingas!',
+      });
   } catch (error) {
     res.status(500).json({ error: 'Serverio klaida. Bandykite dar kartą.' });
   }

@@ -31,10 +31,15 @@ export const UserProfileTab: React.FC<UserProfileTabProps> = ({
   );
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [nameError, setNameError] = useState('');
+  const [breedError, setBreedError] = useState('');
 
   // Teisingai sudedam avatar kelią
   let imgSrc = '';
-  if (avatarUrl) {
+  if (avatarPreview) {
+    imgSrc = avatarPreview;
+  } else if (avatarUrl) {
     if (avatarUrl.startsWith('http')) {
       imgSrc = avatarUrl;
     } else if (avatarUrl.startsWith('/uploads/')) {
@@ -47,6 +52,20 @@ export const UserProfileTab: React.FC<UserProfileTabProps> = ({
   // PATCH arba POST išsaugojimui
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    let valid = true;
+    if (!name.trim()) {
+      setNameError('Įveskite šuniuko vardą');
+      valid = false;
+    } else {
+      setNameError('');
+    }
+    if (!breed.trim()) {
+      setBreedError('Įveskite šuniuko veislę');
+      valid = false;
+    } else {
+      setBreedError('');
+    }
+    if (!valid) return;
     setSaving(true);
     try {
       let response;
@@ -71,6 +90,17 @@ export const UserProfileTab: React.FC<UserProfileTabProps> = ({
       setSaved(true);
       setTimeout(() => setSaved(false), 1800);
       if (onProfileSaved && response?.data) onProfileSaved(response.data);
+      // Išvalyti inputus po sėkmingo išsaugojimo TIK jei buvo kuriamas NAUJAS šuo (POST)
+      if (!dog._id) {
+        setAvatarUrl('');
+        setName('');
+        setBreed('');
+        setHobbies('');
+        setFavoritePlaces('');
+        setAvatarPreview(null);
+        setNameError('');
+        setBreedError('');
+      }
     } catch (err) {
       alert('Nepavyko išsaugoti. Patikrink duomenis arba bandyk vėliau.');
     }
@@ -87,7 +117,11 @@ export const UserProfileTab: React.FC<UserProfileTabProps> = ({
           ) : (
             <div className="dog-avatar placeholder">🐶</div>
           )}
-          <DogAvatarUploader avatarUrl={avatarUrl} onUpload={setAvatarUrl} />
+          <DogAvatarUploader
+            avatarUrl={avatarUrl}
+            onUpload={setAvatarUrl}
+            onPreview={setAvatarPreview}
+          />
         </div>
         {/* Laukeliai */}
         <div className="dog-info-form">
@@ -96,20 +130,26 @@ export const UserProfileTab: React.FC<UserProfileTabProps> = ({
             <input
               type="text"
               value={name}
-              className="profile-input"
-              onChange={(e) => setName(e.target.value)}
-              required
+              className={`profile-input${nameError ? ' input-error' : ''}`}
+              onChange={(e) => {
+                setName(e.target.value);
+                if (nameError) setNameError('');
+              }}
             />
+            {nameError && <div className="input-error-msg">{nameError}</div>}
           </label>
           <label>
             Veislė:
             <input
               type="text"
               value={breed}
-              className="profile-input"
-              onChange={(e) => setBreed(e.target.value)}
-              required
+              className={`profile-input${breedError ? ' input-error' : ''}`}
+              onChange={(e) => {
+                setBreed(e.target.value);
+                if (breedError) setBreedError('');
+              }}
             />
+            {breedError && <div className="input-error-msg">{breedError}</div>}
           </label>
           <label>
             Pomėgiai:

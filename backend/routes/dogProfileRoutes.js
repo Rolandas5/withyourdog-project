@@ -42,12 +42,22 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Gauti šuns profilį pagal userId
+// Gauti VISUS šuns profilius pagal userId
 router.get('/user/:userId', async (req, res) => {
   try {
-    const dog = await DogProfile.findOne({ userId: req.params.userId });
+    const dogs = await DogProfile.find({ userId: req.params.userId });
+    res.json(dogs);
+  } catch (err) {
+    res.status(500).json({ error: 'Serverio klaida' });
+  }
+});
+
+// Ištrinti šuns profilį pagal ID
+router.delete('/:id', async (req, res) => {
+  try {
+    const dog = await DogProfile.findByIdAndDelete(req.params.id);
     if (!dog) return res.status(404).json({ error: 'Profilis nerastas' });
-    res.json(dog);
+    res.json({ message: 'Profilis ištrintas' });
   } catch (err) {
     res.status(500).json({ error: 'Serverio klaida' });
   }
