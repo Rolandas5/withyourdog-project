@@ -1,11 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './weather-mini-widget.css';
+import './mini-weather-widget.css';
 
 const ICONS: Record<string, React.ReactNode> = {
   clear: (
-    <svg width="32" height="32" viewBox="0 0 64 64">
-      <circle cx="32" cy="32" r="14" fill="#FFD600" />
+    <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
+      {/* Saulės centras */}
+      <circle cx="32" cy="32" r="10" fill="#FFD600" />
+
+      {/* Spinduliai */}
+      <g stroke="#FFD600" strokeWidth="4">
+        <line x1="32" y1="2" x2="32" y2="14" />
+        <line x1="32" y1="50" x2="32" y2="62" />
+        <line x1="2" y1="32" x2="14" y2="32" />
+        <line x1="50" y1="32" x2="62" y2="32" />
+
+        <line x1="10" y1="10" x2="18" y2="18" />
+        <line x1="46" y1="46" x2="54" y2="54" />
+        <line x1="10" y1="54" x2="18" y2="46" />
+        <line x1="46" y1="18" x2="54" y2="10" />
+      </g>
     </svg>
   ),
   'partly-cloudy': (
@@ -77,35 +91,46 @@ const ICONS: Record<string, React.ReactNode> = {
 export default function WeatherMiniWidget() {
   const [weather, setWeather] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
+    setError('');
     fetch(`/api/weather/marijampole`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error('Nepavyko gauti orų duomenų');
+        return res.json();
+      })
       .then((data) => {
         setWeather(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError('Nepavyko gauti orų duomenų');
         setLoading(false);
       });
   }, []);
 
-  if (loading || !weather)
-    return <div className="mini-weather-widget">Kraunama...</div>;
+  if (loading) return <div className="mini-weather-widget">Kraunama...</div>;
+  if (error)
+    return (
+      <div className="mini-weather-widget mini-weather-error">{error}</div>
+    );
+  if (!weather) return null;
 
   const current = weather.forecastTimestamps[0];
   const icon = ICONS[current.conditionCode] || ICONS['cloudy'];
 
   return (
-    <div
-      className="mini-weather-widget"
-      onClick={() => navigate('/weather')}
-      style={{ cursor: 'pointer' }}
-      title="Žiūrėti išsamią prognozę"
-    >
+    <div className="mini-weather-widget" onClick={() => navigate('/weather')}>
+      {/* Temperatūra */}
       <div className="mini-weather-temp">
         {Math.round(current.airTemperature)}°
       </div>
+      {/* Ikonėlė */}
       <div className="mini-weather-icon">{icon}</div>
+      {/* Miestas */}
       <div className="mini-weather-city">Marijampolė</div>
     </div>
   );

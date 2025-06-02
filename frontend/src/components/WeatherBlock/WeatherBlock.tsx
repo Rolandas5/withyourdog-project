@@ -31,27 +31,26 @@ const CITIES = [
   { code: 'zarasai', name: 'Zarasai' },
 ];
 
-// SVG ikonų žemėlapis (OpenWeather/WeatherIcons stiliaus)
 const ICONS: Record<string, React.ReactNode> = {
   clear: (
-    <svg width="64" height="64" viewBox="0 0 64 64">
+    <svg className="icon-big" viewBox="0 0 64 64">
       <circle cx="32" cy="32" r="18" fill="#FFD600" />
     </svg>
   ),
   'partly-cloudy': (
-    <svg width="64" height="64" viewBox="0 0 64 64">
+    <svg className="icon-big" viewBox="0 0 64 64">
       <circle cx="32" cy="32" r="14" fill="#FFD600" />
       <ellipse cx="40" cy="40" rx="16" ry="10" fill="#B0BEC5" />
     </svg>
   ),
   cloudy: (
-    <svg width="64" height="64" viewBox="0 0 64 64">
+    <svg className="icon-big" viewBox="0 0 64 64">
       <ellipse cx="36" cy="40" rx="18" ry="12" fill="#B0BEC5" />
       <ellipse cx="28" cy="36" rx="14" ry="10" fill="#CFD8DC" />
     </svg>
   ),
   rain: (
-    <svg width="64" height="64" viewBox="0 0 64 64">
+    <svg className="icon-big" viewBox="0 0 64 64">
       <ellipse cx="36" cy="40" rx="18" ry="12" fill="#B0BEC5" />
       <ellipse cx="28" cy="36" rx="14" ry="10" fill="#CFD8DC" />
       <line x1="24" y1="54" x2="24" y2="62" stroke="#2196F3" strokeWidth="3" />
@@ -59,14 +58,14 @@ const ICONS: Record<string, React.ReactNode> = {
     </svg>
   ),
   'light-rain': (
-    <svg width="64" height="64" viewBox="0 0 64 64">
+    <svg className="icon-big" viewBox="0 0 64 64">
       <ellipse cx="36" cy="40" rx="18" ry="12" fill="#B0BEC5" />
       <ellipse cx="28" cy="36" rx="14" ry="10" fill="#CFD8DC" />
       <line x1="32" y1="54" x2="32" y2="60" stroke="#2196F3" strokeWidth="2" />
     </svg>
   ),
   'heavy-rain': (
-    <svg width="64" height="64" viewBox="0 0 64 64">
+    <svg className="icon-big" viewBox="0 0 64 64">
       <ellipse cx="36" cy="40" rx="18" ry="12" fill="#B0BEC5" />
       <ellipse cx="28" cy="36" rx="14" ry="10" fill="#CFD8DC" />
       <line x1="20" y1="54" x2="20" y2="62" stroke="#2196F3" strokeWidth="3" />
@@ -75,39 +74,26 @@ const ICONS: Record<string, React.ReactNode> = {
     </svg>
   ),
   snow: (
-    <svg width="64" height="64" viewBox="0 0 64 64">
+    <svg className="icon-big" viewBox="0 0 64 64">
       <ellipse cx="36" cy="40" rx="18" ry="12" fill="#B0BEC5" />
       <ellipse cx="28" cy="36" rx="14" ry="10" fill="#CFD8DC" />
       <circle cx="32" cy="56" r="4" fill="#90CAF9" />
     </svg>
   ),
   fog: (
-    <svg width="64" height="64" viewBox="0 0 64 64">
+    <svg className="icon-big" viewBox="0 0 64 64">
       <ellipse cx="36" cy="40" rx="18" ry="12" fill="#B0BEC5" />
       <ellipse cx="28" cy="36" rx="14" ry="10" fill="#CFD8DC" />
       <rect x="16" y="54" width="32" height="4" fill="#B0BEC5" />
     </svg>
   ),
   thunder: (
-    <svg width="64" height="64" viewBox="0 0 64 64">
+    <svg className="icon-big" viewBox="0 0 64 64">
       <ellipse cx="36" cy="40" rx="18" ry="12" fill="#B0BEC5" />
       <ellipse cx="28" cy="36" rx="14" ry="10" fill="#CFD8DC" />
       <polygon points="32,48 40,62 28,62 36,76" fill="#FFD600" />
     </svg>
   ),
-};
-
-const DESCRIPTIONS: Record<string, string> = {
-  clear: 'Giedra',
-  'partly-cloudy': 'Mažai debesuota',
-  cloudy: 'Debesuota',
-  'cloudy-with-sunny-intervals': 'Debesuota su pragiedruliais',
-  rain: 'Lietus',
-  'light-rain': 'Nedidelis lietus',
-  'heavy-rain': 'Smarkus lietus',
-  snow: 'Sniegas',
-  fog: 'Rūkas',
-  thunder: 'Perkūnija',
 };
 
 export default function WeatherBlock() {
@@ -120,7 +106,9 @@ export default function WeatherBlock() {
       .then((data) => setWeather(data));
   }, [selectedCity]);
 
-  if (!weather) return <div className="weather-block">Kraunama...</div>;
+  if (!weather) {
+    return <div className="weather-block">Kraunama...</div>;
+  }
 
   // Grupavimas pagal dienas
   const days: { [date: string]: any[] } = {};
@@ -131,20 +119,27 @@ export default function WeatherBlock() {
   });
   const dayKeys = Object.keys(days).slice(0, 5);
 
-  // Dabartinė valanda
+  // Dabartinė diena
   const now = new Date();
+  const todayKey = now.toISOString().slice(0, 10);
   const current =
     weather.forecastTimestamps.find((t: any) =>
-      t.forecastTimeUtc.startsWith(now.toISOString().slice(0, 10))
+      t.forecastTimeUtc.startsWith(todayKey)
     ) || weather.forecastTimestamps[0];
 
   return (
     <div className="weather-block">
+      {/* ====================
+            HEADERAS: "Mano vieta" + MIESTO SELECT
+            ==================== */}
       <div className="weather-block-header">
+        <button className="btn-location">
+          Mano vieta <span className="icon-location" />
+        </button>
         <select
           value={selectedCity}
           onChange={(e) => setSelectedCity(e.target.value)}
-          className="weather-block-select"
+          className="city-select"
         >
           {CITIES.map((city) => (
             <option key={city.code} value={city.code}>
@@ -153,8 +148,14 @@ export default function WeatherBlock() {
           ))}
         </select>
       </div>
-      <div className="weather-block-main">
-        <div className="weather-block-left">
+
+      {/* ==========================================
+            VIRŠUTINIS BLOKAS: KAIRĖ (MIESTAS + DATA) + 
+            DEŠINĖ (IKONA + TEMP + JUTIMINĖ)
+            ========================================== */}
+      <div className="weather-block-top">
+        {/* KAIRĖ DALIS */}
+        <div className="weather-block-top-left">
           <h1 className="weather-block-city">{weather.place.name}</h1>
           <div className="weather-block-date">
             {new Date(current.forecastTimeUtc).toLocaleDateString('lt-LT', {
@@ -163,62 +164,85 @@ export default function WeatherBlock() {
               day: 'numeric',
             })}
           </div>
+        </div>
+
+        {/* DEŠINĖ DALIS */}
+        <div className="weather-block-top-right">
           <div className="weather-block-icon-big">
             {ICONS[current.conditionCode] || ICONS['cloudy']}
           </div>
-          <div className="weather-block-temp">
-            {Math.round(current.airTemperature)}°
-          </div>
-          <div className="weather-block-feels">
-            Jutiminė {Math.round(current.feelsLikeTemperature)}°
-          </div>
-        </div>
-        <div className="weather-block-right">
-          <div className="weather-block-hours">
-            {days[dayKeys[0]]
-              .filter((t: any) =>
-                ['09:00:00', '15:00:00', '21:00:00'].some((h) =>
-                  t.forecastTimeUtc.endsWith(h)
-                )
-              )
-              .map((t: any) => (
-                <div key={t.forecastTimeUtc} className="weather-block-hour">
-                  <div>{t.forecastTimeUtc.slice(11, 16)}</div>
-                  <div className="weather-block-hour-icon">
-                    {ICONS[t.conditionCode] || ICONS['cloudy']}
-                  </div>
-                  <div>{Math.round(t.airTemperature)}°</div>
-                </div>
-              ))}
+          <div className="weather-block-temp-feels">
+            <div className="weather-block-temp">
+              {Math.round(current.airTemperature)}°
+            </div>
+            <div className="weather-block-feels">
+              Jutiminė {Math.round(current.feelsLikeTemperature)}°
+            </div>
           </div>
         </div>
       </div>
-      <div className="weather-block-days">
-        {dayKeys.map((day) => {
-          const dayData = days[day];
-          const temps = dayData.map((t: any) => t.airTemperature);
-          const min = Math.min(...temps);
-          const max = Math.max(...temps);
-          const icon = dayData[Math.floor(dayData.length / 2)].conditionCode;
-          return (
-            <div key={day} className="weather-block-day">
-              <div className="weather-block-day-label">
-                {new Date(day).toLocaleDateString('lt-LT', {
-                  weekday: 'short',
-                })}
-              </div>
-              <div className="weather-block-day-icon">
-                {ICONS[icon] || ICONS['cloudy']}
-              </div>
-              <div className="weather-block-day-temp">
-                {Math.round(max)}° / {Math.round(min)}°
-              </div>
-              <div className="weather-block-day-desc">
-                {DESCRIPTIONS[icon] || '–'}
-              </div>
-            </div>
-          );
-        })}
+
+      {/* ==========================================
+            PAGRINDINIS BLOKAS: TIESIOGINĖ HORIZONTALIOJI LENTELĖ
+            ========================================== */}
+      <div className="weather-block-main">
+        <div className="weather-block-right">
+          <table className="weather-table">
+            <colgroup>
+              <col style={{ width: '40%' }} />
+              <col style={{ width: '20%' }} />
+              <col style={{ width: '20%' }} />
+              <col style={{ width: '20%' }} />
+            </colgroup>
+            <thead>
+              <tr>
+                <th className="day-name-header"></th>
+                <th className="time-header">09:00</th>
+                <th className="time-header">15:00</th>
+                <th className="time-header">21:00</th>
+              </tr>
+            </thead>
+            <tbody>
+              {dayKeys.slice(1, 4).map((day) => {
+                const dayData = days[day];
+                const renderHour = (hhmm) => {
+                  const t = dayData.find((d) =>
+                    d.forecastTimeUtc.endsWith(hhmm + ':00')
+                  );
+                  const icon = t
+                    ? ICONS[t.conditionCode] || ICONS['cloudy']
+                    : ICONS['cloudy'];
+                  const temp = t ? Math.round(t.airTemperature) + '°' : '–';
+                  return (
+                    <div className="hour-cell-content">
+                      {icon}
+                      <span className="hour-temp-text">{temp}</span>
+                    </div>
+                  );
+                };
+                return (
+                  <tr key={day} className="day-row">
+                    <td className="day-name-cell">
+                      {new Date(day).toLocaleDateString('lt-LT', {
+                        weekday: 'long',
+                      })}
+                    </td>
+                    <td className="time-cell">{renderHour('09:00')}</td>
+                    <td className="time-cell">{renderHour('15:00')}</td>
+                    <td className="time-cell">{renderHour('21:00')}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ==========================================
+            APAČIA: mygtukas "Žr. išsamesnę prognozę"
+            ========================================== */}
+      <div className="weather-block-footer">
+        <button className="btn-full-forecast">Žr. išsamesnę prognozę</button>
       </div>
     </div>
   );

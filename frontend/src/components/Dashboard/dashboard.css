@@ -14,6 +14,7 @@
 }
 
 .dashboard-container {
+  position: relative;
   max-width: 1200px;
   margin: 48px auto 0 auto;
   background: var(--white);
@@ -24,6 +25,16 @@
   position: relative;
   overflow: hidden;
   animation: fadeIn 0.8s cubic-bezier(0.38, 0.15, 0.48, 1.12);
+}
+
+.widget-wrapper {
+  position: relative;
+}
+
+.widget-wrapper .mini-weather-widget {
+  position: absolute;
+  top: -35px; /* kiek pikselių žemyn nuo wrapper viršaus */
+  left: -150px; /* kiek pikselių į dešinę nuo wrapper kairės */
 }
 
 @keyframes fadeIn {

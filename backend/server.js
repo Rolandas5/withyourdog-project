@@ -62,13 +62,19 @@ mongoose
 // PROXY ORAMS (gali perkelti į patogią vietą)
 app.get('/api/weather/:place', async (req, res) => {
   const { place } = req.params;
+  console.log('Gaunamas miestas:', place);
   try {
-    // Galima daryti ir kitiems miestams, ne tik Vilnius
     const response = await axios.get(
       `https://api.meteo.lt/v1/places/${place}/forecasts/long-term`
     );
+    if (!response.data || response.data.error) {
+      return res.status(404).json({ error: 'Tokio miesto orų duomenų nėra' });
+    }
     res.json(response.data);
   } catch (err) {
+    if (err.response && err.response.status === 404) {
+      return res.status(404).json({ error: 'Tokio miesto orų duomenų nėra' });
+    }
     res.status(500).json({ error: 'Nepavyko gauti orų duomenų' });
   }
 });

@@ -1,39 +1,121 @@
+.page-container {
+  position: relative; /* dabar kiekvienas absoliučiai pozicionuotas vaikas remsis į šį konteinerį */
+}
+
 .mini-weather-widget {
-  background: linear-gradient(135deg, #fffde7 0%, #ffe082 100%);
-  border-radius: 14px;
-  box-shadow: 0 4px 18px rgba(255, 193, 7, 0.13), 0 1px 2px rgba(0, 0, 0, 0.04);
-  padding: 10px 16px;
-  min-width: 0;
-  max-width: 220px;
-  width: 100%;
+  position: absolute;
+  top: 250px; /* px nuo .page-container viršaus */
+  left: 150px; /* px nuo .page-container kairės */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: center; /* Centruojame visus elementus */
+  background: linear-gradient(
+    90deg,
+    #e1f5fe 0%,
+    #fff9c4 100%
+  ); /* Melsvai–geltonas gradiento fonas */
+  border: 1px solid #81d4fa; /* Švelni melsva kraštinė */
+  border-radius: 12px;
+  padding: 8px 12px;
+  width: 260px; /* Optimalus plotis */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.15s ease, transform 0.12s ease;
+  z-index: 1000;
   cursor: pointer;
-  transition: box-shadow 0.18s, transform 0.13s;
 }
+
+/* Hover efektas – švelnus pakilimas */
 .mini-weather-widget:hover {
-  box-shadow: 0 8px 32px rgba(255, 193, 7, 0.22);
-  transform: scale(1.04);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+  cursor: pointer;
 }
+
+/* 2. TEMPERATŪROS BLOKAS (kairėje) – išryškinta sodria geltona */
 .mini-weather-temp {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: #1a237e;
-  margin-bottom: 2px;
+  font-size: 2rem; /* Didesnis šriftas */
+  font-weight: 800; /* Sunkučiai matomas */
+  color: #fbc02d; /* Ryški geltona */
+  margin-right: 8px; /* Tarpas iki ikonėlės */
+  white-space: nowrap;
+  text-align: center;
 }
+
+/* 3. IKONĖLĖ (centre) – be jokio apskritimo, tik SVG centras */
 .mini-weather-icon {
-  margin: 2px 0 2px 0;
   width: 32px;
   height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 8px; /* Tarpas iki miesto pavadinimo */
+  background: transparent; /* Pašalinome apskritimą */
+  border: none;
+  box-shadow: none;
 }
+
+.mini-weather-icon svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* 4. MIESTO PAVADINIMAS (dešinėje) – sodriai mėlyna, centras */
 .mini-weather-city {
-  font-size: 1.08rem;
-  font-weight: 700;
-  color: #232323;
-  margin-top: 2px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1565c0; /* Gili mėlyna */
+  text-transform: capitalize;
+  text-align: center; /* Centruojame tekstą */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1; /* Užima likusią vietą */
+}
+
+/* 5. KLAIDOS BLOKAS (jei fetch nepavyksta) */
+.mini-weather-error {
+  background: #ffebee; /* Šviesiai rausvas fonas */
+  color: #c62828; /* Ryški raudona tekstui */
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-full-forecast {
+  background: #42a5f5; /* Gaivi melsvai žydra spalva */
+  color: #ffffff; /* Baltas tekstas kontrastui */
+  border: none; /* Pašaliname seną rėmelį */
+  border-radius: 8px; /* Subtiliai suapvalinti kampai */
+  padding: 10px 24px; /* Komfortiškas dydis mygtukui */
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover efektas – šiek tiek tamsesnis atspalvis ir pakilęs šešėlis */
+.btn-full-forecast:hover {
+  background: #1e88e5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Active efektas – šiek tiek suslūgsta į apačią */
+.btn-full-forecast:active {
+  background: #1976d2;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(1px);
+}
+
+/* Jeigu widget'as yra viduje .page */
+.mini-weather-widget .hero:hover {
+  cursor: pointer;
 }

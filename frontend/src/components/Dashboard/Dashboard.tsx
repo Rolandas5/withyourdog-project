@@ -9,7 +9,7 @@ import './user-dogs-table.css';
 import { UserDogsTable, DogProfile } from './UserDogsTable';
 import { EditDogModal } from './EditDogModal';
 import { DeleteConfirmModal } from './DeleteConfirmModal';
-import WeatherBlock from '../WeatherBlock/WeatherBlock';
+import WeatherMiniWidget from '../WeatherMiniWidget/WeatherMiniWidget';
 
 export const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -134,17 +134,8 @@ export const Dashboard = () => {
         <span className="welcome-text">
           👋 Labas, {user?.name || 'drauge'}! Smagu, kad sugrįžai.
         </span>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minWidth: 140,
-            margin: '0 18px',
-            padding: '2px 0',
-          }}
-        >
-          <WeatherBlock />
+        <div className="widget-wrapper">
+          <WeatherMiniWidget />
         </div>
         <button className="logout-button" onClick={logout}>
           Atsijungti

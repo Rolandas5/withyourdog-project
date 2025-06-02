@@ -1,153 +1,284 @@
-/* WeatherBlock stilius – šviesus, modernus, be kortelių, be tamsių fonų */
+/* ================================================
+   1. BENDRAS KONTEINERIS (kortelė)
+   ================================================ */
 .weather-block {
-  background: #fff;
-  color: #232323;
-  border-radius: 24px;
-  max-width: 540px;
-  margin: 32px auto;
-  padding: 32px 32px 24px 32px;
-  box-shadow: 0 8px 32px rgba(30, 60, 180, 0.1);
-  font-family: 'Inter', Arial, sans-serif;
+  background: linear-gradient(135deg, #1f2328 0%, #2b2f33 100%);
+  border-radius: 16px;
+  overflow: hidden;
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 500px; /* arba 400px, priklausomai, kokio pločio nori */
+  margin: 24px auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
+/* ================================================
+     2. HEADERAS: “Mano vieta” + MIESTO PASIRINKIMAS
+     ================================================ */
 .weather-block-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 18px;
-}
-.weather-block-select {
-  font-size: 1.18rem;
-  padding: 10px 24px 10px 12px;
-  border-radius: 14px;
-  border: 2px solid #b3cfff;
-  outline: none;
-  color: #1a237e;
-  background: #e3f0ff;
-  font-weight: 700;
-  transition: border 0.14s, box-shadow 0.14s;
-  box-shadow: 0 2px 8px rgba(30, 60, 180, 0.07);
-}
-.weather-block-select:focus {
-  border: 2px solid #1a237e;
-  box-shadow: 0 2px 12px rgba(30, 60, 180, 0.13);
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.3);
 }
 
-.weather-block-main {
+.btn-location {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 32px;
-  margin-bottom: 24px;
+  align-items: center;
+  background: #2979ff;
+  border: none;
+  border-radius: 24px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+  margin-right: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: background 0.2s ease;
 }
-.weather-block-left {
-  flex: 1;
+
+.btn-location:hover {
+  background: #1565c0;
 }
-.weather-block-right {
-  flex: 1;
+
+.icon-location {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  background: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23FFFFFF' d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z'/%3E%3C/svg%3E")
+    center/contain no-repeat;
+}
+
+.city-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 24px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333333;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%227%22%20height%3D%224%22%20viewBox%3D%220%200%207%204%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M0%200l3.5%204%203.5-4z%22%20fill%3D%22%23333%22/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  width: 130px; /* dabar select siauresnis */
+  max-width: 160px; /* jeigu norite, kad griežtai neviršytų 120px */
+  padding: 6px 12px;
+}
+
+.city-select:focus {
+  outline: none;
+  border-color: #2979ff;
+  box-shadow: 0 0 0 2px rgba(41, 121, 255, 0.3);
+}
+
+/* ================================================
+     3. VIRŠUTINIS BLOKAS: KAIRĖ + DEŠINĖ DALYS
+     ================================================ */
+.weather-block-top {
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  justify-content: space-between; /* Kairė į kairę, dešinė į dešinę */
+  align-items: center; /* Vertikaliai centre */
+  padding: 24px 32px 16px; /* Viršutiniai/šoniniai paddingai */
 }
+
+/* KAIRĖ DALIS */
+.weather-block-top-left {
+  flex: 1; /* užima tiek plotį, kiek reikia, bet ne daugiau nei likusi erdvė */
+  min-width: 160px; /* neleis susitraukti per daug */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Lygiuoti tekstą į kairę */
+}
+
 .weather-block-city {
-  font-size: 2.2rem;
-  font-weight: 800;
-  margin-bottom: 0.2rem;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin: 0;
+  text-transform: capitalize;
+  color: #ffffff;
+  /* Jei miesto pavadinimas per ilgas: sutrumpinti ... 
+     (nebūtinai, bet jei reikia) */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .weather-block-date {
-  color: #888;
-  font-size: 1.08rem;
-  margin-bottom: 0.7rem;
+  font-size: 1rem;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: capitalize;
 }
+
+/* DEŠINĖ DALIS */
+.weather-block-top-right {
+  flex: 1; /* užima tiek pat plotį, kiek kairė dalis */
+  min-width: 190px; /* neleis per daug susitraukti */
+  display: flex;
+  justify-content: flex-end; /* ikonėlė + temp visada dešiniame krašte */
+  align-items: center;
+}
+
 .weather-block-icon-big {
-  margin: 10px 0 0 0;
   width: 80px;
   height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-right: 16px;
 }
+
+.weather-block-temp-feels {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Lygiuoti dešinę */
+}
+
 .weather-block-temp {
-  font-size: 3.2rem;
-  font-weight: 800;
-  color: #1a237e;
-  margin-bottom: 0.1rem;
+  font-size: 3rem;
+  font-weight: 300;
+  margin: 0;
+  color: #ffffff;
 }
+
 .weather-block-feels {
-  font-size: 1.13rem;
-  color: #ff9800;
-  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 4px;
 }
-.weather-block-hours {
+
+/* ================================================
+     4. PAGRINDINIS BLOKAS: KAIRĖ + DEŠINĖ (LENTELĖ)
+     ================================================ */
+.weather-block-main {
   display: flex;
-  gap: 18px;
+  flex-wrap: wrap;
+  padding: 0 16px 16px; /* Viršutinis padding pakeistas */
 }
-.weather-block-hour {
+
+/* JEI TURI „weather-block-left“ KITAI, PALIK JĄ NEPAKEISTĄ */
+
+/* DEŠINĖ LENTELĖ SU <table> */
+.weather-block-right {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 1.13rem;
-  min-width: 60px;
-}
-.weather-block-hour-icon {
-  margin: 2px 0;
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 360px;
 }
-.weather-block-days {
+
+/* Lentelė su fiksuotais stulpeliais ir layout */
+.weather-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Svarbu – stulpeliai nebesianksto */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #ffffff;
+}
+
+.weather-table colgroup col:nth-child(1) {
+  width: 40%;
+}
+.weather-table colgroup col:nth-child(2),
+.weather-table colgroup col:nth-child(3),
+.weather-table colgroup col:nth-child(4) {
+  width: 20%;
+}
+
+/* Lentelės antraštė */
+.weather-table thead {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.weather-table th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 0;
+  text-align: center;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Jei antraštės pirmas stulpelis – tuščias */
+.day-name-header {
+  text-align: left;
+  padding-left: 8px;
+}
+
+/* Lentelės turinys */
+.weather-table tbody tr {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.weather-table td {
+  padding: 8px 0;
+  text-align: center;
+}
+
+/* Dienos vardas langelyje */
+.day-name-cell {
+  text-align: left;
+  padding-left: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* Laikų langeliai (ikonėlė + temp) */
+.time-cell {
+  /* Nereikia papildomo stiliaus – tarpai jau apibrėžti per padding */
+}
+
+/* Vidinis blokas ikonai + temperatūrai vienoje eilutėje */
+.hour-cell-content {
   display: flex;
-  gap: 18px;
   justify-content: center;
-  margin-top: 18px;
-}
-.weather-block-day {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  min-width: 80px;
-  background: none;
 }
-.weather-block-day-label {
-  font-weight: 700;
-  font-size: 1.08rem;
-  color: #232323;
-  margin-bottom: 2px;
+
+/* SVG ikonėlėms: 24×24 px + tarpas iki temp teksto */
+.hour-cell-content svg {
+  width: 24px;
+  height: 24px;
+  margin-right: 4px;
 }
-.weather-block-day-icon {
-  margin: 2px 0;
-  width: 32px;
-  height: 32px;
+
+/* Temperatūros tekstas */
+.hour-temp-text {
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+/* ================================================
+     5. FOOTER: „Žr. išsamesnę prognozę“
+     ================================================ */
+.weather-block-footer {
   display: flex;
-  align-items: center;
   justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.3);
 }
-.weather-block-day-temp {
-  font-size: 1.13rem;
-  font-weight: 700;
-  color: #1a237e;
+
+.btn-full-forecast {
+  background: transparent;
+  border: 1px solid #ffffff;
+  border-radius: 24px;
+  padding: 8px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
-.weather-block-day-desc {
-  font-size: 0.97rem;
-  color: #ff9800;
-  margin-top: 2px;
+
+.btn-full-forecast:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
-@media (max-width: 700px) {
-  .weather-block {
-    padding: 10px 2vw 10px 2vw;
-    max-width: 99vw;
-    border-radius: 12px;
-  }
-  .weather-block-main {
-    flex-direction: column;
-    gap: 10px;
-  }
-  .weather-block-hours {
-    gap: 8px;
-  }
-  .weather-block-days {
-    gap: 8px;
-  }
+
+.weather-block:hover {
+  cursor: pointer;
 }

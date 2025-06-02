@@ -14,6 +14,7 @@ import NotFound from './pages/NotFound/NotFound';
 import { AuthProvider } from './context/AuthContext';
 import { Dashboard } from './components/Dashboard/Dashboard';
 import { ProtectedRoute } from './components/Dashboard/components/UserProfileTab/ProtectedRoute';
+import WeatherPage from './components/WeatherPage/WeatherPage';
 
 function AppContent() {
   const location = useLocation();
@@ -51,6 +52,7 @@ function AppContent() {
         />
         <Route path="/places" element={<Places />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/weather" element={<WeatherPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
