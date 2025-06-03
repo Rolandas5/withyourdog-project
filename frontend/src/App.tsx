@@ -8,7 +8,10 @@ import { useState, useEffect } from 'react';
 import Navbar from './components/NavBar/Navbar';
 import Home from './pages/HomePage/HomePage';
 import LoginRegisterModal from './pages/auth/LoginRegisterModal/LoginRegisterModal';
-import Places from './pages/explore/places/Places';
+import Places from './pages/explore/places/Places/Places';
+import Hotels from './pages/explore/places/Hotels/Hotels';
+import Beaches from './pages/explore/places/Beaches/Beaches';
+import Parks from './pages/explore/places/Parks/Parks';
 import Services from './pages/explore/services/Services';
 import NotFound from './pages/NotFound/NotFound';
 import { AuthProvider } from './context/AuthContext';
@@ -51,6 +54,9 @@ function AppContent() {
           }
         />
         <Route path="/places" element={<Places />} />
+        <Route path="/places/hotels" element={<Hotels />} />
+        <Route path="/places/beaches" element={<Beaches />} />
+        <Route path="/places/parks" element={<Parks />} />
         <Route path="/services" element={<Services />} />
         <Route path="/weather" element={<WeatherPage />} />
         <Route path="*" element={<NotFound />} />

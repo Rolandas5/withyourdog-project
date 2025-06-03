@@ -188,7 +188,7 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
         { to: '/places', label: 'Visos vietos' },
         { to: '/places/hotels', label: 'Viešbučiai, sodybos, kempingai' },
         { to: '/places/beaches', label: 'Paplūdimiai' },
-        { to: '/places/parks', label: 'Parkai ir kitos lauko vietos' },
+        { to: '/places/parks', label: 'Parkai ir kitos vietos' },
       ];
     } else if (section === 'services') {
       items = [

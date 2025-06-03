@@ -195,3 +195,57 @@
     padding: 10px 2vw 10px 2vw;
   }
 }
+
+@media (max-width: 600px) {
+  .dogs-table-wrapper {
+    margin: 0 -4vw 28px -4vw; /* Priartina prie kraštų, bet netempia už ribų */
+    width: 100vw;
+    overflow-x: auto;
+  }
+  .dogs-table {
+    width: 98vw;
+    min-width: 440px;
+    font-size: 0.97rem;
+    border-radius: 11px;
+  }
+  .dogs-table th,
+  .dogs-table td {
+    padding: 9px 5px;
+    font-size: 0.93rem;
+    min-width: 70px;
+    word-break: break-word;
+    white-space: normal;
+  }
+  .dogs-table th {
+    font-size: 0.97rem;
+    padding: 9px 5px;
+  }
+  .dog-table-avatar {
+    width: 37px;
+    height: 37px;
+    font-size: 1.5rem;
+  }
+  .edit-btn,
+  .delete-btn {
+    font-size: 0.9rem;
+    padding: 6px 9px;
+    margin-right: 3px;
+  }
+  .no-dogs-msg {
+    font-size: 0.99rem;
+    margin: 18px 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .dogs-table {
+    min-width: 340px;
+    font-size: 0.9rem;
+  }
+  .dogs-table th,
+  .dogs-table td {
+    font-size: 0.9rem;
+    padding: 7px 3px;
+    min-width: 62px;
+  }
+}
