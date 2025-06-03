@@ -8,6 +8,8 @@ const path = require('path');
 
 const authRoutes = require('./routes/authRoutes'); // importuojame autentifikacijos maršrutus
 const dogProfileRoutes = require('./routes/dogProfileRoutes'); // importuojame dog profile maršrutus
+const petPlacesRoutes = require('./routes/petPlacesRoutes');
+const commentRoutes = require('./routes/commentRoutes');
 
 // Įkeliame aplinkos kintamuosius iš .env failo
 dotenv.config();
@@ -48,6 +50,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // app.use('/api/reviews', reviewRoutes); // Nukreipiame visas API užklausas, kurios prasideda /api/reviews į reviewRoutes failą, kuris toliau tvarkys užklausas susijusias su atsiliepimais.
 app.use('/api/auth', authRoutes); // Nukreipiame visas API užklausas, kurios prasideda /api/auth į authRoutes failą, kuris toliau tvarkys užklausas susijusias su autentifikacija.
 app.use('/api/dog-profile', dogProfileRoutes); // Nukreipiame visas API užklausas, kurios prasideda /api/dog-profile į dogProfileRoutes failą, kuris toliau tvarkys užklausas susijusias su dog profile.
+app.use('/api/pet-places', petPlacesRoutes); // Nukreipiame visas API užklausas, kurios prasideda /api/pet-places į petPlacesRoute failą, kuris toliau tvarkys užklausas susijusias su pet places.
+app.use('/api/comments', commentRoutes);
 
 // Prisijungiame prie Withyourdog-project naudojant mongoose
 mongoose
@@ -72,6 +76,7 @@ app.get('/api/weather/:place', async (req, res) => {
     }
     res.json(response.data);
   } catch (err) {
+    console.error('Orų API klaida:', err?.response?.data || err.message || err);
     if (err.response && err.response.status === 404) {
       return res.status(404).json({ error: 'Tokio miesto orų duomenų nėra' });
     }

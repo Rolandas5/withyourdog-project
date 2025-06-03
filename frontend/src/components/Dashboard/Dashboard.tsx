@@ -10,6 +10,7 @@ import { UserDogsTable, DogProfile } from './UserDogsTable';
 import { EditDogModal } from './EditDogModal';
 import { DeleteConfirmModal } from './DeleteConfirmModal';
 import WeatherMiniWidget from '../WeatherMiniWidget/WeatherMiniWidget';
+import AdminCommentsTab from './components/AdminCommentsTab/AdminCommentsTab';
 
 export const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -174,6 +175,14 @@ export const Dashboard = () => {
             </button>
             <button
               className={`tab-button ${
+                activeTab === 'admin-comments' ? 'active' : ''
+              }`}
+              onClick={() => setActiveTab('admin-comments')}
+            >
+              Komentarai
+            </button>
+            <button
+              className={`tab-button ${
                 activeTab === 'admin-messages' ? 'active' : ''
               }`}
               onClick={() => setActiveTab('admin-messages')}
@@ -234,6 +243,7 @@ export const Dashboard = () => {
             {activeTab === 'admin-reviews' && <div>Žinomas tabas</div>}
             {activeTab === 'admin-messages' && <div>Žinomas tabas</div>}
             {activeTab === 'admin-users' && <div>Žinomas tabas</div>}
+            {activeTab === 'admin-comments' && <AdminCommentsTab />}
             {/* Modalai */}
             {editDog && (
               <EditDogModal

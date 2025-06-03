@@ -9,7 +9,7 @@ import Navbar from './components/NavBar/Navbar';
 import Home from './pages/HomePage/HomePage';
 import LoginRegisterModal from './pages/auth/LoginRegisterModal/LoginRegisterModal';
 import Places from './pages/explore/places/Places/Places';
-import Hotels from './pages/explore/places/Hotels/Hotels';
+import Hotels from './pages/explore/places/Hotels/HotelsPlaces';
 import Beaches from './pages/explore/places/Beaches/Beaches';
 import Parks from './pages/explore/places/Parks/Parks';
 import Services from './pages/explore/services/Services';

@@ -3,8 +3,11 @@ import Footer from '../../components/Footer/Footer';
 import WeatherMiniWidget from '../../components/WeatherMiniWidget/WeatherMiniWidget';
 import './home-page.css';
 import '../../components/WeatherMiniWidget/mini-weather-widget.css';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Home() {
+  const navigate = useNavigate();
+
   return (
     <>
       <section
@@ -21,7 +24,9 @@ export default function Home() {
             <p className="hero-subtitle">
               Keliauk ir patirk gyvenimą kartu su savo šunimi
             </p>
-            <button className="hero-button">Pradėk čia</button>
+            <button className="hero-button" onClick={() => navigate('/places')}>
+              Pradėk čia
+            </button>
           </div>
         </div>
       </section>
