@@ -162,6 +162,7 @@
   display: block;
   margin: 12px auto 0 auto;
   transition: box-shadow 0.15s, background 0.18s;
+  min-width: 110px;
 }
 .profile-save-btn:hover {
   box-shadow: 0 2px 12px rgba(150, 100, 0, 0.13);
@@ -248,4 +249,9 @@
     padding: 7px 3px;
     min-width: 62px;
   }
+}
+
+.delete-btn-modal,
+.cancel-btn-modal {
+  min-width: 110px;
 }

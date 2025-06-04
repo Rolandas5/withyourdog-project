@@ -20,10 +20,13 @@ exports.register = async (req, res) => {
     }
 
     // 3. Sukuriame naują vartotoją
+    const ip =
+      req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
     const user = new User({
       name,
       email,
       password,
+      ipAddress: ip,
     });
 
     await user.save();
@@ -80,13 +83,11 @@ exports.login = async (req, res) => {
     const userObj = existingUser.toObject();
     delete userObj.password;
 
-    res
-      .status(201)
-      .json({
-        access_token: token,
-        user: userObj,
-        message: 'Prisijungimas sėkmingas!',
-      });
+    res.status(201).json({
+      access_token: token,
+      user: userObj,
+      message: 'Prisijungimas sėkmingas!',
+    });
   } catch (error) {
     res.status(500).json({ error: 'Serverio klaida. Bandykite dar kartą.' });
   }
@@ -146,6 +147,25 @@ exports.updateUserRole = async (req, res) => {
       { new: true }
     ).select('-password');
     res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ error: 'Serverio klaida. Bandykite dar kartą.' });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    // Tik adminas gali trinti vartotojus
+    if (!req.user || req.user.role !== 'admin') {
+      return res
+        .status(403)
+        .json({ error: 'Neturite teisės trinti vartotojų' });
+    }
+    const { userId } = req.params;
+    const deleted = await User.findByIdAndDelete(userId);
+    if (!deleted) {
+      return res.status(404).json({ error: 'Vartotojas nerastas' });
+    }
+    res.status(200).json({ message: 'Vartotojas ištrintas' });
   } catch (error) {
     res.status(500).json({ error: 'Serverio klaida. Bandykite dar kartą.' });
   }

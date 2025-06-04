@@ -1,8 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { API_URL } from '../../../constants/global';
-import { AuthContext } from '../../../context/AuthContext';
-import { User } from '../../../types/typesUser';
+import { API_URL } from '../../../../constants/global';
+import { AuthContext } from '../../../../context/AuthContext';
+import { User } from '../../../../types/typesUser';
+import './admin-users-tab.css';
+import { DeleteUserModal } from './DeleteUserModal';
 
 export const AdminUsersTab = () => {
   const { access_token } = useContext(AuthContext);
@@ -11,6 +13,7 @@ export const AdminUsersTab = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [alert, setAlert] = useState<string | null>(null);
+  const [deleteUser, setDeleteUser] = useState<User | null>(null);
 
   // Parsisiunčia visus vartotojus
   const fetchAllUsers = async () => {
@@ -53,6 +56,20 @@ export const AdminUsersTab = () => {
     }
   };
 
+  // Ištrina vartotoją
+  const handleDelete = async (userId: string) => {
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${access_token}` },
+      };
+      await axios.delete(`${API_URL}/auth/delete-user/${userId}`, config);
+      setAllUsers((prev) => prev.filter((u) => u._id !== userId));
+      setAlert('Vartotojas ištrintas.');
+    } catch {
+      setAlert('Nepavyko ištrinti vartotojo!');
+    }
+  };
+
   // Atidaro modalą rolės redagavimui
   const handleEdit = (user: User) => {
     setSelectedUser(user);
@@ -64,38 +81,22 @@ export const AdminUsersTab = () => {
   }, [access_token]);
 
   return (
-    <div className="admin-tab">
-      <h2>Vartotojai</h2>
-
-      {alert && (
-        <div className="alert-info">
-          {alert}
-          <button
-            onClick={() => setAlert(null)}
-            style={{
-              marginLeft: '12px',
-              background: 'transparent',
-              border: 'none',
-              color: '#d00',
-              cursor: 'pointer',
-            }}
-          >
-            X
-          </button>
-        </div>
-      )}
-
+    <div className="admin-users-tab">
+      <h2 className="users-title">Vartotojai</h2>
+      {alert && <div className="alert-msg">{alert}</div>}
       {loading ? (
-        <p>Kraunama vartotojų sąrašą...</p>
+        <p>Kraunama...</p>
       ) : allUsers.length === 0 ? (
-        <p>Nerasta nė vieno vartotojo.</p>
+        <p>Dar nėra vartotojų.</p>
       ) : (
-        <table className="reservation-table">
+        <table className="users-table">
           <thead>
             <tr>
               <th>Vardas</th>
               <th>El. paštas</th>
               <th>Rolė</th>
+              <th>Registracijos data</th>
+              <th>IP adresas</th>
               <th>Veiksmai</th>
             </tr>
           </thead>
@@ -104,10 +105,30 @@ export const AdminUsersTab = () => {
               <tr key={user._id}>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
-                <td>{user.role}</td>
                 <td>
-                  <button className="btn-edit" onClick={() => handleEdit(user)}>
-                    Keisti rolę
+                  <select
+                    value={user.role}
+                    onChange={(e) => {
+                      setSelectedUser(user);
+                      updateUserRole(e.target.value);
+                    }}
+                  >
+                    <option value="user">user</option>
+                    <option value="admin">admin</option>
+                  </select>
+                </td>
+                <td>
+                  {user.createdAt
+                    ? new Date(user.createdAt).toLocaleString()
+                    : '-'}
+                </td>
+                <td>{user.ipAddress || '-'}</td>
+                <td>
+                  <button
+                    className="delete-btn"
+                    onClick={() => setDeleteUser(user)}
+                  >
+                    Ištrinti
                   </button>
                 </td>
               </tr>
@@ -115,12 +136,14 @@ export const AdminUsersTab = () => {
           </tbody>
         </table>
       )}
-
-      {isModalOpen && selectedUser && (
-        <UserUpdateModal
-          onModalClose={() => setIsModalOpen(false)}
-          onSubmit={(formData) => updateUserRole(formData.role)}
-          editUser={selectedUser}
+      {deleteUser && (
+        <DeleteUserModal
+          userName={deleteUser.name}
+          onConfirm={async () => {
+            await handleDelete(deleteUser._id!);
+            setDeleteUser(null);
+          }}
+          onCancel={() => setDeleteUser(null)}
         />
       )}
     </div>

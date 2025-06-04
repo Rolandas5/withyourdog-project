@@ -1,8 +1,9 @@
 import { useState, useRef } from 'react';
 import { FiUser, FiMail } from 'react-icons/fi';
-import styles from './ContactSection.module.css';
+import axios from 'axios';
+import './messages.css';
 
-export default function ContactSection() {
+export const Messages = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -31,7 +32,11 @@ export default function ContactSection() {
 
     try {
       setIsSending(true);
-      await new Promise((res) => setTimeout(res, 1500));
+      await axios.post('/api/messages', {
+        name,
+        email,
+        text: message,
+      });
       setSuccessMessage('Ačiū! Jūsų žinutė buvo sėkmingai išsiųsta.');
       setName('');
       setEmail('');
@@ -44,65 +49,61 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className={styles.contactSection}>
-      <div className={styles.contactContainer}>
-        <h2 className={styles.heading}>Susisiekite su mumis</h2>
-        <p className={styles.subheading}>
+    <section id="contact" className="contactSection">
+      <div className="contactContainer">
+        <h2 className="heading">Susisiekite su mumis</h2>
+        <p className="subheading">
           Turite klausimų ar pasiūlymų? Parašykite mums žinutę!
         </p>
 
-        <form onSubmit={handleSubmit} className={styles.form} noValidate>
-          <div className={styles.contactInputGroup}>
-            <div className={styles.contactInputWrapper}>
+        <form onSubmit={handleSubmit} className="form" noValidate>
+          <div className="contactInputGroup">
+            <div className="contactInputWrapper">
               <input
                 type="text"
                 placeholder="Jūsų vardas"
-                className={styles.contactInput}
+                className="contactInput"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 ref={nameRef}
               />
-              <FiUser className={styles.contactIconRight} />
+              <FiUser className="contactIconRight" />
             </div>
-            {errors.name && <p className={styles.error}>{errors.name}</p>}
+            {errors.name && <p className="error">{errors.name}</p>}
           </div>
 
-          <div className={styles.contactInputGroup}>
-            <div className={styles.contactInputWrapper}>
+          <div className="contactInputGroup">
+            <div className="contactInputWrapper">
               <input
                 type="email"
                 placeholder="El. paštas"
-                className={styles.contactInput}
+                className="contactInput"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 ref={emailRef}
               />
-              <FiMail className={styles.contactIconRight} />
+              <FiMail className="contactIconRight" />
             </div>
-            {errors.email && <p className={styles.error}>{errors.email}</p>}
+            {errors.email && <p className="error">{errors.email}</p>}
           </div>
 
-          <div className={styles.contactInputGroup}>
+          <div className="contactInputGroup">
             <textarea
               placeholder="Jūsų žinutė"
-              className={`${styles.contactInput} ${styles.textarea}`}
+              className="contactInput textarea"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
-            {errors.message && <p className={styles.error}>{errors.message}</p>}
+            {errors.message && <p className="error">{errors.message}</p>}
           </div>
 
-          <button
-            className={styles.contactButton}
-            type="submit"
-            disabled={isSending}
-          >
+          <button className="contactButton" type="submit" disabled={isSending}>
             {isSending ? 'Siunčiama...' : 'Siųsti'}
           </button>
 
-          {successMessage && <p className={styles.success}>{successMessage}</p>}
+          {successMessage && <p className="success">{successMessage}</p>}
         </form>
       </div>
     </section>
   );
-}
+};

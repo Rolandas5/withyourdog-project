@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Search as SearchIcon } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
+import WeatherMiniWidget from '../WeatherMiniWidget/WeatherMiniWidget';
 
 interface NavbarProps {
   onLoginClick: () => void;
@@ -228,6 +229,9 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
           <img src="/assets/logo.png" alt="Logo" className="logo" />
         </Link>
         <span className="logo-text">WithYourDog</span>
+
+        {/* Weather widget tarp logo ir search */}
+        <WeatherMiniWidget />
 
         <nav className="nav-desktop">
           <div className="search-container" ref={searchRef}>

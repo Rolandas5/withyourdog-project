@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import { UserProfileTab } from './components/UserProfileTab/UserProfileTab';
+import { UserProfileTab } from './components/UserProfileTab/UserProfileTab/UserProfileTab';
 import axios from 'axios';
 import { API_URL } from '../../constants/global';
 import './dashboard.css';
@@ -9,8 +9,10 @@ import './user-dogs-table.css';
 import { UserDogsTable, DogProfile } from './UserDogsTable';
 import { EditDogModal } from './EditDogModal';
 import { DeleteConfirmModal } from './DeleteConfirmModal';
-import WeatherMiniWidget from '../WeatherMiniWidget/WeatherMiniWidget';
 import AdminCommentsTab from './components/AdminCommentsTab/AdminCommentsTab';
+import { MessagesTab } from './components/MessagesTab/MessagesTab';
+import { AdminUsersTab } from './components/AdminUsersTab/AdminUsersTab';
+import { UserExperiencesTab } from './components/UserExperiencesTab';
 
 export const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -135,9 +137,6 @@ export const Dashboard = () => {
         <span className="welcome-text">
           👋 Labas, {user?.name || 'drauge'}! Smagu, kad sugrįžai.
         </span>
-        <div className="widget-wrapper">
-          <WeatherMiniWidget />
-        </div>
         <button className="logout-button" onClick={logout}>
           Atsijungti
         </button>
@@ -154,6 +153,14 @@ export const Dashboard = () => {
           onClick={() => setActiveTab('places')}
         >
           Vietos
+        </button>
+        <button
+          className={`tab-button ${
+            activeTab === 'experiences' ? 'active' : ''
+          }`}
+          onClick={() => setActiveTab('experiences')}
+        >
+          Patirtys
         </button>
         {isAdmin && (
           <>
@@ -239,10 +246,11 @@ export const Dashboard = () => {
             )}
             {/* Kiti tab'ai */}
             {activeTab === 'places' && <div>Žinomas tabas</div>}
+            {activeTab === 'experiences' && <UserExperiencesTab />}
             {activeTab === 'admin-experiences' && <div>Žinomas tabas</div>}
             {activeTab === 'admin-reviews' && <div>Žinomas tabas</div>}
-            {activeTab === 'admin-messages' && <div>Žinomas tabas</div>}
-            {activeTab === 'admin-users' && <div>Žinomas tabas</div>}
+            {activeTab === 'admin-messages' && <MessagesTab />}
+            {activeTab === 'admin-users' && <AdminUsersTab />}
             {activeTab === 'admin-comments' && <AdminCommentsTab />}
             {/* Modalai */}
             {editDog && (

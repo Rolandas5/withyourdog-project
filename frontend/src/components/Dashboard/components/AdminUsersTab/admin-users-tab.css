@@ -1,0 +1,80 @@
+.admin-users-tab {
+  padding: 20px;
+  background: #f7f9fb;
+}
+
+.users-title {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.users-table th,
+.users-table td {
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.users-table th {
+  background: #f7f9fb;
+  color: #333;
+  font-weight: 600;
+}
+
+.users-table tr:last-child td {
+  border-bottom: none;
+}
+
+.users-table td {
+  color: #444;
+  font-size: 0.98rem;
+}
+
+.users-table button.delete-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+
+.users-table button.delete-btn:hover {
+  background: #c0392b;
+}
+
+.alert-msg {
+  background: #ffe0e0;
+  color: #c0392b;
+  padding: 8px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-weight: 500;
+  border: 1px solid #f5c6cb;
+}
+
+@media (max-width: 768px) {
+  .admin-users-tab {
+    padding: 10px;
+  }
+  .users-title {
+    font-size: 1.2rem;
+  }
+  .users-table th,
+  .users-table td {
+    padding: 8px 4px;
+    font-size: 0.9rem;
+  }
+}

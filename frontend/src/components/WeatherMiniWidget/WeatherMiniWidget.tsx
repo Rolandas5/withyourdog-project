@@ -112,26 +112,24 @@ export default function WeatherMiniWidget() {
       });
   }, []);
 
-  if (loading) return <div className="mini-weather-widget">Kraunama...</div>;
-  if (error)
-    return (
-      <div className="mini-weather-widget mini-weather-error">{error}</div>
-    );
-  if (!weather) return null;
+  if (loading || error || !weather) return null;
 
   const current = weather.forecastTimestamps[0];
   const icon = ICONS[current.conditionCode] || ICONS['cloudy'];
 
   return (
-    <div className="mini-weather-widget" onClick={() => navigate('/weather')}>
-      {/* Temperatūra */}
-      <div className="mini-weather-temp">
+    <div
+      className="navbar-weather-widget"
+      onClick={() => navigate('/weather')}
+      title="Žiūrėti detalią orų prognozę"
+      tabIndex={0}
+      role="button"
+      style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+    >
+      <span className="navbar-weather-temp">
         {Math.round(current.airTemperature)}°
-      </div>
-      {/* Ikonėlė */}
-      <div className="mini-weather-icon">{icon}</div>
-      {/* Miestas */}
-      <div className="mini-weather-city">Marijampolė</div>
+      </span>
+      <span className="navbar-weather-icon">{icon}</span>
     </div>
   );
 }

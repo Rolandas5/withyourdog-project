@@ -1,7 +1,7 @@
 import './user-profile-tab.css';
 import { useState } from 'react';
-import { API_URL } from '../../../../constants/global';
-import { DogAvatarUploader } from './DogAvatarUploader/DogAvatarUploader';
+import { API_URL } from '../../../../../constants/global';
+import { DogAvatarUploader } from '../DogAvatarUploader/DogAvatarUploader';
 import axios from 'axios';
 
 interface UserProfileTabProps {

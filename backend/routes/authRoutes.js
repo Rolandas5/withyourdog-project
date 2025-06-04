@@ -25,6 +25,13 @@ router.put(
   authController.updateUserRole
 );
 
+// --- Ištrinti vartotoją (tik adminui) ---
+router.delete(
+  '/delete-user/:userId',
+  authMiddleware,
+  authController.deleteUser
+);
+
 // (jei prireiks - galėsi pridėti DELETE, pvz. trinti vartotoją)
 
 module.exports = router;

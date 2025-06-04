@@ -1,6 +1,5 @@
-import ContactSection from '../../components/ContactSection/ContactSection';
+import { Messages } from '../../components/Messages/Messages';
 import Footer from '../../components/Footer/Footer';
-import WeatherMiniWidget from '../../components/WeatherMiniWidget/WeatherMiniWidget';
 import './home-page.css';
 import '../../components/WeatherMiniWidget/mini-weather-widget.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -17,7 +16,6 @@ export default function Home() {
           position: 'relative',
         }}
       >
-        <WeatherMiniWidget />
         <div className="hero-overlay">
           <div className="hero-content">
             <h1 className="hero-title">Kurk nuotykius!</h1>
@@ -30,7 +28,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <ContactSection />
+      <Messages />
       <Footer />
     </>
   );

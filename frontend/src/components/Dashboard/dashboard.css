@@ -126,9 +126,9 @@
   background: var(--bg-light);
   color: var(--text);
   border: none;
-  padding: 11px 30px;
-  border-radius: 22px;
-  font-size: 1.05rem;
+  padding: 10px 22px;
+  border-radius: 20px;
+  font-size: 1rem;
   cursor: pointer;
   font-weight: 600;
   box-shadow: 0 2.5px 7px rgba(0, 0, 0, 0.05);
