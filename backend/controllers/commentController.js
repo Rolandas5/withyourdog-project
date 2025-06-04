@@ -15,8 +15,18 @@ exports.createComment = async (req, res) => {
     let avatarUrl = '';
     try {
       const dog = await DogProfile.findOne({ userId: req.user._id });
-      avatarUrl =
-        dog && dog.avatarUrl ? dog.avatarUrl : '/default-dog-avatar.png';
+      if (dog && dog.avatarUrl) {
+        if (
+          dog.avatarUrl.startsWith('http') ||
+          dog.avatarUrl.startsWith('/uploads')
+        ) {
+          avatarUrl = dog.avatarUrl;
+        } else {
+          avatarUrl = `/uploads/${dog.avatarUrl}`;
+        }
+      } else {
+        avatarUrl = '/default-dog-avatar.png';
+      }
     } catch (e) {
       avatarUrl = '/default-dog-avatar.png';
     }

@@ -21,7 +21,8 @@ const app = express();
 // Cors - leidžia siusti API užklausas iš kito domeno pvz. localhost:3000 -> localhost:5173
 // Cors leidžia naršyklėms siųsti API užklausas iš (kito) skirtingų domenų, pvz. localhost:3000 -> localhost:5173
 // Tai leidžia mums siųsti užklausas iš mūsų front-end aplikacijos (pvz. React) į mūsų back-end serverį (Express).
-app.use(cors());
+// Pašalinu šį nereikalingą CORS middleware:
+// app.use(cors());
 app.use(express.json());
 
 const allowedOrigins = [

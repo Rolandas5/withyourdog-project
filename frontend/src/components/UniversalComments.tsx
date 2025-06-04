@@ -18,6 +18,14 @@ interface DogProfile {
   favoritePlaces: string[];
 }
 
+// Pagalbinė funkcija avataro url gavimui
+function getAvatarUrl(avatarUrl?: string) {
+  if (!avatarUrl || avatarUrl === '/default-dog-avatar.png') return null;
+  if (avatarUrl.startsWith('http')) return avatarUrl;
+  if (avatarUrl.startsWith('/')) return avatarUrl;
+  return `/uploads/${avatarUrl}`;
+}
+
 export default function UniversalComments({
   entityId,
   entityType,
@@ -29,6 +37,8 @@ export default function UniversalComments({
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
   const [dogAvatar, setDogAvatar] = useState<string | null>(null);
+  const [dogProfiles, setDogProfiles] = useState<DogProfile[]>([]);
+  const [selectedDogIdx, setSelectedDogIdx] = useState<number>(0);
 
   useEffect(() => {
     setLoading(true);
@@ -39,33 +49,35 @@ export default function UniversalComments({
       .finally(() => setLoading(false));
   }, [entityId, entityType]);
 
-  // Užkrauk šuns avatarą jei user prisijungęs
+  // Užkrauk šuns profilius jei user prisijungęs
   useEffect(() => {
-    if (user && user._id) {
-      console.log('Gaunamas šuns profilis userId:', user._id);
+    if (user?._id) {
       axios
         .get(`/api/dog-profile/user/${user._id}`)
         .then((res) => {
           const dogs: DogProfile[] = Array.isArray(res.data) ? res.data : [];
-          console.log('Gauti šuns profiliai:', dogs);
-          if (
-            dogs.length &&
-            dogs[0].avatarUrl &&
-            dogs[0].avatarUrl !== '/default-dog-avatar.png'
-          ) {
-            setDogAvatar(dogs[0].avatarUrl);
-          } else {
-            setDogAvatar(null);
-          }
+          setDogProfiles(dogs);
+          setSelectedDogIdx(0);
+          setDogAvatar(getAvatarUrl(dogs[0]?.avatarUrl));
         })
         .catch((err) => {
           console.log('Klaida gaunant šuns profilį:', err);
           setDogAvatar(null);
+          setDogProfiles([]);
         });
     } else {
       setDogAvatar(null);
+      setDogProfiles([]);
+      setSelectedDogIdx(0);
     }
   }, [user]);
+
+  // Kai pasirenka kitą šunį
+  useEffect(() => {
+    if (dogProfiles.length > 0) {
+      setDogAvatar(getAvatarUrl(dogProfiles[selectedDogIdx]?.avatarUrl));
+    }
+  }, [selectedDogIdx, dogProfiles]);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,39 +131,87 @@ export default function UniversalComments({
         </div>
       )}
       {user ? (
-        <form className="universal-comment-form" onSubmit={handleSend}>
-          {dogAvatar ? (
-            <img
-              src={dogAvatar}
-              alt="Tavo šuniukas"
-              className="universal-comment-avatar"
-            />
-          ) : (
-            <span className="universal-comment-avatar-emoji">🐶</span>
+        <>
+          {dogProfiles.length > 1 && (
+            <div
+              style={{
+                display: 'flex',
+                gap: 8,
+                alignItems: 'center',
+                marginBottom: 4,
+                marginLeft: 2,
+              }}
+            >
+              <span
+                style={{
+                  fontSize: '0.92rem',
+                  color: '#8a99b3',
+                  marginRight: 4,
+                }}
+              >
+                Pasirink šunį:
+              </span>
+              {dogProfiles.map((dog, idx) => (
+                <img
+                  key={dog._id}
+                  src={getAvatarUrl(dog.avatarUrl) || undefined}
+                  alt={dog.name}
+                  title={dog.name}
+                  className="universal-comment-avatar"
+                  style={{
+                    border:
+                      idx === selectedDogIdx
+                        ? '2.5px solid #4a90e2'
+                        : '2px solid #e3eaf2',
+                    opacity: idx === selectedDogIdx ? 1 : 0.6,
+                    cursor: 'pointer',
+                    width: 32,
+                    height: 32,
+                    marginRight: 2,
+                  }}
+                  onClick={() => setSelectedDogIdx(idx)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') setSelectedDogIdx(idx);
+                  }}
+                  tabIndex={0}
+                />
+              ))}
+            </div>
           )}
-          <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Parašyk komentarą..."
-            rows={1}
-            disabled={sending}
-            required
-            style={{
-              fontSize: '0.92rem',
-              minHeight: 22,
-              maxHeight: 40,
-              padding: '4px 6px 2px 6px',
-            }}
-          />
-          <button
-            type="submit"
-            disabled={sending || !text.trim()}
-            title="Siųsti"
-          >
-            &gt;
-          </button>
-          {error && <div className="universal-comment-error">{error}</div>}
-        </form>
+          <form className="universal-comment-form" onSubmit={handleSend}>
+            {dogAvatar ? (
+              <img
+                src={getAvatarUrl(dogAvatar) || undefined}
+                alt="Tavo šuniukas"
+                className="universal-comment-avatar"
+              />
+            ) : (
+              <span className="universal-comment-avatar-emoji">🐶</span>
+            )}
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Parašyk komentarą..."
+              rows={1}
+              disabled={sending}
+              required
+              style={{
+                fontSize: '0.92rem',
+                minHeight: 22,
+                maxHeight: 40,
+                padding: '4px 6px 2px 6px',
+              }}
+            />
+            <button
+              type="submit"
+              disabled={sending || !text.trim()}
+              title="Siųsti"
+            >
+              &gt;
+            </button>
+            {error && <div className="universal-comment-error">{error}</div>}
+          </form>
+        </>
       ) : (
         <div className="universal-comments-login-info">
           Norėdami komentuoti, <a href="/login">prisijunkite</a>.
