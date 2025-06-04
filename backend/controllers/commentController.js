@@ -1,19 +1,34 @@
 const Comment = require('../models/commentModel');
+const DogProfile = require('../models/dogProfileModel');
 
 // Komentaro sukūrimas
 exports.createComment = async (req, res) => {
   try {
-    const { placeId, placeType, text } = req.body;
+    const { entityId, entityType, text } = req.body;
     const ip =
       req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
 
+    // Debug: parodyk kas yra req.user
+    console.log('DEBUG req.user:', req.user);
+
+    // Gauti šuniuko nuotrauką pagal userId
+    let avatarUrl = '';
+    try {
+      const dog = await DogProfile.findOne({ userId: req.user._id });
+      avatarUrl =
+        dog && dog.avatarUrl ? dog.avatarUrl : '/default-dog-avatar.png';
+    } catch (e) {
+      avatarUrl = '/default-dog-avatar.png';
+    }
+
     const newComment = new Comment({
-      placeId,
-      placeType,
+      entityId,
+      entityType,
       userId: req.user._id,
-      userName: req.user.username,
+      username: req.user.name,
       text,
       ipAddress: ip,
+      avatarUrl,
     });
 
     await newComment.save();
@@ -24,12 +39,12 @@ exports.createComment = async (req, res) => {
   }
 };
 
-// Gauti komentarus pagal vietą
-exports.getCommentsForPlace = async (req, res) => {
+// Gauti komentarus pagal entity
+exports.getCommentsForEntity = async (req, res) => {
   try {
-    const { placeType, placeId } = req.params;
+    const { entityType, entityId } = req.params;
 
-    const comments = await Comment.find({ placeType, placeId }).sort({
+    const comments = await Comment.find({ entityType, entityId }).sort({
       createdAt: -1,
     });
 
@@ -87,15 +102,6 @@ exports.getAllComments = async (req, res) => {
     res.status(200).json(comments);
   } catch (err) {
     console.error('Klaida gaunant visus komentarus:', err);
-    res.status(500).json({ message: 'Nepavyko gauti komentarų' });
-  }
-};
-
-exports.getAllComments = async (req, res) => {
-  try {
-    const comments = await Comment.find().sort({ createdAt: -1 });
-    res.status(200).json(comments);
-  } catch (err) {
     res.status(500).json({ message: 'Nepavyko gauti komentarų' });
   }
 };

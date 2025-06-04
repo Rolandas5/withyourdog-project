@@ -8,8 +8,8 @@ const isAdminMiddleware = require('../middleware/isAdminMiddleware');
 // Tik prisijungę vartotojai gali komentuoti
 router.post('/', authMiddleware, commentController.createComment);
 
-// Komentarų sąrašas pagal vietą
-router.get('/:placeType/:placeId', commentController.getCommentsForPlace);
+// Komentarų sąrašas pagal entity
+router.get('/:entityType/:entityId', commentController.getCommentsForEntity);
 // Visi komentarai - tik adminui (naudojamas AdminCommentsTab)
 router.get('/all', authMiddleware, commentController.getAllComments); // Visi komentarai - tik adminui (naudojamas AdminCommentsTab)
 

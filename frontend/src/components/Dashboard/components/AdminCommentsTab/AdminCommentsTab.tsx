@@ -37,6 +37,11 @@ export default function AdminCommentsTab() {
         comments.map((comment) => (
           <div key={comment._id} className="comment-card">
             <div className="comment-header">
+              <img
+                src={comment.avatarUrl || '/default-dog-avatar.png'}
+                alt="Šuniuko nuotrauka"
+                className="comment-avatar"
+              />
               <span className="comment-user">{comment.username}</span>
               <span className="comment-date">
                 {new Date(comment.createdAt).toLocaleString()}

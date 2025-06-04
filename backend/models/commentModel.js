@@ -2,13 +2,12 @@ const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema(
   {
-    placeId: {
-      type: mongoose.Schema.Types.ObjectId,
+    entityId: {
+      type: String,
       required: true,
     },
-    placeType: {
+    entityType: {
       type: String,
-      enum: ['Hotel', 'Beach', 'Park'],
       required: true,
     },
     userId: {
@@ -27,6 +26,10 @@ const commentSchema = new mongoose.Schema(
     ipAddress: {
       type: String,
       required: true,
+    },
+    avatarUrl: {
+      type: String,
+      default: '',
     },
   },
   {

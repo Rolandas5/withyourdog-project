@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { FiMap } from 'react-icons/fi';
 import './hotels-places.css';
 import { PetPlace } from '../../../../types/typePetPlace';
+import UniversalComments from '../../../../components/UniversalComments';
+import { AuthContext } from '../context/AuthContext';
 
 export default function HotelsPlaces() {
   const [places, setPlaces] = useState<PetPlace[]>([]);
@@ -17,34 +19,43 @@ export default function HotelsPlaces() {
 
   return (
     <section className="hotels-section">
-      <p className="hotels-info-banner">
-        Visos žemiau pateiktos vietos yra patvirtintai draugiškos augintiniams –
-        jos leidžia apsistoti su šunimis. Informacija tikrinama rankiniu būdu ir
-        remiasi oficialiais šaltiniais.
-      </p>
       <h2 className="hotels-heading">Viešbučiai, sodybos ir kempingai</h2>
-      <div className="hotels-grid">
+      <div className="hotels-categories">
         {places.map((place) => (
-          <motion.a
+          <div
             key={place.id}
-            href={place.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hotel-card"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'stretch',
+              width: '100%',
+            }}
           >
-            <div className="hotel-img-wrapper">
-              <img src={place.image} alt={place.title} className="hotel-img" />
-            </div>
-            <div className="hotel-overlay">
-              <h3 className="hotel-title">
-                <FiMap /> {place.title}
-              </h3>
-              <p className="hotel-desc">{place.description}</p>
-              <p className="hotel-location">📍 {place.location}</p>
-            </div>
-          </motion.a>
+            <motion.a
+              href={place.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hotel-card"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="hotel-img-wrapper">
+                <img
+                  src={place.image}
+                  alt={place.title}
+                  className="hotel-img"
+                />
+              </div>
+              <div className="hotel-overlay">
+                <h3 className="hotel-title">
+                  <FiMap /> {place.title}
+                </h3>
+                <p className="hotel-desc">{place.description}</p>
+                <p className="hotel-location">📍 {place.location}</p>
+              </div>
+            </motion.a>
+            <UniversalComments entityId={place.id} entityType={place.type} />
+          </div>
         ))}
       </div>
     </section>

@@ -5,4 +5,5 @@ export interface Comment {
   text: string;
   createdAt: string;
   ipAddress: string;
+  avatarUrl?: string;
 }
