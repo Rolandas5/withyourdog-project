@@ -1,0 +1,78 @@
+[
+  {
+    "country": "Lietuva",
+    "city": "Vilnius",
+    "title": "Vingio parko šunų paplūdimys",
+    "location": "M. K. Čiurlionio g. 112, prie Neries upės, greta stadiono ir šaudyklos.",
+    "infrastructure": "persirengimo kabinos, 5 iškylų stalai, 4 kepsninės, suoliukai, biotualetai, dviračių stovai.",
+    "note": "pirmasis oficialus šunų paplūdimys Lietuvoje, pažymėtas žaliais ženklais.",
+    "sources": ["grinda.lt", "afterway.app", "trip.lt", "welovelithuania.com"]
+  },
+  {
+    "country": "Lietuva",
+    "city": "Klaipėda",
+    "title": "Pirmosios Melnragės šunų paplūdimys",
+    "location": "prie šiaurinio molo, 600 metrų ilgio ruožas.",
+    "infrastructure": "šiukšlių dėžės, maišeliai, stovai augintiniams pririšti.",
+    "sources": [
+      "klaipeda.diena.lt",
+      "draugiskigyvunams.lt",
+      "lrytas.lt",
+      "m.diena.lt"
+    ]
+  },
+  {
+    "country": "Lietuva",
+    "city": "Klaipėda",
+    "title": "Smiltynės gyvūnų paplūdimys",
+    "location": "už moterų pliažo, prie pietinio molo.",
+    "infrastructure": "maišeliai ir šiukšliadėžės.",
+    "sources": ["klaipeda.diena.lt", "draugiskigyvunams.lt"]
+  },
+  {
+    "country": "Lietuva",
+    "city": "Kaunas",
+    "title": "Kauno marių 2-asis paplūdimys",
+    "location": "T. Masiulio gatvė.",
+    "note": "leidžiama lankytis su šunimis, laikantis nustatytų taisyklių.",
+    "sources": ["draugiskigyvunams.lt"]
+  },
+  {
+    "country": "Lietuva",
+    "city": "Neringa",
+    "title": "Nidos, Preilos, Pervalkos ir Juodkrantės šunų paplūdimiai",
+    "note": "rekomenduojama pasitikrinti konkrečias vietas prieš lankantis.",
+    "sources": ["lrytas.lt", "klaipeda.diena.lt"]
+  },
+  {
+    "country": "Latvija",
+    "city": "Ventspilis",
+    "title": "Ventspilio šunų paplūdimys",
+    "location": "pietvakarinėje miesto dalyje, prie 10-ojo įėjimo į paplūdimį (Saulrieta gatvė).",
+    "note": "įrengta zona, skirta lankytis su augintiniais.",
+    "sources": ["latvia.travel", "turizmogidas.lt"]
+  },
+  {
+    "country": "Latvija",
+    "city": "Liepoja",
+    "title": "Karosta",
+    "location": "kai kuriose pakrantės zonose, kuriose nėra oficialių viešojo paplūdimio ženklų, šunys gali vaikščioti su pavadėliu.",
+    "sources": ["latvia.travel", "visitbaltics.net"]
+  },
+  {
+    "country": "Latvija",
+    "city": "Saulkrasti",
+    "title": "Baltoji kopa",
+    "location": "prie Inčupės žiočių.",
+    "infrastructure": "apžvalgos aikštelė, 4 km ilgio Saulėlydžio takas.",
+    "note": "ši vieta laikoma draugiška šunims.",
+    "sources": ["latvia.travel"]
+  },
+  {
+    "country": "Estija",
+    "city": "Talinas",
+    "title": "Russalka–Pirita pakrantė",
+    "note": "Estijoje šunims leidžiama maudytis bet kuriame tvenkinyje, svarbiausia, kad tai nebūtų oficialus viešas paplūdimys. Taline yra pakrantė tarp Russalka ir Pirita zonų, kur šunys gali lankytis. Taip pat rekomenduojama ieškoti nuošalesnių vietų, kur nėra draudžiamųjų ženklų.",
+    "sources": ["visittallinn.ee"]
+  }
+]

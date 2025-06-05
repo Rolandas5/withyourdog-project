@@ -1,0 +1,199 @@
+{
+  "cafes": [
+    {
+      "city": "Vilnius",
+      "cafes": [
+        {
+          "name": "Žaliuomenė",
+          "desc": "Ekologiška kavinė, kurioje leidžiama lankytis su augintiniais.",
+          "sources": ["meniu.lt"]
+        },
+        {
+          "name": "Pachamama Dinner Club",
+          "desc": "Restoranas, siūlantis Nikkei virtuvės patiekalus. Draugiškas augintiniams, leidžiantis lankytis su šunimis. Adresas: Gedimino pr. 9.",
+          "sources": ["tablein.lt"]
+        },
+        {
+          "name": "Fabrikėlis",
+          "desc": "Kūrybinės maisto dirbtuvės, siūlančios modernius Baltijos regiono patiekalus. Draugiškas augintiniams. Adresas: Pasakų g. 9.",
+          "sources": ["tripadvisor.com", "tablein.lt", "falstaff.com"]
+        },
+        {
+          "name": "DEMOLOFTAS",
+          "desc": "Multifunkcinė erdvė su restoranu, kuriame leidžiama lankytis su augintiniais. Adresas: T. Ševčenkos g. 16A-120.",
+          "sources": ["europeancoffeetrip.com", "tablein.lt"]
+        },
+        {
+          "name": "Backstage Cafe",
+          "desc": "Kavinė, siūlanti įvairius kavos gėrimus ir leidžianti lankytis su šunimis. Adresas: T. Ševčenkos g. 16h.",
+          "sources": ["tablein.lt", "europeancoffeetrip.com"]
+        },
+        {
+          "name": "Cat Café Vilnius",
+          "desc": "Unikali kavinė, kurioje gyvena katės, leidžianti lankytis su vaikais ir suaugusiais. Adresas: Gedimino pr. 5.",
+          "sources": ["tablein.lt", "vikipedija.lt", "biolinija.lt"]
+        }
+      ]
+    },
+    {
+      "city": "Kaunas",
+      "cafes": [
+        {
+          "name": "Kasdienybės bakehouse",
+          "desc": "Ši kepyklėlė leidžia lankytis su šunimis, prie durų dažnai būna padėtas vandens dubenėlis augintiniams.",
+          "sources": ["lrytas.lt"]
+        },
+        {
+          "name": "Du medu",
+          "desc": "Desertinė, kurioje šunys yra laukiami, o darbuotojai dažnai pasiūlo augintiniams užkandžių.",
+          "sources": ["lrytas.lt"]
+        },
+        {
+          "name": "Coffee Lab",
+          "desc": "Draugiška augintiniams kavinė, leidžianti lankytis su šunimis.",
+          "sources": []
+        },
+        {
+          "name": "New York Café",
+          "desc": "Draugiška augintiniams kavinė, leidžianti lankytis su šunimis.",
+          "sources": []
+        },
+        {
+          "name": "Bundu",
+          "desc": "Draugiška augintiniams kavinė, leidžianti lankytis su šunimis.",
+          "sources": []
+        },
+        {
+          "name": "Chaika",
+          "desc": "Draugiška augintiniams kavinė, leidžianti lankytis su šunimis.",
+          "sources": []
+        },
+        {
+          "name": "Vero Cafe",
+          "desc": "Draugiška augintiniams kavinė, leidžianti lankytis su šunimis.",
+          "sources": []
+        },
+        {
+          "name": "Caffeine",
+          "desc": "Draugiška augintiniams kavinė, leidžianti lankytis su šunimis.",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "city": "Trakai",
+      "cafes": [
+        {
+          "name": "Restoranas Argo",
+          "desc": "Gruzinų virtuvės restoranas su vaizdu į ežerą, leidžiantis lankytis su augintiniais. Adresas: Vytauto g. 89.",
+          "sources": ["trakai"]
+        },
+        {
+          "name": "Green Street Cafe",
+          "desc": "Moderni kavinė, siūlanti sveikus patiekalus ir leidžianti lankytis su augintiniais. Adresas: Gardino g. 1, Paluknys.",
+          "sources": ["trakai"]
+        },
+        {
+          "name": "Restoranas Kiubėtė",
+          "desc": "Karaimiškos virtuvės restoranas, draugiškas augintiniams. Adresas: Trakų g. 2d.",
+          "sources": ["trakai"]
+        },
+        {
+          "name": "Restoranas Kybynlar",
+          "desc": "Karaimų tautinis restoranas, leidžiantis lankytis su augintiniais. Adresas: Karaimų g. 29.",
+          "sources": ["trakai"]
+        },
+        {
+          "name": "Le Vivier Trakai",
+          "desc": "Jauki kavinė netoli Trakų pilies, leidžianti lankytis su augintiniais. Adresas: Karaimų g. 66A.",
+          "sources": ["trakai"]
+        },
+        {
+          "name": "Restoranas Margis",
+          "desc": "Restoranas pušyne, siūlantis natūralius patiekalus ir leidžiantis lankytis su augintiniais. Adresas: Ežero g. 39, Penkininkų k.",
+          "sources": ["trakai"]
+        },
+        {
+          "name": "Kavinė Markizas",
+          "desc": "Kavinė su vaizdu į Galvės ežerą, leidžianti lankytis su mažais šunimis viduje ir visų dydžių šunimis terasoje. Adresas: Karaimų g. 25A.",
+          "sources": ["trakai"]
+        },
+        {
+          "name": "Restoranas Pilialaukis",
+          "desc": "Lietuviškos virtuvės restoranas, ypač draugiškas augintiniams.",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "city": "Šiaulių rajonas",
+      "cafes": [
+        {
+          "name": "Baras Grafaitė",
+          "desc": "Priima klientus su gyvūnais vasaros metu, lauko terasoje. Adresas: Aušros g. 1, Ginkūnai.",
+          "sources": []
+        },
+        {
+          "name": "Kavinė Geltona",
+          "desc": "Laukia užsukant su gyvūnais vasaros metu, prie staliukų po tentu. Adresas: Beržynės k.",
+          "sources": []
+        },
+        {
+          "name": "Kavinė Barvilis",
+          "desc": "Priima su mažų veislių šuniukais. Adresas: V. Bielskio g. 153, Vinkšnėnai.",
+          "sources": []
+        },
+        {
+          "name": "Kavinė Meškių Dvarkiemis",
+          "desc": "Pasiūlys atskirą patalpą jums ir jūsų augintiniui. Adresas: Meškių k., Bubių sen.",
+          "sources": []
+        },
+        {
+          "name": "Kavinė Link Šiaulių",
+          "desc": "Pageidauja, kad klientai atvyktų su mažų veislių šuniukais. Adresas: Poilsio g. 1, Aukštelkė.",
+          "sources": []
+        },
+        {
+          "name": "Kavinė Girelė",
+          "desc": "Draugiška gyvūnams kavinė. Adresas: Domantų k. 1A, Meškuičių sen.",
+          "sources": []
+        },
+        {
+          "name": "Kavinė Linelis",
+          "desc": "Draugiška gyvūnams kavinė. Adresas: Vilties g. 6, Kužiai.",
+          "sources": []
+        },
+        {
+          "name": "Restoranas Panorama",
+          "desc": "Draugiškas gyvūnams restoranas. Adresas: Ilgoji g. 2, Aukštelkė.",
+          "sources": ["meniu.lt"]
+        },
+        {
+          "name": "Restoranas Baltas Gandras",
+          "desc": "Draugiškas gyvūnams restoranas. Adresas: Gėlės g. 6, Naisiai.",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "city": "Marijampolė",
+      "cafes": [
+        {
+          "name": "KamBARys",
+          "desc": "Šiame restorane leidžiama lankytis su šunimis. Jie taip pat siūlo nemokamą Wi-Fi, privačias erdves ir aukštas kėdutes vaikams.",
+          "sources": []
+        },
+        {
+          "name": "Nica",
+          "desc": "Kavinė-baras, siūlo įvairių pasaulio virtuvių patiekalus ir malonią atmosferą. Adresas: Laisvės g. 24.",
+          "sources": ["tablein.lt", "turizmas.lt"]
+        },
+        {
+          "name": "Namų Restoranas Draugams",
+          "desc": "Gedimino g. 7 esantis restoranas, kuriame svečiai priimami kaip draugai. Nors konkrečios informacijos apie augintinius nepateikta, jų draugiška atmosfera gali būti palanki lankytojams su augintiniais.",
+          "sources": []
+        }
+      ]
+    }
+  ]
+}

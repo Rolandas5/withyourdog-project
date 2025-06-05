@@ -1,0 +1,89 @@
+{
+  "parks": [
+    {
+      "city": "Vilnius",
+      "parks": [
+        {
+          "name": "Vingio parkas",
+          "desc": "Vienas didžiausių sostinės parkų, kuriame šunys gali laisvai vaikščioti su pavadėliu. Parke yra specialiai pažymėtos vietos šunų vedžiojimui.",
+          "sources": ["vilniusoutlet.lt", "klaipedaassutavim.lt"]
+        },
+        {
+          "name": "Belmonto parkas",
+          "desc": "Populiari vieta pasivaikščiojimams su šunimis, ypač dėl gražių gamtos vaizdų ir takų.",
+          "sources": ["makaliauslietuva.lt", "lrt.lt"]
+        }
+      ]
+    },
+    {
+      "city": "Kaunas",
+      "parks": [
+        {
+          "name": "Ąžuolyno parkas",
+          "desc": "Didelis miesto parkas, kuriame šunys gali būti vedžiojami su pavadėliu. Parke yra daug takų ir atvirų erdvių.",
+          "sources": ["vilniusoutlet.lt", "klaipedaassutavim.lt"]
+        },
+        {
+          "name": "Santakos parkas",
+          "desc": "Parkas prie Nemuno ir Neries santakos, tinkamas pasivaikščiojimams su šunimis.",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "city": "Klaipėda",
+      "parks": [
+        {
+          "name": "Klaipėdos skulptūrų parkas",
+          "desc": "Erdvė, kurioje šunys gali būti vedžiojami su pavadėliu. Parke yra daug takų ir meno objektų.",
+          "sources": ["vilniusoutlet.lt", "klaipedaassutavim.lt", "lrt.lt"]
+        },
+        {
+          "name": "Danės upės pakrantė",
+          "desc": "Pasivaikščiojimo takai palei upę, tinkami vedžioti šunis.",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "city": "Šiauliai",
+      "parks": [
+        {
+          "name": "Talkšos ežero pakrantė",
+          "desc": "Populiari pasivaikščiojimų vieta.",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "city": "Panevėžys",
+      "parks": [
+        {
+          "name": "Kultūros ir poilsio parkas",
+          "desc": "Aikštelė mažesniems ir didesniems šunims su dresavimo įranga, kalniukais, takeliais.",
+          "sources": ["panevezys.lt", "instagram.com"]
+        },
+        {
+          "name": "Taikos al. pušynėlis",
+          "desc": "Aikštelė su dresavimo įranga.",
+          "sources": ["panevezys.lt"]
+        },
+        {
+          "name": "Skaistakalnio parkas",
+          "desc": "Aikštelė be dresavimo įrangos.",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "city": "Kėdainiai",
+      "parks": [
+        {
+          "name": "Senasis miesto parkas",
+          "desc": "Nuo 2016 m. rugsėjo leidžiama vedžioti šunis. Parke įrengtos penkios specialios šiukšlių dėžės augintinių ekskrementams surinkti.",
+          "sources": []
+        }
+      ]
+    }
+  ]
+}

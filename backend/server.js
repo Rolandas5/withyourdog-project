@@ -11,6 +11,10 @@ const dogProfileRoutes = require('./routes/dogProfileRoutes'); // importuojame d
 const petPlacesRoutes = require('./routes/petPlacesRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 const messagesRoutes = require('./routes/messagesRoutes');
+const placeCategoryRoutes = require('./routes/placeCategoryRoutes');
+const beachInfoRoutes = require('./routes/beachInfoRoutes');
+const parksRoutes = require('./routes/parksRoutes');
+const cafesRoutes = require('./routes/cafesRoutes');
 
 // Įkeliame aplinkos kintamuosius iš .env failo
 dotenv.config();
@@ -55,6 +59,10 @@ app.use('/api/dog-profile', dogProfileRoutes); // Nukreipiame visas API užklaus
 app.use('/api/pet-places', petPlacesRoutes); // Nukreipiame visas API užklausas, kurios prasideda /api/pet-places į petPlacesRoute failą, kuris toliau tvarkys užklausas susijusias su pet places.
 app.use('/api/comments', commentRoutes);
 app.use('/api/messages', messagesRoutes);
+app.use('/api/place-categories', placeCategoryRoutes);
+app.use('/api/beaches', beachInfoRoutes);
+app.use('/api', parksRoutes);
+app.use('/api/cafes', cafesRoutes);
 
 // Prisijungiame prie Withyourdog-project naudojant mongoose
 mongoose
