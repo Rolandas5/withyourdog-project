@@ -166,14 +166,6 @@ export const Dashboard = () => {
           <>
             <button
               className={`tab-button ${
-                activeTab === 'admin-experiences' ? 'active' : ''
-              }`}
-              onClick={() => setActiveTab('admin-experiences')}
-            >
-              Patirtys
-            </button>
-            <button
-              className={`tab-button ${
                 activeTab === 'admin-reviews' ? 'active' : ''
               }`}
               onClick={() => setActiveTab('admin-reviews')}
@@ -246,8 +238,9 @@ export const Dashboard = () => {
             )}
             {/* Kiti tab'ai */}
             {activeTab === 'places' && <div>Žinomas tabas</div>}
-            {activeTab === 'experiences' && <UserExperiencesTab />}
-            {activeTab === 'admin-experiences' && <div>Žinomas tabas</div>}
+            {activeTab === 'experiences' && (
+              <UserExperiencesTab isAdmin={isAdmin} />
+            )}
             {activeTab === 'admin-reviews' && <div>Žinomas tabas</div>}
             {activeTab === 'admin-messages' && <MessagesTab />}
             {activeTab === 'admin-users' && <AdminUsersTab />}

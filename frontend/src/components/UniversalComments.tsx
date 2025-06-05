@@ -3,19 +3,11 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { Comment } from '../types/typesComment';
 import './UniversalComments.css';
+import { DogProfile } from '../types/typesDogProfile';
 
 interface UniversalCommentsProps {
   entityId: string;
   entityType: string;
-}
-
-interface DogProfile {
-  _id: string;
-  avatarUrl?: string;
-  name: string;
-  breed: string;
-  hobbies: string[];
-  favoritePlaces: string[];
 }
 
 // Pagalbinė funkcija avataro url gavimui
