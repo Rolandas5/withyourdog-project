@@ -1,0 +1,118 @@
+.all-services-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1240px;
+  margin: 0 auto 40px auto;
+  box-sizing: border-box;
+}
+
+.services-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  text-align: center;
+  margin: 60px 0 36px;
+  color: #243344;
+  background: linear-gradient(to right, #4a90e2, #8fbcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.services-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+  width: 100%;
+  background: linear-gradient(
+    145deg,
+    rgba(238, 244, 250, 0.8),
+    rgba(220, 230, 240, 0.8)
+  );
+  padding: 40px 20px;
+  border-radius: 28px;
+}
+
+.services-grid > * {
+  flex: 1 1 420px;
+  max-width: 420px;
+  min-width: 280px;
+  box-sizing: border-box;
+}
+
+/* Centruota paskutinė kortelė jei nelyginis skaičius */
+.services-grid > *:nth-child(5) {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 900px) {
+  .all-services-container {
+    padding: 24px 4vw 40px 4vw;
+    border-radius: 16px;
+    margin: 64px auto 24px auto;
+  }
+  .services-title {
+    font-size: 1.7rem;
+    margin-bottom: 24px;
+  }
+  .services-grid {
+    gap: 18px;
+  }
+  .services-grid > * {
+    min-width: 220px;
+    max-width: 98vw;
+  }
+}
+
+.all-services-page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 42px 14px;
+}
+
+.all-services-heading {
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin: 60px 0 36px;
+  color: #243344;
+  background: linear-gradient(to right, #4a90e2, #8fbcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.01em;
+}
+
+.all-services-categories {
+  display: flex;
+  gap: 38px;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: linear-gradient(
+    145deg,
+    rgba(238, 244, 250, 0.8),
+    rgba(220, 230, 240, 0.8)
+  );
+  padding: 40px 20px;
+  border-radius: 28px;
+}
+
+@media (max-width: 1000px) {
+  .all-services-categories {
+    gap: 18px;
+  }
+  .all-services-page {
+    padding: 22px 6px;
+  }
+  .all-services-heading {
+    font-size: 1.9rem;
+    margin: 40px 0 24px;
+  }
+}
+@media (max-width: 740px) {
+  .all-services-categories {
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+}

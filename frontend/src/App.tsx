@@ -12,12 +12,18 @@ import Places from './pages/explore/places/Places/Places';
 import Hotels from './pages/explore/places/Hotels/HotelsPlaces';
 import Beaches from './pages/explore/places/Beaches/Beaches';
 import Parks from './pages/explore/places/Parks/Parks';
-import Services from './pages/explore/services/Services';
+import AllServices from './pages/explore/services/AllService/AllServices';
 import NotFound from './pages/NotFound/NotFound';
 import { AuthProvider } from './context/AuthContext';
 import { Dashboard } from './components/Dashboard/Dashboard';
 import { ProtectedRoute } from './components/Dashboard/components/UserProfileTab/ProtectedRoute';
 import WeatherPage from './components/WeatherPage/WeatherPage';
+import Health from './pages/explore/services/Health';
+import AllExperiences from './pages/explore/experiences/AllExperiences/AllExperiences';
+import DogHotels from './pages/explore/services/DogHotels/DogHotels';
+import Insurance from './pages/explore/services/Insurance';
+import Training from './pages/explore/services/Training';
+import Grooming from './pages/explore/services/Grooming/Grooming';
 
 function AppContent() {
   const location = useLocation();
@@ -57,8 +63,14 @@ function AppContent() {
         <Route path="/places/hotels" element={<Hotels />} />
         <Route path="/places/beaches" element={<Beaches />} />
         <Route path="/places/parks" element={<Parks />} />
-        <Route path="/services" element={<Services />} />
+        <Route path="/services" element={<AllServices />} />
+        <Route path="/services/health" element={<Health />} />
+        <Route path="/services/dog-hotels" element={<DogHotels />} />
+        <Route path="/services/insurance" element={<Insurance />} />
+        <Route path="/services/training" element={<Training />} />
+        <Route path="/services/grooming" element={<Grooming />} />
         <Route path="/weather" element={<WeatherPage />} />
+        <Route path="/experiences" element={<AllExperiences />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

@@ -15,6 +15,10 @@ const placeCategoryRoutes = require('./routes/placeCategoryRoutes');
 const beachInfoRoutes = require('./routes/beachInfoRoutes');
 const parksRoutes = require('./routes/parksRoutes');
 const cafesRoutes = require('./routes/cafesRoutes');
+const servicesRoutes = require('./routes/services');
+const experiencesRoutes = require('./routes/experiences');
+const groomingSalonsRoutes = require('./routes/groomingSalons');
+const dogHotelsRoutes = require('./routes/dogHotels');
 
 // Įkeliame aplinkos kintamuosius iš .env failo
 dotenv.config();
@@ -63,6 +67,10 @@ app.use('/api/place-categories', placeCategoryRoutes);
 app.use('/api/beaches', beachInfoRoutes);
 app.use('/api', parksRoutes);
 app.use('/api/cafes', cafesRoutes);
+app.use('/api/services', servicesRoutes);
+app.use('/api/experiences', experiencesRoutes);
+app.use('/api/grooming-salons', groomingSalonsRoutes);
+app.use('/api/dog-hotels', dogHotelsRoutes);
 
 // Prisijungiame prie Withyourdog-project naudojant mongoose
 mongoose

@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Gyvūnų kirpykla Chester",
+    "address": "Jaunimo g. 12-45, 68248 Marijampolė, Lietuva",
+    "phone": "+370 639 42078",
+    "city": "Marijampolė",
+    "website": "",
+    "hours": "08:00-21:00",
+    "image": "/images/grooming.png"
+  },
+  {
+    "name": "Gyvūnų kirpykla Au Stiliukas",
+    "address": "R. Juknevičiaus g. ir Palangos g. kampas, 68195 Marijampolė, Lietuva",
+    "phone": "+370 614 15325",
+    "city": "Marijampolė",
+    "website": "https://www.facebook.com/austiliukas/",
+    "hours": "",
+    "image": "/images/grooming.png"
+  },
+  {
+    "name": "Gyvūnų Kirpykla Flora",
+    "address": "Vasario 16-osios g. 16, 68301 Marijampolė, Lietuva",
+    "phone": "+370 638 12288",
+    "city": "Marijampolė",
+    "website": "https://m.facebook.com/A.A.G.K.F/",
+    "hours": "09:00-18:00",
+    "image": "/images/grooming.png"
+  },
+  {
+    "name": "Gyvūnų kirpyklėlė",
+    "address": "Mokolų g. 59, 68163 Marijampolė, Lietuva",
+    "phone": "+370 614 38208",
+    "city": "Marijampolė",
+    "website": "https://www.facebook.com/Gyvunukirpyklele",
+    "hours": "Dirba 24 val",
+    "image": "/images/grooming.png"
+  },
+  {
+    "name": "Šunų ir kačių kirpykla Centre",
+    "address": "Savanorių pr. 206, 50193 Kaunas, Lietuva",
+    "phone": "+370 612 34567",
+    "city": "Kaunas",
+    "website": "",
+    "hours": "10:00-18:00",
+    "image": "/images/grooming.png"
+  },
+  {
+    "name": "Šunų kirpėja Gedvilė Kaune",
+    "address": "A. Juozapavičiaus pr. 33, 45256 Kaunas, Lietuva",
+    "phone": "+370 600 12345",
+    "city": "Kaunas",
+    "website": "",
+    "hours": "",
+    "image": "/images/grooming.png"
+  },
+  {
+    "name": "Šuniukų kirpėja Kaune",
+    "address": "Partizanų g. 38, 49476 Kaunas, Lietuva",
+    "phone": "+370 698 76543",
+    "city": "Kaunas",
+    "website": "",
+    "hours": "",
+    "image": "/images/grooming.png"
+  }
+]

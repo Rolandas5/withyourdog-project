@@ -195,7 +195,8 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
       items = [
         { to: '/services', label: 'Visos paslaugos' },
         { to: '/services/grooming', label: 'Šunų kirpyklos' },
-        { to: '/services/hotels', label: 'Šunų viešbučiai' },
+        { to: '/services/dog-hotels', label: 'Šunų viešbučiai' },
+        { to: '/services/health', label: 'Veterinarijos paslaugos' },
         { to: '/services/insurance', label: 'Draudimas' },
         { to: '/services/training', label: 'Dresuotojai' },
       ];

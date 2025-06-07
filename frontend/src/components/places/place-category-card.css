@@ -160,20 +160,23 @@
 .place-category-title {
   display: flex;
   align-items: center;
-  font-size: 1.75rem;
-  font-weight: 900;
-  gap: 12px;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  gap: 10px;
   text-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  margin-bottom: 10px;
-  padding: 12px 20px 4px;
-  background: rgba(0, 0, 0, 0.35);
+  margin-bottom: 8px;
+  padding: 10px 16px 4px;
+  background: rgba(0, 0, 0, 0.32);
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
   backdrop-filter: blur(4px);
+  text-align: center;
+  font-size: 1.6rem;
 }
 
 .place-category-title svg {
@@ -187,6 +190,10 @@
   line-height: 1.55;
   padding: 0 20px 22px;
   margin-top: auto;
+}
+
+.place-category-title:empty {
+  display: none;
 }
 
 /* Aplink korteles fonas */
@@ -254,4 +261,7 @@
     font-size: 1.9rem;
     margin-bottom: 24px;
   }
+}
+.all-sections-categories .place-category-title:empty {
+  display: none;
 }

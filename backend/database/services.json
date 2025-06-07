@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Šunų kirpyklos",
+    "description": "Išpuoselėk savo šunį stilingai ir higieniškai.",
+    "img": "/images/grooming.png",
+    "link": "/services/grooming"
+  },
+  {
+    "title": "Šunų viešbučiai",
+    "description": "Palik savo augintinį saugioje ir jaukioje aplinkoje.",
+    "img": "/images/hotel.png",
+    "link": "/services/dog-hotels"
+  },
+  {
+    "title": "Veterinarijos paslaugos",
+    "description": "Rūpinkis savo šuns sveikata – nuo skiepų iki gydymo.",
+    "img": "/images/health.png",
+    "link": "/services/health"
+  },
+  {
+    "title": "Draudimas",
+    "description": "Apsaugok savo šunį nuo netikėtumų ir išlaidų.",
+    "img": "/images/insurance.png",
+    "link": "/services/insurance"
+  },
+  {
+    "title": "Dresuotojai",
+    "description": "Išmokyk savo šunį elgesio pagrindų ir komandų.",
+    "img": "/images/training.png",
+    "link": "/services/training"
+  }
+]

@@ -4,6 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { Comment } from '../types/typesComment';
 import './UniversalComments.css';
 import { DogProfile } from '../types/typesDogProfile';
+import { Link } from 'react-router-dom';
 
 interface UniversalCommentsProps {
   entityId: string;
@@ -206,7 +207,7 @@ export default function UniversalComments({
         </>
       ) : (
         <div className="universal-comments-login-info">
-          Norėdami komentuoti, <a href="/login">prisijunkite</a>.
+          Norėdami komentuoti, <Link to="/login">prisijunkite</Link>.
         </div>
       )}
     </div>
