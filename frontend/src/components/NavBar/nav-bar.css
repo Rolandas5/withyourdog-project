@@ -138,6 +138,21 @@ body {
   font-weight: 700;
   color: #fff;
   line-height: 1;
+  margin: 0;
+  padding: 0;
+  display: block;
+  position: static;
+  left: unset;
+  width: auto;
+  text-align: left;
+  z-index: 1;
+  pointer-events: auto;
+  min-width: unset;
+  max-width: unset;
+  overflow: unset;
+  text-overflow: unset;
+  white-space: unset;
+  height: unset;
 }
 .nav-desktop {
   display: flex;
@@ -345,7 +360,23 @@ body {
   color: #fff;
 }
 .nav-mobile {
-  display: none;
+  display: flex;
+  position: fixed;
+  top: 93px; /* Meniu kėlimas į viršų (originali reikšmė) */
+  height: calc(75vh - 64px);
+  width: 92vw;
+  max-width: 370px;
+  left: 5px;
+  background: #1e2a38;
+  backdrop-filter: none;
+  box-shadow: 4px 0 20px 0 rgba(20, 28, 42, 0.09);
+  border-radius: 0 16px 16px 0;
+  padding: 38px 24px 28px 24px;
+  z-index: 101;
+  overflow-y: auto;
+  animation: slideInLeft 0.22s cubic-bezier(0.64, 1.36, 0.59, 0.99);
+  flex-direction: column;
+  gap: 12px;
 }
 .mobile-nav-overlay {
   display: none;
@@ -442,7 +473,7 @@ body {
   .menu-toggle {
     margin-right: 30px; /* Meniu atitraukia nuo dešinės pusės */
     display: block;
-    height: 48px; /* Arba pagal tavo ikoną, kad spaudžiant būtų patogu */
+    height: 48px; /* Arba pagal ikoną, kad spaudžiant būtų patogu */
     width: 48px;
     background: none;
     border: none;
@@ -493,8 +524,8 @@ body {
   .nav-mobile {
     display: flex;
     position: fixed;
-    top: 93px; /* Meniu kėlimas į viršų */
-    height: calc(75vh - 64px);
+    top: 93px; /* Meniu kėlimas į viršų (originali reikšmė) */
+    height: 480px; /* Meniu kėlimas į apačią (originali reikšmė) */
     width: 92vw;
     max-width: 370px;
     left: 5px; /* Meniu kėlimas į kairę pusę */
@@ -514,20 +545,17 @@ body {
     position: relative;
   }
   .nav-mobile .dropdown-menu {
+    position: relative;
+    align-self: flex-start;
     position: absolute;
-    left: calc(100% + 8px); /* Šalia, truputį atitrauktas */
+    background: none;
+    border-left: 2px solid #63b3ed;
+    margin-left: 8px;
+    box-shadow: none;
+    padding: 0 0 0 13px;
+    left: calc(45% + 2px); /* veikia visiems IŠSKYRUS paskutinį */
     top: 0;
-    right: 0; /* DROPDOWN PRIRIŠTAS PRIE DEŠINIO KRAŠTO */
-    left: auto;
-    min-width: 200px;
-    background: rgba(44, 62, 80, 0.99);
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(44, 62, 80, 0.09);
-    padding: 8px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    max-width: 70vw;
+    min-width: 100px;
   }
   .nav-mobile .dropdown-menu .dropdown-item {
     padding: 13px 0 13px 16px; /* 16px į kairę */
@@ -618,7 +646,7 @@ body {
   }
   .nav-mobile .nav-link.login-btn {
     display: block;
-    max-width: 100%;
+    width: 85%;
     margin: 0 0 12px 0; /* ← pastumia prie kairio */
     text-align: left;
     padding: 13px 16px;
@@ -628,19 +656,35 @@ body {
     min-width: 330px;
     transition: background 0.15s;
   }
-  .nav-mobile .dropdown-menu {
-    position: relative;
-    align-self: flex-start;
-    position: absolute;
-    background: none;
-    border-left: 2px solid #63b3ed;
-    margin-left: 8px;
-    box-shadow: none;
-    padding: 0 0 0 13px;
-    left: calc(45% + 2px); /* veikia visiems IŠSKYRUS paskutinį */
-    top: 0;
-    min-width: 100px;
+
+  .nav-mobile .nav-link.logout-button {
+    display: block;
+    width: 85%;
+    margin: 0 0 12px 10px;
+    text-align: left;
+    padding: 13px 16px;
+    font-size: 1.13rem;
+    font-weight: 500;
+    border-radius: 8px;
+    min-width: 150px;
+    transition: background 0.15s;
   }
+
+  .nav-mobile .nav-link.logout-button {
+    display: block;
+    margin-left: 18px; /* Pastumia nuo kairės */
+    margin-right: 18px; /* Jei nori, kad ir nuo dešinės būtų tarpas */
+    margin-bottom: 12px;
+    text-align: left;
+    padding: 13px 16px;
+    font-size: 1.13rem;
+    font-weight: 500;
+    border-radius: 8px;
+    min-width: unset;
+    width: calc(100% - 36px); /* 100% minus kairės ir dešinės margin */
+    transition: background 0.15s;
+  }
+
   .nav-dropdown.last-dropdown .dropdown-menu {
     margin: 0;
     transform: none;
@@ -648,6 +692,82 @@ body {
     right: 0;
     top: 100%;
     box-shadow: none;
+  }
+
+  .mobile-header-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 88px;
+    gap: 0.5rem;
+    position: relative;
+    padding: 0 8px;
+    z-index: 10;
+  }
+  .mobile-header-row .logo-wrapper {
+    margin: 0;
+    margin-right: 8px;
+    margin-left: 0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    height: 48px;
+  }
+  .mobile-header-row .logo {
+    margin-left: 0;
+    margin-right: 8px;
+    height: 48px;
+    width: 48px;
+    display: block;
+  }
+  .mobile-header-row .logo-text {
+    position: static;
+    left: unset;
+    width: auto;
+    text-align: left;
+    margin: 0 10px 0 0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #fff;
+    z-index: 1;
+    pointer-events: auto;
+    flex-shrink: 0;
+    min-width: 90px;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: flex-end;
+    height: 48px;
+    margin-top: 18px;
+  }
+  .mobile-header-row .navbar-weather-widget {
+    margin: 0 8px;
+    flex: 1 1 auto;
+    min-width: 0;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    max-width: 90px;
+    height: 48px;
+  }
+  .mobile-header-row .menu-toggle {
+    margin: 0 0 0 8px;
+    display: block;
+    height: 44px;
+    width: 44px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    align-self: center;
+    z-index: 3;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
   }
 }
 .search-box {

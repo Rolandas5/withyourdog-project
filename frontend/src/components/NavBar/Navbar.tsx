@@ -15,6 +15,7 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
   const [showSearch, setShowSearch] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const inputRef = useRef<HTMLInputElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
   const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -70,6 +71,14 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
       }
     }
   }, [openDropdown]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleDropdownEnter = (section: string) => {
     if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
@@ -226,14 +235,40 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
   return (
     <header>
       <div className="container">
-        <Link to="/" className="logo-wrapper">
-          <img src="/assets/logo.png" alt="Logo" className="logo" />
-        </Link>
-        <span className="logo-text">WithYourDog</span>
+        {isMobile ? (
+          <div className="mobile-header-row">
+            <Link to="/" className="logo-wrapper">
+              <img src="/assets/logo.png" alt="Logo" className="logo" />
+            </Link>
+            <Link
+              to="/"
+              className="logo-text"
+              style={{ textDecoration: 'none' }}
+            >
+              WithYourDog
+            </Link>
+            <WeatherMiniWidget />
+            <button className="menu-toggle" onClick={toggleMenu}>
+              {mobileOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
+        ) : (
+          <>
+            <Link to="/" className="logo-wrapper">
+              <img src="/assets/logo.png" alt="Logo" className="logo" />
+            </Link>
+            <Link
+              to="/"
+              className="logo-text"
+              style={{ textDecoration: 'none' }}
+            >
+              WithYourDog
+            </Link>
+            <WeatherMiniWidget />
+          </>
+        )}
 
-        {/* Weather widget tarp logo ir search */}
-        <WeatherMiniWidget />
-
+        {/* DESKTOP NAVIGATION */}
         <nav className="nav-desktop">
           <div className="search-container" ref={searchRef}>
             {showSearch ? (
@@ -296,6 +331,7 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
           })}
         </nav>
 
+        {/* MOBILE MENU DRAWER */}
         {mobileOpen && (
           <>
             <div
@@ -336,11 +372,8 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
                   </div>
                 ))}
 
-                {isAuthenticated ? (
-                  <button onClick={logout} className="nav-link logout-button">
-                    Atsijungti
-                  </button>
-                ) : (
+                {/* Prisijungti mygtukas (kai neprisijungęs) */}
+                {!isAuthenticated && (
                   <button
                     className="nav-link login-btn"
                     onClick={() => {
@@ -352,13 +385,18 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
                   </button>
                 )}
               </div>
+              {/* Atsijungti mygtukas IŠKELTAS PO drawer-inner */}
+              {isAuthenticated && (
+                <button
+                  onClick={logout}
+                  className="nav-link logout-button logout-fixed-bottom"
+                >
+                  Atsijungti
+                </button>
+              )}
             </nav>
           </>
         )}
-
-        <button className="menu-toggle" onClick={toggleMenu}>
-          {mobileOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
       </div>
     </header>
   );
