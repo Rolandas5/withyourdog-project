@@ -4,10 +4,19 @@
   padding: 42px 14px;
 }
 
+.places-heading-bg {
+  background: #fff;
+  padding-top: 38px;
+  padding-bottom: 28px;
+  border-radius: 18px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
 .places-heading {
   font-size: 2.2rem;
   font-weight: 700;
-  margin-bottom: 38px;
+  margin-bottom: 0;
   letter-spacing: 0.01em;
   text-align: center;
 }
@@ -16,6 +25,18 @@
   display: flex;
   gap: 38px;
   flex-wrap: wrap;
+  justify-content: center;
+}
+
+.beaches-heading-bg {
+  background: #fff;
+  padding-top: 38px;
+  padding-bottom: 28px;
+  border-radius: 18px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  display: flex;
   justify-content: center;
 }
 

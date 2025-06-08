@@ -541,6 +541,7 @@ body {
     gap: 12px; /* Vienodi ir didesni vertikalūs tarpai tarp meniu punktų */
   }
   /* --- Drawer dropdown (krenta šalia, neuždengia žemiau esančių) --- */
+
   .nav-mobile .nav-dropdown {
     position: relative;
   }
@@ -646,21 +647,22 @@ body {
   }
   .nav-mobile .nav-link.login-btn {
     display: block;
-    width: 85%;
-    margin: 0 0 12px 0; /* ← pastumia prie kairio */
+    width: 100%;
+    margin: 0 auto 12px 0px;
     text-align: left;
     padding: 13px 16px;
     font-size: 1.13rem;
     font-weight: 500;
     border-radius: 8px;
-    min-width: 330px;
+    min-width: unset;
+    box-sizing: border-box;
     transition: background 0.15s;
   }
 
   .nav-mobile .nav-link.logout-button {
     display: block;
     width: 85%;
-    margin: 0 0 12px 10px;
+    margin: 0 auto 12px auto;
     text-align: left;
     padding: 13px 16px;
     font-size: 1.13rem;
@@ -669,22 +671,6 @@ body {
     min-width: 150px;
     transition: background 0.15s;
   }
-
-  .nav-mobile .nav-link.logout-button {
-    display: block;
-    margin-left: 18px; /* Pastumia nuo kairės */
-    margin-right: 18px; /* Jei nori, kad ir nuo dešinės būtų tarpas */
-    margin-bottom: 12px;
-    text-align: left;
-    padding: 13px 16px;
-    font-size: 1.13rem;
-    font-weight: 500;
-    border-radius: 8px;
-    min-width: unset;
-    width: calc(100% - 36px); /* 100% minus kairės ir dešinės margin */
-    transition: background 0.15s;
-  }
-
   .nav-dropdown.last-dropdown .dropdown-menu {
     margin: 0;
     transform: none;

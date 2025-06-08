@@ -92,6 +92,7 @@ const ParksSection = ({ parksData }: { parksData: any[] }) => {
             />{' '}
             {city.city}
           </h3>
+          <div style={{ height: 28 }} />
           <ul
             style={{
               margin: 0,
@@ -161,6 +162,7 @@ const CafesSection = ({ cafesData }: { cafesData: any[] }) => {
             />{' '}
             {city.city}
           </h3>
+          <div style={{ height: 28 }} />
           <ul
             style={{
               margin: 0,
@@ -245,9 +247,13 @@ const Parks = () => {
 
   return (
     <div className="places-page">
-      <h2 className="places-heading" style={{ color: '#1976d2' }}>
+      <h2
+        className="places-heading"
+        style={{ color: '#1976d2', marginTop: 90 }}
+      >
         Parkai ir kitos vietos
       </h2>
+      <div style={{ height: 48 }} />
       {error && (
         <div style={{ color: 'orange', marginBottom: 10 }}>{error}</div>
       )}

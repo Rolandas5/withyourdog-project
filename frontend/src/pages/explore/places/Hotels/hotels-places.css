@@ -8,11 +8,23 @@
   align-items: center;
 }
 
+.hotels-heading-bg {
+  background: #fff;
+  padding-top: 38px;
+  padding-bottom: 28px;
+  border-radius: 18px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .hotels-heading {
   font-size: 2.4rem;
   font-weight: 800;
   text-align: center;
-  margin: 60px 0 36px;
+  margin: 0;
   color: #243344;
   background: linear-gradient(to right, #4a90e2, #8fbcff);
   -webkit-background-clip: text;

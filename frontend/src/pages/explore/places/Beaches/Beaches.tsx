@@ -12,7 +12,10 @@ const Beaches = () => {
 
   return (
     <div className="places-page">
-      <h2 className="places-heading" style={{ color: '#1976d2' }}>
+      <h2
+        className="places-heading"
+        style={{ color: '#1976d2', marginTop: 88 }}
+      >
         Paplūdimiai
       </h2>
       <div

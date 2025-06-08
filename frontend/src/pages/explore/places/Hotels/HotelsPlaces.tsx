@@ -5,7 +5,6 @@ import { FiMap } from 'react-icons/fi';
 import './hotels-places.css';
 import { PetPlace } from '../../../../types/typePetPlace';
 import UniversalComments from '../../../../components/UniversalComments';
-import { AuthContext } from '../context/AuthContext';
 
 export default function HotelsPlaces() {
   const [places, setPlaces] = useState<PetPlace[]>([]);
@@ -19,7 +18,10 @@ export default function HotelsPlaces() {
 
   return (
     <section className="hotels-section">
-      <h2 className="hotels-heading">Viešbučiai, sodybos ir kempingai</h2>
+      <div style={{ height: 38 }} />
+      <div className="hotels-heading-bg">
+        <h2 className="hotels-heading">Viešbučiai, sodybos ir kempingai</h2>
+      </div>
       <div className="hotels-categories">
         {places.map((place) => (
           <div

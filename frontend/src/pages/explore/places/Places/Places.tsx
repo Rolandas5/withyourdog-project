@@ -12,7 +12,9 @@ export default function Places() {
 
   return (
     <div className="places-page">
-      <h2 className="places-heading">Kur keliausite su šunimi?</h2>
+      <div className="places-heading-bg">
+        <h2 className="places-heading">Kur keliausite su šunimi?</h2>
+      </div>
       <div className="places-categories">
         {categories.map((cat) => (
           <PlaceCategoryCard key={cat._id} {...cat} />
