@@ -37,6 +37,7 @@ app.use(express.json());
 
 const allowedOrigins = [
   'http://localhost:5173', // tavo local React serveris
+  'http://localhost:5174', // pridėta tavo naujam frontend portui
   'https://withyourdog.lt', // būsimas viešas domenas (galima palikti, net jei dar neegzistuoja)
 ];
 

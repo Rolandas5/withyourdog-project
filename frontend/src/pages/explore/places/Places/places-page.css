@@ -1,22 +1,22 @@
 .places-page {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 42px 14px;
+  padding: 32px 12px 14px 12px;
 }
 
 .places-heading-bg {
   background: #fff;
-  padding-top: 38px;
-  padding-bottom: 28px;
+  padding-top: 22px;
+  padding-bottom: 10px;
   border-radius: 18px;
-  margin-bottom: 28px;
+  margin-bottom: 26px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 .places-heading {
   font-size: 2.2rem;
   font-weight: 700;
-  margin-bottom: 0;
+  margin: 28px 0 0 0;
   letter-spacing: 0.01em;
   text-align: center;
 }
