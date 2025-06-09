@@ -18,12 +18,13 @@ import { AuthProvider } from './context/AuthContext';
 import { Dashboard } from './components/Dashboard/Dashboard';
 import { ProtectedRoute } from './components/Dashboard/components/UserProfileTab/ProtectedRoute';
 import WeatherPage from './components/WeatherPage/WeatherPage';
-import Health from './pages/explore/services/Health';
+import Health from './pages/explore/services/Health/Health';
 import AllExperiences from './pages/explore/experiences/AllExperiences/AllExperiences';
 import DogHotels from './pages/explore/services/DogHotels/DogHotels';
 import Insurance from './pages/explore/services/Insurance';
 import Training from './pages/explore/services/Training';
 import Grooming from './pages/explore/services/Grooming/Grooming';
+import ExperienceDetail from './pages/explore/experiences/ExperienceDetail';
 
 function AppContent() {
   const location = useLocation();
@@ -71,6 +72,7 @@ function AppContent() {
         <Route path="/services/grooming" element={<Grooming />} />
         <Route path="/weather" element={<WeatherPage />} />
         <Route path="/experiences" element={<AllExperiences />} />
+        <Route path="/experiences/:id" element={<ExperienceDetail />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

@@ -140,3 +140,40 @@
 .avatar-wrapper label.avatar-upload-btn {
   margin-top: 12px;
 }
+
+@media (max-width: 768px) {
+  .user-profile-tab {
+    padding: 10px 0;
+  }
+  .dog-profile-card {
+    min-width: unset;
+    width: 100%;
+    max-width: 100vw;
+    border-radius: 12px;
+    padding: 1.1rem 0.5rem 1.1rem 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    overflow-x: auto;
+    gap: 1.2rem;
+  }
+  .dog-info-form {
+    gap: 0.7rem;
+  }
+  .profile-input {
+    font-size: 0.97rem;
+    padding: 0.5rem 0.7rem;
+  }
+  .profile-save-btn {
+    font-size: 0.97rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+  }
+  .avatar-wrapper > div,
+  .avatar-wrapper label.avatar-upload-btn {
+    margin-top: 8px;
+  }
+  .dog-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 1.5rem;
+  }
+}

@@ -4,31 +4,34 @@ const DogProfile = require('../models/dogProfileModel');
 // Komentaro sukūrimas
 exports.createComment = async (req, res) => {
   try {
-    const { entityId, entityType, text } = req.body;
+    const { entityId, entityType, text, avatarUrl: reqAvatarUrl } = req.body;
     const ip =
       req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
 
     // Debug: parodyk kas yra req.user
     console.log('DEBUG req.user:', req.user);
 
-    // Gauti šuniuko nuotrauką pagal userId
     let avatarUrl = '';
-    try {
-      const dog = await DogProfile.findOne({ userId: req.user._id });
-      if (dog && dog.avatarUrl) {
-        if (
-          dog.avatarUrl.startsWith('http') ||
-          dog.avatarUrl.startsWith('/uploads')
-        ) {
-          avatarUrl = dog.avatarUrl;
+    if (reqAvatarUrl) {
+      avatarUrl = reqAvatarUrl;
+    } else {
+      try {
+        const dog = await DogProfile.findOne({ userId: req.user._id });
+        if (dog && dog.avatarUrl) {
+          if (
+            dog.avatarUrl.startsWith('http') ||
+            dog.avatarUrl.startsWith('/uploads')
+          ) {
+            avatarUrl = dog.avatarUrl;
+          } else {
+            avatarUrl = `/uploads/${dog.avatarUrl}`;
+          }
         } else {
-          avatarUrl = `/uploads/${dog.avatarUrl}`;
+          avatarUrl = '/default-dog-avatar.png';
         }
-      } else {
+      } catch (e) {
         avatarUrl = '/default-dog-avatar.png';
       }
-    } catch (e) {
-      avatarUrl = '/default-dog-avatar.png';
     }
 
     const newComment = new Comment({

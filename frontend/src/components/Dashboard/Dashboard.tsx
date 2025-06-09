@@ -13,6 +13,7 @@ import AdminCommentsTab from './components/AdminCommentsTab/AdminCommentsTab';
 import { MessagesTab } from './components/MessagesTab/MessagesTab';
 import { AdminUsersTab } from './components/AdminUsersTab/AdminUsersTab';
 import { UserExperiencesTab } from './components/UserExperiencesTab';
+import AdminExperienceReviewsTab from './components/AdminExperienceReviewsTab';
 
 export const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
@@ -204,47 +205,52 @@ export const Dashboard = () => {
           <div>Kraunama...</div>
         ) : (
           <>
-            {activeTab === 'user' && (
-              <>
+            <div className="tab-content">
+              {activeTab === 'user' && (
+                <>
+                  <UserDogsTable
+                    dogs={dogs}
+                    onEdit={setEditDog}
+                    onDelete={handleDeleteDog}
+                  />
+                  <UserProfileTab
+                    dog={{
+                      ...dogProfile,
+                      userId: user._id,
+                    }}
+                    onProfileSaved={(savedDog) => {
+                      setDogProfile(savedDog);
+                      setDogs((prev) => {
+                        if (
+                          !savedDog._id ||
+                          !prev.find((d) => d._id === savedDog._id)
+                        ) {
+                          // Pridėti naują
+                          return [...prev, savedDog];
+                        } else {
+                          // Atnaujinti esamą
+                          return prev.map((d) =>
+                            d._id === savedDog._id ? savedDog : d
+                          );
+                        }
+                      });
+                    }}
+                  />
+                </>
+              )}
+              {activeTab === 'places' && (
                 <UserDogsTable
                   dogs={dogs}
-                  onEdit={setEditDog}
+                  onEdit={handleEditDog}
                   onDelete={handleDeleteDog}
                 />
-                <UserProfileTab
-                  dog={{
-                    ...dogProfile,
-                    userId: user._id,
-                  }}
-                  onProfileSaved={(savedDog) => {
-                    setDogProfile(savedDog);
-                    setDogs((prev) => {
-                      if (
-                        !savedDog._id ||
-                        !prev.find((d) => d._id === savedDog._id)
-                      ) {
-                        // Pridėti naują
-                        return [...prev, savedDog];
-                      } else {
-                        // Atnaujinti esamą
-                        return prev.map((d) =>
-                          d._id === savedDog._id ? savedDog : d
-                        );
-                      }
-                    });
-                  }}
-                />
-              </>
-            )}
-            {/* Kiti tab'ai */}
-            {activeTab === 'places' && <div>Žinomas tabas</div>}
-            {activeTab === 'experiences' && (
-              <UserExperiencesTab isAdmin={isAdmin} />
-            )}
-            {activeTab === 'admin-reviews' && <div>Žinomas tabas</div>}
-            {activeTab === 'admin-messages' && <MessagesTab />}
-            {activeTab === 'admin-users' && <AdminUsersTab />}
-            {activeTab === 'admin-comments' && <AdminCommentsTab />}
+              )}
+              {activeTab === 'experiences' && <UserExperiencesTab />}
+              {activeTab === 'admin-reviews' && <AdminExperienceReviewsTab />}
+              {activeTab === 'admin-comments' && <AdminCommentsTab />}
+              {activeTab === 'admin-messages' && <MessagesTab />}
+              {activeTab === 'admin-users' && <AdminUsersTab />}
+            </div>
             {/* Modalai */}
             {editDog && (
               <EditDogModal

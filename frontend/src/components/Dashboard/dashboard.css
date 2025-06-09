@@ -13,18 +13,38 @@
   --shadow: 0 6px 30px rgba(50, 50, 93, 0.09), 0 1.5px 4px rgba(0, 0, 0, 0.04);
 }
 
+body {
+  background: #f7f9fb;
+}
+
 .dashboard-container {
-  position: relative;
-  max-width: 1200px;
-  margin: 48px auto 0 auto;
-  background: var(--white);
-  border-radius: 22px;
-  box-shadow: var(--shadow);
-  padding: 40px 28px 36px 28px;
-  min-height: 680px;
-  position: relative;
-  overflow: hidden;
-  animation: fadeIn 0.8s cubic-bezier(0.38, 0.15, 0.48, 1.12);
+  position: relative !important;
+  max-width: 1200px !important;
+  margin: 48px auto 0 auto !important;
+  background: var(--white) !important;
+  border-radius: 22px !important;
+  box-shadow: var(--shadow) !important;
+  padding: 40px 28px 36px 28px !important;
+  min-height: 680px !important;
+  overflow: hidden !important;
+  animation: fadeIn 0.8s cubic-bezier(0.38, 0.15, 0.48, 1.12) !important;
+}
+
+.dashboard-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 32px;
+  margin-top: 0;
+  text-align: left;
+}
+
+.welcome-text {
+  font-size: 1.25rem;
+  color: #444;
+  margin-top: 18px;
+  margin-bottom: 18px;
+  font-weight: 500;
 }
 
 .widget-wrapper {
@@ -33,8 +53,8 @@
 
 .widget-wrapper .mini-weather-widget {
   position: absolute;
-  top: -35px; /* kiek pikselių žemyn nuo wrapper viršaus */
-  left: -150px; /* kiek pikselių į dešinę nuo wrapper kairės */
+  top: -35px;
+  left: -150px;
 }
 
 @keyframes fadeIn {
@@ -83,8 +103,8 @@
   box-shadow: 0 3px 8px rgba(242, 61, 92, 0.07);
   letter-spacing: 0.02em;
   transition: background 0.18s, transform 0.16s;
-  margin-right: 10px; /* Tarpas nuo mėlyno mygtuko */
-  height: 42px; /* Sulyginimui su mėlynu */
+  margin-right: 10px;
+  height: 42px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -112,7 +132,7 @@
 .role-message {
   margin-left: 10px;
   font-weight: 500;
-  color: #28a745; /* žalia spalva sėkmei */
+  color: #28a745;
 }
 
 .tabs {

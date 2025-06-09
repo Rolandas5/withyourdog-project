@@ -647,29 +647,38 @@ body {
   }
   .nav-mobile .nav-link.login-btn {
     display: block;
-    width: 100%;
-    margin: 0 auto 12px 0px;
+    width: 100% !important;
+    margin: 0 0 12px 0px;
     text-align: left;
     padding: 13px 16px;
     font-size: 1.13rem;
     font-weight: 500;
+    max-width: none !important;
     border-radius: 8px;
-    min-width: unset;
     box-sizing: border-box;
     transition: background 0.15s;
   }
 
   .nav-mobile .nav-link.logout-button {
+    width: 100% !important;
     display: block;
-    width: 85%;
-    margin: 0 auto 12px auto;
-    text-align: left;
-    padding: 13px 16px;
-    font-size: 1.13rem;
+    box-sizing: border-box;
+    background: #1e2a38 !important;
+    color: #fff !important;
+    border: none;
+    box-shadow: none;
     font-weight: 500;
+    font-size: 1.13rem;
     border-radius: 8px;
+    padding: 13px 16px;
+    margin-bottom: 12px;
+    text-align: left;
+    transition: none;
     min-width: 150px;
-    transition: background 0.15s;
+  }
+  .nav-mobile .nav-link.logout-button:hover {
+    background: #3a7bd5 !important;
+    color: #fff !important;
   }
   .nav-dropdown.last-dropdown .dropdown-menu {
     margin: 0;
@@ -802,4 +811,78 @@ body {
     padding-left: 6px;
     padding-right: 6px;
   }
+}
+
+.dashboard-container {
+  padding: 32px 16px 32px 16px; /* arba daugiau, pvz., 24px */
+  border-radius: 18px;
+  max-width: 600px; /* arba kiek nori */
+  margin: 32px auto;
+  background: #fff;
+  box-shadow: 0 8px 32px rgba(44, 62, 80, 0.1);
+}
+
+.dashboard-header,
+.tabs {
+  margin-bottom: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center; /* arba flex-start, jei nori kairėje */
+}
+
+.tab-button,
+.logout-button {
+  padding: 10px 24px;
+  border-radius: 12px;
+  margin: 0 6px;
+  font-size: 1.08rem;
+  min-width: 120px;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+}
+
+.dashboard-table {
+  margin: 0 auto;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f8f9fa;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06);
+  padding: 12px;
+}
+
+.logout-button {
+  background: #007bff !important;
+  color: #fff !important;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 8px !important;
+  font-size: 1.1rem !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+  letter-spacing: 0.02em;
+  transition: background 0.18s, color 0.18s, transform 0.16s;
+  min-width: unset !important;
+  width: auto !important;
+  height: auto !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.logout-button:hover {
+  background: #f23d5c !important;
+  color: #fff !important;
+  transform: scale(1.06);
+}
+
+/* Dashboard mygtukas NavBar'e */
+.nav-link.dashboard-link {
+  background: #007bff;
+  color: #fff !important;
+  border-radius: 12px;
+  transition: background 0.18s, color 0.18s;
+}
+.nav-link.dashboard-link:hover,
+.nav-link.dashboard-link:focus {
+  color: #fff !important;
 }

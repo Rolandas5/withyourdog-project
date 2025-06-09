@@ -48,4 +48,7 @@
     align-items: center;
     gap: 18px;
   }
+  .all-sections-heading {
+    margin-top: 100px;
+  }
 }

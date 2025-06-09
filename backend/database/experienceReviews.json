@@ -1,0 +1,72 @@
+[
+  {
+    "user": "Aistė",
+    "avatar": "https://randomuser.me/api/portraits/women/65.jpg",
+    "date": "2024-05-01",
+    "rating": 5,
+    "text": "Nuostabi vieta kelionėms su augintiniu! Viskas labai patogu ir draugiška šunims."
+  },
+  {
+    "user": "Mantas",
+    "avatar": "https://randomuser.me/api/portraits/men/32.jpg",
+    "date": "2024-04-18",
+    "rating": 4,
+    "text": "Labai patiko, bet galėtų būti daugiau žalių zonų. Personalas labai malonus."
+  },
+  {
+    "user": "Eglė",
+    "avatar": "https://randomuser.me/api/portraits/women/44.jpg",
+    "date": "2024-03-29",
+    "rating": 5,
+    "text": "Puiki patirtis! Rekomenduoju visiems, kas keliauja su šunimis."
+  },
+  {
+    "user": "Tomas",
+    "avatar": "https://randomuser.me/api/portraits/men/41.jpg",
+    "date": "2024-03-15",
+    "rating": 5,
+    "text": "Labai graži aplinka, švaru ir jauku. Šuo jautėsi kaip namie!"
+  },
+  {
+    "user": "Gabija",
+    "avatar": "https://randomuser.me/api/portraits/women/68.jpg",
+    "date": "2024-02-27",
+    "rating": 4,
+    "text": "Viskas puiku, tik norėtųsi daugiau informacijos apie šunų žaidimų aikšteles."
+  },
+  {
+    "user": "Dovydas",
+    "avatar": "https://randomuser.me/api/portraits/men/23.jpg",
+    "date": "2024-02-10",
+    "rating": 5,
+    "text": "Super vieta! Personalas labai draugiškas, o šuo gavo net dovanėlę."
+  },
+  {
+    "user": "Rūta",
+    "avatar": "https://randomuser.me/api/portraits/women/12.jpg",
+    "date": "2024-01-30",
+    "rating": 5,
+    "text": "Labai patiko, kad galima rasti tiek ramių, tiek aktyvių zonų. Puikiai praleidome laiką!"
+  },
+  {
+    "user": "Justinas",
+    "avatar": "https://randomuser.me/api/portraits/men/55.jpg",
+    "date": "2024-01-12",
+    "rating": 4,
+    "text": "Viskas gerai, bet būtų smagu matyti daugiau renginių šunims."
+  },
+  {
+    "user": "Simona",
+    "avatar": "https://randomuser.me/api/portraits/women/33.jpg",
+    "date": "2023-12-28",
+    "rating": 5,
+    "text": "Tobula vieta žiemos pasivaikščiojimams! Šuo laimingas, o ir man labai patiko."
+  },
+  {
+    "user": "Edgaras",
+    "avatar": "https://randomuser.me/api/portraits/men/77.jpg",
+    "date": "2023-12-10",
+    "rating": 5,
+    "text": "Puikus aptarnavimas ir daug naudingos informacijos. Tikrai sugrįšime!"
+  }
+]

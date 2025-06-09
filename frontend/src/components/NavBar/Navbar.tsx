@@ -289,13 +289,19 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
           </Link>
 
           {isAuthenticated && (
-            <Link to="/dashboard" className="nav-link">
+            <Link to="/dashboard" className="nav-link dashboard-link">
               Profilis
             </Link>
           )}
 
           {!isAuthenticated && (
-            <button onClick={onLoginClick} className="nav-link">
+            <button
+              className="nav-link login-btn"
+              onClick={() => {
+                closeMobileMenuAndSearch();
+                onLoginClick();
+              }}
+            >
               Prisijungti
             </button>
           )}
@@ -359,7 +365,7 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
                   </div>
                 </div>
 
-                {sections.map((section) => (
+                {sections.map((section, idx) => (
                   <div
                     key={section.key}
                     className="nav-dropdown"
@@ -371,7 +377,21 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
                       renderDropdown(section.key)}
                   </div>
                 ))}
-
+                {/* Po visų dropdownų, jei prisijungęs, atskirai įdedu Profilis ir Atsijungti */}
+                {isAuthenticated && (
+                  <>
+                    <Link
+                      to="/dashboard"
+                      className="nav-link login-btn"
+                      onClick={closeMobileMenuAndSearch}
+                    >
+                      Profilis
+                    </Link>
+                    <button onClick={logout} className="nav-link logout-button">
+                      Atsijungti
+                    </button>
+                  </>
+                )}
                 {/* Prisijungti mygtukas (kai neprisijungęs) */}
                 {!isAuthenticated && (
                   <button
@@ -385,15 +405,6 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
                   </button>
                 )}
               </div>
-              {/* Atsijungti mygtukas IŠKELTAS PO drawer-inner */}
-              {isAuthenticated && (
-                <button
-                  onClick={logout}
-                  className="nav-link logout-button logout-fixed-bottom"
-                >
-                  Atsijungti
-                </button>
-              )}
             </nav>
           </>
         )}

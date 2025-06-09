@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Marijampolės veterinarijos centras",
+    "address": "Vytauto g. 45, 68282 Marijampolė, Lietuva",
+    "phone": "+370 343 51234",
+    "city": "Marijampolė",
+    "website": "https://www.marijampolesvet.lt/",
+    "hours": "08:00-20:00",
+    "image": "/images/vet.png"
+  },
+  {
+    "name": "VetPet klinika",
+    "address": "Gedimino g. 96, 68305 Marijampolė, Lietuva",
+    "phone": "+370 612 34567",
+    "city": "Marijampolė",
+    "website": "https://www.vetpet.lt/",
+    "hours": "09:00-19:00",
+    "image": "/images/vet.png"
+  },
+  {
+    "name": "Sūduvos veterinarijos tarnyba",
+    "address": "Kauno g. 120, 68112 Marijampolė, Lietuva",
+    "phone": "+370 343 98765",
+    "city": "Marijampolė",
+    "website": "",
+    "hours": "08:00-18:00",
+    "image": "/images/vet.png"
+  },
+  {
+    "name": "Kalvarijos veterinarijos klinika",
+    "address": "Laisvės g. 2, 69213 Kalvarija, Marijampolės r.",
+    "phone": "+370 343 12345",
+    "city": "Marijampolės r.",
+    "website": "",
+    "hours": "08:00-17:00",
+    "image": "/images/vet.png"
+  }
+]

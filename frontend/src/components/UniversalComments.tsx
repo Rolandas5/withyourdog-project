@@ -80,7 +80,12 @@ export default function UniversalComments({
     try {
       const res = await axios.post(
         `/api/comments/`,
-        { entityId, entityType, text },
+        {
+          entityId,
+          entityType,
+          text,
+          avatarUrl: dogProfiles[selectedDogIdx]?.avatarUrl,
+        },
         { headers: { Authorization: `Bearer ${access_token}` } }
       );
       setComments((prev) => [res.data, ...prev]);

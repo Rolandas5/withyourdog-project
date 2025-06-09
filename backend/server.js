@@ -19,6 +19,8 @@ const servicesRoutes = require('./routes/services');
 const experiencesRoutes = require('./routes/experiences');
 const groomingSalonsRoutes = require('./routes/groomingSalons');
 const dogHotelsRoutes = require('./routes/dogHotels');
+const veterinaryClinicsRoutes = require('./routes/veterinaryClinics');
+const experienceReviewsRoutes = require('./routes/experienceReviews');
 
 // Įkeliame aplinkos kintamuosius iš .env failo
 dotenv.config();
@@ -71,6 +73,8 @@ app.use('/api/services', servicesRoutes);
 app.use('/api/experiences', experiencesRoutes);
 app.use('/api/grooming-salons', groomingSalonsRoutes);
 app.use('/api/dog-hotels', dogHotelsRoutes);
+app.use('/api/veterinary-clinics', veterinaryClinicsRoutes);
+app.use('/api/experience-reviews', experienceReviewsRoutes);
 
 // Prisijungiame prie Withyourdog-project naudojant mongoose
 mongoose
@@ -85,7 +89,6 @@ mongoose
 // PROXY ORAMS (gali perkelti į patogią vietą)
 app.get('/api/weather/:place', async (req, res) => {
   const { place } = req.params;
-  console.log('Gaunamas miestas:', place);
   try {
     const response = await axios.get(
       `https://api.meteo.lt/v1/places/${place}/forecasts/long-term`
