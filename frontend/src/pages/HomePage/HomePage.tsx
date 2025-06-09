@@ -3,6 +3,9 @@ import Footer from '../../components/Footer/Footer';
 import './home-page.css';
 import '../../components/WeatherMiniWidget/mini-weather-widget.css';
 import { useNavigate } from 'react-router-dom';
+import AllServices from '../explore/services/AllService/AllServices';
+import Places from './../explore/places/Places/Places';
+import AllExperiences from '../explore/experiences/AllExperiences/AllExperiences';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -28,6 +31,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <Places />
+      <AllServices />
+      <AllExperiences />
       <Messages />
       <Footer />
     </>
